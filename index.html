@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="An early clickable prototype of Plainly, a baby-gear guide. Shared to collect feedback.">
+<meta name="description" content="Baby gear, explained plainly. What each item is, and whether you need it.">
 <style>:root{color-scheme:light} body{margin:0}</style>
-<title>Plainly Prototype</title>
+<title>Plainly: Baby gear, explained plainly</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
@@ -49,7 +49,6 @@
 
   /* the prototype frame */
   .proto{container-type:inline-size; background:var(--paper); color:var(--w-ink); border:1.5px solid var(--stroke); border-radius:18px; overflow:hidden; font-size:14px; line-height:1.45;}
-  .proto[data-device="phone"]{width:min(100%, 390px); margin-inline:auto;}
   .proto[data-device="desktop"]{width:100%;}
   .proto button, .proto input{font-family:inherit;}
   .proto button:focus-visible, .proto input:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
@@ -178,15 +177,128 @@
   .notes h2{font-family:var(--font-display); font-size:1.25rem; font-weight:600; margin:0 0 10px;}
   .notes ol, .notes ul{margin:0; padding-left:20px; display:grid; gap:8px; color:var(--ink-soft); font-size:.9375rem;}
   .notes li::marker{color:var(--accent); font-weight:700;}
+  /* header: two rows on narrow frames, one row from 640px; nav CTA */
+  .hdr{flex-wrap:wrap; row-gap:4px;}
+  .hdr .logo{order:1; margin-right:auto;}
+  .hdr .authbtn{order:2;}
+  .hdr nav{order:3; flex:1 1 100%; display:flex; gap:6px;}
+  .hdr nav .navbtn{flex:1 1 0; text-align:center; padding:8px 6px;}
+  .navcta{flex:1.3 1 0; border:1.5px solid transparent; border-radius:10px; background:#C99A3B; color:#2A2420; padding:8px 10px; font-size:13.5px; font-weight:600; cursor:pointer; text-align:center; white-space:nowrap;}
+  .navcta[aria-current="page"]{text-decoration:underline; text-underline-offset:4px;}
+  .navcta .long{display:none;}
+  .btn.cta{background:#C99A3B; color:#2A2420; border-color:transparent;}
+
+  /* home: how it works */
+  .how{border-top:1.5px solid var(--stroke); padding-top:14px; display:grid; gap:10px;}
+  .how-h{margin:0; font-size:16px; font-weight:700;}
+  .how-steps{margin:0; padding-left:20px; display:grid; gap:8px;}
+
+  /* timeline */
+  .tlpage{gap:12px;}
+  .notice{margin:0; border:1.5px solid var(--stroke); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--w-soft);}
+  .datebox{display:grid; gap:6px;}
+  .daterow{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .daterow .field{width:auto; flex:0 1 190px;}
+  .tlctl{display:grid; gap:8px;}
+  .tcols{display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:10px; align-items:start;}
+  .tcol{border:1.5px solid var(--stroke); border-radius:12px; padding:0 0 10px; display:grid; gap:8px; align-content:start; min-width:0; margin-bottom:10px;}
+  .tcols .tcol{margin-bottom:0;}
+  .tcol.is-now{border-top:5px solid var(--w-ink);}
+  .tcol.past{background-image:repeating-linear-gradient(135deg, transparent 0 7px, var(--fill) 7px 8px);}
+  .tcol-h{padding:10px 10px 0; display:grid; gap:1px;}
+  .tcol-h b{font-size:15px;}
+  .tcol-empty{padding:0 10px; margin:0;}
+  .tl-gap{margin:0 0 10px; padding:2px;}
+  .tl-pager{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; flex-wrap:wrap;}
+  .tc{border:1.5px solid var(--stroke); border-left-width:5px; border-radius:10px; padding:8px 10px; margin:0 8px; display:grid; gap:4px; background:var(--paper); min-width:0;}
+  .tc-gear{border-left-color:#B85A38;}
+  .tc-visit, .tc-test{border-left-color:var(--w-ink);}
+  .tc-top{display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;}
+  .tc-label{display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--w-soft);}
+  .tc-label .ico{margin-top:0;}
+  .tc-tag{font-size:10.5px; font-weight:600; border:1.5px dashed var(--stroke); border-radius:6px; padding:0 5px;}
+  .tc-title{margin:0; font-size:14px; font-weight:700; line-height:1.25;}
+  .tc-time{margin:0; font-size:12.5px; color:var(--w-soft);}
+  .tc-pill{margin:2px 0 0;}
+  .tc-more{justify-self:start; border:0; background:none; padding:6px 0 2px; font-size:12.5px; font-weight:600; text-decoration:underline; text-underline-offset:3px; cursor:pointer; color:inherit;}
+  .tc-detail{display:grid; gap:7px; font-size:13px; padding-top:6px; border-top:1px dashed var(--stroke);}
+  .tc-detail[hidden]{display:none;}
+  .tc-detail p{margin:0;}
+  .srcs{margin:0; padding-left:18px; display:grid; gap:4px; font-size:12.5px;}
+  .srcs a{color:inherit; overflow-wrap:anywhere;}
+  .wk-head{display:flex; align-items:center; gap:8px;}
+  .wk-title{flex:1; display:grid; gap:3px; min-width:0;}
+  .wk-group{display:grid; gap:8px; margin-top:12px;}
+  .wk-group > h3{margin:0;}
+  .wk-cards{display:grid; gap:8px;}
+  .wk-cards .tc{margin:0;}
+  .navcta:focus-visible, .tc-more:focus-visible, .tl-pager button:focus-visible, .wk-head button:focus-visible, .wk-head select:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
+
+  @container (min-width: 640px){
+    .hdr{flex-wrap:nowrap;}
+    .hdr .logo{order:0; margin-right:0;}
+    .hdr nav{order:0; flex:1 1 auto;}
+    .hdr nav .navbtn{flex:0 0 auto; padding:8px 10px;}
+    .hdr .authbtn{order:0;}
+    .navcta{flex:0 0 auto; margin-left:6px;}
+    .navcta .long{display:inline;}
+    .navcta .short{display:none;}
+    .wk-cards{grid-template-columns:repeat(2, minmax(0, 1fr));}
+    .tlctl{grid-template-columns:auto 1fr; align-items:center;}
+  }
+  /* website layout: full width, sticky header, centered content */
+  body{padding:0; background:var(--paper); color:var(--w-ink);}
+  .proto{max-width:none; border:0; border-radius:0; overflow:visible; min-height:100vh; display:flex; flex-direction:column; font-size:15px;}
+  .proto main{flex:1 0 auto;}
+  .hdr{position:sticky; top:0; z-index:6; background:var(--paper); padding-top:max(8px, env(safe-area-inset-top, 0px)); padding-inline:max(16px, calc((100% - 1120px) / 2 + 12px));}
+  .acct-menu{right:max(16px, calc((100% - 1120px) / 2 + 12px));}
+  .page{max-width:1120px; width:100%; margin-inline:auto;}
+  .ftr{padding-inline:max(16px, calc((100% - 1120px) / 2 + 12px));}
+  .letter{scroll-margin-top:76px;}
+
+  /* type */
+  .h1{font-family:var(--font-display); font-weight:600; font-size:clamp(26px, 3.4vw, 36px); line-height:1.12; letter-spacing:-0.01em;}
+  .h1.display{font-size:clamp(34px, 5.2vw, 56px); line-height:1.04;}
+  .sec-h, .how-h{font-family:var(--font-display); font-weight:600; font-size:clamp(20px, 2.4vw, 26px); line-height:1.2; margin:0;}
+  .logo{font-family:var(--font-display); font-weight:600; font-size:19px;}
+
+  /* hover */
+  .navbtn:hover, .authbtn:hover, .chip:hover, .linkbtn:hover, .btn:hover:not(.primary):not(.cta), .item-head:hover .name, .card-head:hover .name{background-color:var(--fill);}
+  .item-head:hover .name, .card-head:hover .name{background-color:transparent; text-decoration:underline; text-underline-offset:3px;}
+  .btn.primary:hover, .btn.cta:hover, .navcta:hover{opacity:.9;}
+
+  /* home */
+  .home{gap:36px; padding-top:28px; padding-bottom:40px;}
+  .hero-grid{display:grid; gap:20px; align-items:center;}
+  .hero-copy{display:grid; gap:14px; align-content:center;}
+  .lead2{margin:0; font-size:16px; color:var(--w-soft); max-width:46ch;}
+  .hero-img{aspect-ratio:4/3; width:100%;}
+  .btn.big{padding:12px 18px; font-size:15px; border-radius:12px;}
+  .sec{display:grid; gap:14px;}
+  .notice-box{font-size:14px;}
+  .mini{padding:12px; font-size:14px; gap:8px;}
+  .mini .name{font-weight:700;}
+  .how-steps{list-style:none; padding:0; margin:0; display:grid; gap:12px; counter-reset:step;}
+  .how-steps li{counter-increment:step; border:1.5px solid var(--stroke); border-radius:12px; padding:14px; display:grid; gap:6px; align-content:start;}
+  .how-steps li::before{content:counter(step); width:26px; height:26px; border:1.5px solid var(--stroke); border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:12px;}
+  .how-steps li span{color:var(--w-soft);}
+  .how{border-top:0; padding-top:0;}
+  @container (min-width: 640px){
+    .hdr{padding-inline:max(24px, calc((100% - 1120px) / 2 + 12px));}
+    .ftr{padding-inline:max(24px, calc((100% - 1120px) / 2 + 12px));}
+    .hero-grid{grid-template-columns:1.1fr .9fr; gap:44px;}
+    .how-steps{grid-template-columns:repeat(3, 1fr);}
+    .cards3{gap:14px;}
+    .home{gap:48px; padding-top:44px;}
+  }
 
   /* standalone extras: draft banner and feedback form */
-  .banner{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; border:1px solid var(--border); border-radius:12px; padding:10px 14px; margin:0 0 22px; font-size:.9375rem; color:var(--ink-soft);}
-  .banner p{margin:0; flex:1 1 280px;}
-  .banner button{font:inherit; font-size:.875rem; font-weight:600; padding:6px 14px; border:1px solid var(--ink); border-radius:999px; background:none; color:var(--ink); cursor:pointer;}
+  .banner{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px 12px; padding:7px 16px; border-bottom:1.5px solid var(--stroke); background:var(--fill); color:var(--w-ink); font-size:13px;}
+  .banner p{margin:0;}
+  .banner button{font:inherit; font-size:13px; font-weight:600; padding:2px 10px; border:1.5px solid var(--w-ink); border-radius:999px; background:none; color:var(--w-ink); cursor:pointer;}
   .fb-fab{position:fixed; right:max(16px, env(safe-area-inset-right, 0px)); bottom:max(16px, env(safe-area-inset-bottom, 0px)); z-index:5; border:1.5px solid var(--w-ink); background:var(--w-ink); color:var(--paper); border-radius:999px; padding:10px 16px; font:600 14px var(--font-body); cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.25);}
   .banner button:focus-visible, .fb-fab:focus-visible, #fb button:focus-visible, #fb input:focus-visible, #fb select:focus-visible, #fb textarea:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
-  .banner button:focus-visible{outline-color:var(--ink);}
-  #fb{max-height:92vh; overflow:auto;}
+    #fb{max-height:92vh; overflow:auto;}
   #fb form{display:grid; gap:12px;}
   #fb label, #fb fieldset{display:grid; gap:5px; font-size:13px; font-weight:600; border:0; padding:0; margin:0; min-width:0;}
   #fb legend{padding:0; margin-bottom:5px;}
@@ -203,56 +315,18 @@
 <body>
 
 
-<div class="wrap">
-  <div class="banner" role="note">
-    <p>Early prototype, shared to collect feedback. The verdicts are drafts still under review, and nothing here is medical or safety advice.</p>
-    <button type="button" id="fb-open-banner">Give feedback</button>
-  </div>
+<div class="banner" role="note">
+  <p>Early preview. The verdicts and timings are drafts under review, not medical or safety advice.</p>
+  <button type="button" id="fb-open-banner">Give feedback</button>
+</div>
 
-  <header>
-    <div class="eyebrow">Plainly v1, clickable prototype</div>
-    <h1 class="page-title">Prototype</h1>
-    <p class="lede">Built from your five changes, using the real 44 entries from the guide. Search, expand items, change quantities and the baby's age. Your choices are saved in this browser.</p>
-    <div class="tools">
-      <div class="seg" role="group" aria-label="Screen width">
-        <button type="button" data-device="phone" aria-pressed="true">Phone</button>
-        <button type="button" data-device="desktop" aria-pressed="false">Desktop</button>
-      </div>
-      <button type="button" class="reset" id="reset">Reset demo</button>
-    </div>
-  </header>
-
-  <div class="proto" id="proto" data-device="phone">
-    <header class="hdr" id="hdr"></header>
-    <main id="view"></main>
-    <footer class="ftr">
-      <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
-      <span>How verdicts work · Privacy · Contact</span>
-    </footer>
-  </div>
-
-  <section class="notes" aria-label="Notes">
-    <div>
-      <h2>What changed</h2>
-      <ol>
-        <li>The nav is Logo, Inventory, Dictionary, Sign in.</li>
-        <li>The Dictionary is A to Z, with a short line on every row about what it is and does. The third verdict stays "Skip it".</li>
-        <li>Tap any item to open a bigger image and a fuller description. Where that content doesn't exist yet, it is lorem ipsum.</li>
-        <li>Inventory opens on What's left, with I have and All items one tap away. Only clothes-like items take a number: bodysuits, zip-up sleepers and the sleep sack (one count per age), then fitted crib sheets, burp cloths, bottles, pacifiers, swaddle, baby gates and furniture anchors (one count). Everything else is Have it or Not for us.</li>
-        <li>The age tag starts on All. Picking an age changes only the three items that come in sizes.</li>
-      </ol>
-    </div>
-    <div>
-      <h2>To confirm</h2>
-      <ul>
-        <li>Towels aren't in the guide yet, so your "6 towels" example isn't here. The cpo-strategist proposes adding baby towels and washcloths as a counted item in the first batch of new entries.</li>
-        <li>Diapers and wipes are Have it only here. A count that falls every day goes stale and reads like a restock list.</li>
-        <li>The control is called "Baby's age" here. The cpo-strategist suggests "Size", because gifts often run ahead of the baby.</li>
-        <li>"You're covered" counts an item once you have it, by a tap or a count of 1 or more, whatever the count.</li>
-        <li>Signing in is faked. The sheet opens on your first change, and either button signs you in.</li>
-      </ul>
-    </div>
-  </section>
+<div class="proto" id="proto" data-device="desktop">
+  <header class="hdr" id="hdr"></header>
+  <main id="view"></main>
+  <footer class="ftr">
+    <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
+    <span>How verdicts work · Privacy · Contact</span>
+  </footer>
 </div>
 
 <dialog id="sheet" aria-labelledby="sheet-title">
@@ -308,6 +382,7 @@
   'use strict';
 
   var ITEMS = [{"slug":"baby-bathtub","name":"Baby bathtub","category":"diapering-bath","verdict":"nice-to-have","reason":"It makes the first wobbly baths less awkward. A sink works too.","when":"first-weeks","desc":"A small plastic tub, often with a sloped insert that holds a newborn.","aliases":[],"advised":false,"safety":null},{"slug":"baby-carrier","name":"Baby carrier or wrap","category":"travel","verdict":"nice-to-have","reason":"Being hands-free is a real relief, but fit is personal, so try one on before buying.","when":"first-weeks","desc":"Fabric that holds your baby against your chest. Wraps are a long piece of cloth you tie; structured carriers buckle.","aliases":["sling","wrap"],"advised":false,"safety":null},{"slug":"baby-gates","name":"Baby gates","category":"safety","verdict":"necessary","reason":"Only if you have stairs, and not until your baby starts moving, so it can wait.","when":"3-6-months","desc":"Gates that block stairs or doorways, either pressure-mounted or screwed into the wall.","aliases":["stair gate"],"advised":false,"safety":null},{"slug":"baby-monitor","name":"Baby monitor","category":"gadgets","verdict":"nice-to-have","reason":"Useful once your baby sleeps out of earshot. If they're in your room, you're the monitor.","when":"first-weeks","desc":"A camera or microphone in the nursery that sends sound or video to a parent unit or your phone.","aliases":[],"advised":false,"safety":null},{"slug":"baby-shoes","name":"Baby shoes","category":"clothes","verdict":"skip-it","reason":"Babies who can't walk don't need shoes. Socks keep feet warm.","when":"3-6-months","desc":"Small soft or hard-soled shoes sized for infants.","aliases":[],"advised":false,"safety":null},{"slug":"bassinet","name":"Bassinet","category":"furniture-sleep","verdict":"nice-to-have","reason":"A crib or play yard in your room does the same job.","when":"before-birth","desc":"A small bed on legs that fits next to yours for the first few months.","aliases":["moses basket"],"advised":false,"safety":null},{"slug":"bodysuits","name":"Bodysuits","category":"clothes","verdict":"necessary","reason":"The everyday base layer. Six to eight in each early size is plenty.","when":"before-birth","desc":"A one-piece top that snaps between the legs, so it stays tucked.","aliases":["onesie"],"advised":false,"safety":null},{"slug":"bottle-sterilizer","name":"Bottle sterilizer","category":"feeding","verdict":"skip-it","reason":"Boiling water or a dishwasher's hot cycle does the same job.","when":"first-weeks","desc":"A countertop or microwave device that steams bottles and pump parts clean.","aliases":[],"advised":false,"safety":null},{"slug":"bottle-warmer","name":"Bottle warmer","category":"feeding","verdict":"skip-it","reason":"A bowl of warm water does the same thing, and many babies take milk at room temperature.","when":"first-weeks","desc":"A small electric device that heats a bottle of milk.","aliases":[],"advised":false,"safety":null},{"slug":"bottles","name":"Bottles","category":"feeding","verdict":"necessary","reason":"You'll need them for formula or pumped milk, and even nursing parents use a few so someone else can feed.","when":"before-birth","desc":"Plastic or glass bottles with a soft nipple. Newborns use the slowest-flow nipple.","aliases":[],"advised":false,"safety":null},{"slug":"bouncer","name":"Bouncer or rocker","category":"furniture-sleep","verdict":"nice-to-have","reason":"A safe spot to set your baby down awake for a few minutes. Not for sleep.","when":"first-weeks","desc":"A low, reclined seat on a springy frame that bounces or rocks as your baby moves.","aliases":[],"advised":false,"safety":null},{"slug":"breast-pump","name":"Breast pump","category":"feeding","verdict":"nice-to-have","reason":"Most US health plans cover one, so check before buying.","when":"first-weeks","desc":"A hand or electric pump that draws breast milk into a bottle.","aliases":[],"advised":false,"safety":null},{"slug":"burp-cloths","name":"Burp cloths","category":"feeding","verdict":"necessary","reason":"You'll go through several a day. Any soft cloth works.","when":"before-birth","desc":"Absorbent cloths you put over your shoulder when burping your baby.","aliases":[],"advised":false,"safety":null},{"slug":"car-seat-mirror","name":"Car seat mirror","category":"travel","verdict":"skip-it","reason":"Add-ons aren't crash-tested with your seat, and you shouldn't be watching the back seat while driving.","when":"before-birth","desc":"A mirror that straps to the back-seat headrest so you can see a rear-facing baby from the driver's seat.","aliases":[],"advised":false,"safety":null},{"slug":"car-seat-stroller-frame","name":"Car seat stroller frame","category":"travel","verdict":"nice-to-have","reason":"Handy for the first months, but it's outgrown when the infant car seat is.","when":"before-birth","desc":"A lightweight wheeled frame with no seat of its own. Your infant car seat clicks straight into it.","aliases":["snap-and-go"],"advised":false,"safety":null},{"slug":"car-seat","name":"Car seat","category":"travel","verdict":"necessary","reason":"Every US state requires one, and many hospitals check before you drive home.","when":"before-birth","desc":"A padded seat with a harness that faces the back of the car. Infant versions have a carry handle and click into a base that stays in the car.","aliases":["infant car seat","baby capsule"],"advised":false,"safety":null},{"slug":"changing-pad","name":"Changing pad","category":"diapering-bath","verdict":"nice-to-have","reason":"A towel on the floor works in a pinch.","when":"before-birth","desc":"A contoured, wipeable pad you put on a dresser or the floor for diaper changes.","aliases":[],"advised":false,"safety":null},{"slug":"changing-table","name":"Changing table","category":"furniture-sleep","verdict":"skip-it","reason":"A changing pad on a dresser does the same job, and you keep the dresser.","when":"before-birth","desc":"A waist-high table with a rail and shelves, used only for diaper changes.","aliases":[],"advised":false,"safety":null},{"slug":"crib-bumpers","name":"Crib bumpers","category":"furniture-sleep","verdict":"skip-it","reason":"Padded bumpers have been banned for sale in the US since 2022. A bare crib is the safe setup.","when":"before-birth","desc":"Padded strips tied around the inside of a crib's slats.","aliases":[],"advised":true,"safety":"Don't use bumpers, even ones you already have. Take them out of the crib."},{"slug":"crib-mattress","name":"Crib mattress","category":"furniture-sleep","verdict":"necessary","reason":"Firm, flat, and snug to the crib frame. That's where safe-sleep guidance starts.","when":"before-birth","desc":"A thin, firm mattress sized to fit a standard crib with no gap at the edges.","aliases":[],"advised":false,"safety":null},{"slug":"crib","name":"Crib","category":"furniture-sleep","verdict":"necessary","reason":"It's where your baby will sleep for the next two to three years.","when":"before-birth","desc":"A small bed with slatted sides. Most have a mattress height you lower as your baby learns to stand.","aliases":["cot"],"advised":false,"safety":null},{"slug":"diaper-bag","name":"Diaper bag","category":"travel","verdict":"skip-it","reason":"Any backpack you already own does the same job.","when":"before-birth","desc":"A bag with lots of pockets for diapers, wipes, and a change of clothes.","aliases":[],"advised":false,"safety":null},{"slug":"diaper-pail","name":"Diaper pail","category":"diapering-bath","verdict":"nice-to-have","reason":"It contains the smell better. A lidded trash can you empty daily works fine.","when":"before-birth","desc":"A lidded bin that seals used diapers away.","aliases":[],"advised":false,"safety":null},{"slug":"diapers","name":"Diapers","category":"diapering-bath","verdict":"necessary","reason":"Expect eight to twelve a day early on. Don't stockpile the newborn size, because babies outgrow it fast.","when":"before-birth","desc":"Disposable or cloth diapers, sized by your baby's weight.","aliases":["nappies"],"advised":false,"safety":null},{"slug":"digital-thermometer","name":"Digital thermometer","category":"diapering-bath","verdict":"necessary","reason":"It's the first thing your pediatrician will ask about when your baby seems unwell.","when":"before-birth","desc":"A small electronic thermometer that reads temperature in seconds.","aliases":[],"advised":false,"safety":null},{"slug":"fitted-crib-sheets","name":"Fitted crib sheets","category":"furniture-sleep","verdict":"necessary","reason":"Two or three are enough. You'll change them more often than you expect.","when":"before-birth","desc":"Sheets with elastic all the way around, sized for a crib mattress.","aliases":[],"advised":false,"safety":null},{"slug":"formula-prep-machine","name":"Formula prep machine","category":"feeding","verdict":"skip-it","reason":"An expensive shortcut for a two-minute task. A kettle and a scoop work.","when":"first-weeks","desc":"A countertop machine that mixes formula powder and warm water at the push of a button.","aliases":[],"advised":false,"safety":null},{"slug":"furniture-anchors","name":"Furniture anchors","category":"safety","verdict":"necessary","reason":"Cheap straps that keep dressers and shelves from tipping. Install them once and forget them.","when":"before-birth","desc":"Straps or brackets that fix tall furniture to the wall.","aliases":["anti-tip kit"],"advised":false,"safety":null},{"slug":"glider","name":"Glider or nursing chair","category":"furniture-sleep","verdict":"nice-to-have","reason":"You'll spend hours sitting through feeds, and any comfortable chair with arms works.","when":"before-birth","desc":"A padded chair that rocks or glides smoothly, often with a matching footstool.","aliases":["rocking chair"],"advised":false,"safety":null},{"slug":"high-chair","name":"High chair","category":"feeding","verdict":"necessary","reason":"You won't need it until solids, around six months, so it can wait.","when":"3-6-months","desc":"A tall chair with a tray and a harness for meals.","aliases":[],"advised":false,"safety":null},{"slug":"inclined-sleeper","name":"Inclined sleeper","category":"furniture-sleep","verdict":"skip-it","reason":"Banned for sale in the US since 2022. Babies should sleep flat.","when":"before-birth","desc":"A sleeper that holds a baby at an angle instead of flat.","aliases":[],"advised":true,"safety":"Don't use one for sleep, even one you already have. Inclined sleepers have been linked to infant deaths and were recalled."},{"slug":"nail-clippers","name":"Nail clippers or file","category":"diapering-bath","verdict":"necessary","reason":"Newborn nails are sharp and grow fast.","when":"first-weeks","desc":"Small clippers or an emery file sized for tiny nails.","aliases":[],"advised":false,"safety":null},{"slug":"nursing-pillow","name":"Nursing pillow","category":"feeding","verdict":"nice-to-have","reason":"It takes strain off your arms and back during feeds. A regular pillow works for many parents.","when":"first-weeks","desc":"A firm, C-shaped pillow that wraps around your waist to raise your baby during feeds.","aliases":[],"advised":false,"safety":null},{"slug":"pacifiers","name":"Pacifiers","category":"feeding","verdict":"nice-to-have","reason":"Many babies like them, and they're cheap enough to try. Some won't take one at all.","when":"first-weeks","desc":"A soft nipple on a shield, for sucking between feeds.","aliases":["dummy","binky"],"advised":false,"safety":null},{"slug":"play-yard","name":"Play yard (travel crib)","category":"furniture-sleep","verdict":"nice-to-have","reason":"Useful for travel or a second floor, not needed if you have a crib.","when":"first-weeks","desc":"A foldable crib with mesh sides that packs into a bag.","aliases":["pack 'n play","travel cot"],"advised":false,"safety":null},{"slug":"sleep-positioner","name":"Sleep positioner or wedge","category":"furniture-sleep","verdict":"skip-it","reason":"The FDA and AAP advise against them. Flat and bare is the safe setup.","when":"before-birth","desc":"Foam wedges or bolsters meant to hold a sleeping baby in one position.","aliases":[],"advised":true,"safety":"Don't use one, even one you already have. Lay your baby on their back on a firm, flat mattress with nothing else in the crib."},{"slug":"sleep-sack","name":"Sleep sack","category":"clothes","verdict":"necessary","reason":"Loose blankets aren't safe in the crib, and this is how you keep your baby warm instead.","when":"first-weeks","desc":"A wearable blanket with arm holes that zips over pajamas.","aliases":["wearable blanket","sleep bag"],"advised":false,"safety":null},{"slug":"smart-sock","name":"Smart sock or vitals monitor","category":"gadgets","verdict":"skip-it","reason":"The AAP doesn't recommend them for preventing SIDS, and false alarms add worry rather than remove it.","when":"first-weeks","desc":"A sock or clip that tracks your baby's heart rate and oxygen and alerts your phone.","aliases":[],"advised":false,"safety":null},{"slug":"stroller","name":"Stroller","category":"travel","verdict":"necessary","reason":"You'll use it most days for the first few years.","when":"before-birth","desc":"A wheeled seat you push. Many fold down for the trunk, and some recline flat for newborns.","aliases":["pram","pushchair"],"advised":false,"safety":null},{"slug":"swaddle","name":"Swaddle","category":"clothes","verdict":"nice-to-have","reason":"Many newborns settle better wrapped. You'll stop once your baby starts trying to roll.","when":"first-weeks","desc":"A blanket or zip-up wrap that holds a newborn's arms snugly at their sides.","aliases":[],"advised":false,"safety":null},{"slug":"white-noise-machine","name":"White noise machine","category":"gadgets","verdict":"nice-to-have","reason":"It helps some babies sleep through household noise. A free phone app is a fine test first.","when":"first-weeks","desc":"A small speaker that plays steady background sound.","aliases":["sound machine"],"advised":false,"safety":null},{"slug":"wipe-warmer","name":"Wipe warmer","category":"diapering-bath","verdict":"skip-it","reason":"Nice idea, but most parents stop using it within a few weeks. It's not a safety or comfort issue either way.","when":"before-birth","desc":"A plug-in box that keeps a pack of wipes warm.","aliases":[],"advised":false,"safety":null},{"slug":"wipes","name":"Wipes","category":"diapering-bath","verdict":"necessary","reason":"You'll use them for far more than diapers.","when":"before-birth","desc":"Soft, damp cloths in a resealable pack.","aliases":[],"advised":false,"safety":null},{"slug":"zip-up-sleepers","name":"Zip-up sleepers","category":"clothes","verdict":"necessary","reason":"You'll appreciate a zipper at 3 a.m. Snaps are slower.","when":"before-birth","desc":"Footed one-piece pajamas that zip from neck to ankle.","aliases":["footie pajamas"],"advised":false,"safety":null}];
+  var TL = [{"id":"visit-first-prenatal","kind":"visit","era":"preg","title":"First prenatal visit","startW":8,"endW":8,"a0":null,"a1":null,"open":true,"typical":"Usually booked for after about week 8; the sources say to call as soon as you think you are pregnant.","who":"pregnant parent","note":"Providers usually do not book it before about week 8, but an earlier visit is common when there is a medical condition, a past pregnancy problem, or symptoms such as bleeding.","verify":true,"sources":[{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"}]},{"id":"visit-cadence-monthly","kind":"visit","era":"preg","title":"Prenatal visits about once a month","startW":8,"endW":28,"a0":null,"a1":null,"open":false,"typical":"About one visit a month until week 28 in a healthy pregnancy.","who":"pregnant parent","note":"People over 35 or with conditions like diabetes or high blood pressure may be seen more often, and each practice sets its own schedule.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"}]},{"id":"visit-cadence-biweekly","kind":"visit","era":"preg","title":"Prenatal visits every 2 weeks","startW":28,"endW":36,"a0":null,"a1":null,"open":false,"typical":"About every 2 weeks from week 28 to week 36 in a healthy pregnancy.","who":"pregnant parent","note":"Higher-risk pregnancies can mean more frequent visits and extra monitoring, and the exact rhythm depends on the practice.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your third trimester","url":"https://medlineplus.gov/ency/patientinstructions/000558.htm","date":"2026-05-29"}]},{"id":"visit-cadence-weekly","kind":"visit","era":"preg","title":"Weekly prenatal visits until birth","startW":36,"endW":40,"a0":null,"a1":null,"open":false,"typical":"About once a week from week 36 until the baby is born in a healthy pregnancy.","who":"pregnant parent","note":"The third-trimester page notes extra tests and fetal monitoring may be ordered for high-risk pregnancies or one that runs past 40 weeks.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your third trimester","url":"https://medlineplus.gov/ency/patientinstructions/000558.htm","date":"2026-05-29"}]},{"id":"test-first-visit-labs","kind":"test","era":"preg","title":"First-visit blood and urine tests","startW":8,"endW":8,"a0":null,"a1":null,"open":true,"typical":"Done at the first prenatal visit: blood type and Rh, blood count, rubella immunity, hepatitis B, HIV, syphilis and a urine check.","who":"pregnant parent","note":"The list is consistent across the sources but the exact panel differs by practice, and extra tests may be offered based on age, history or family background.","verify":false,"sources":[{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"},{"name":"MedlinePlus: Prenatal Testing","url":"https://medlineplus.gov/prenataltesting.html","date":"2025-06-18"}]},{"id":"screening-cfdna","kind":"screening","era":"preg","title":"Cell-free DNA blood screening","startW":10,"endW":10,"a0":null,"a1":null,"open":true,"typical":"Can be done from about week 10; the sources give no upper limit.","who":"pregnant parent","note":"It is recommended for higher-risk pregnancies such as age 35 or older, and many providers also offer it to everyone.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Cell-Free DNA Screening","url":"https://medlineplus.gov/lab-tests/prenatal-cell-free-dna-screening/","date":"2024-03-19"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"}]},{"id":"test-anatomy-ultrasound","kind":"test","era":"preg","title":"Mid-pregnancy anatomy ultrasound","startW":18,"endW":22,"a0":null,"a1":null,"open":false,"typical":"Usually between weeks 18 and 22.","who":"pregnant parent","note":"The range comes from an NIH-hosted reference plus an NHS cross-check (18 to 21), not from ACOG, and a higher-risk pregnancy may get extra or earlier scans.","verify":true,"sources":[{"name":"StatPearls on NCBI Bookshelf (NIH-hosted reference, not a guideline body): Sonography Fetal Assessment, Protocols, and Interpretation","url":"https://www.ncbi.nlm.nih.gov/sites/books/NBK576427/","date":"2026-04-15"},{"name":"NHS (UK) Screening tests in pregnancy [CROSS-CHECK ONLY, not a US source]","url":"https://www.nhs.uk/pregnancy/your-pregnancy-care/screening-tests/","date":"2026-03-16"}]},{"id":"test-glucose-screening","kind":"test","era":"preg","title":"Gestational diabetes glucose screening","startW":24,"endW":28,"a0":null,"a1":null,"open":false,"typical":"Usually between weeks 24 and 28.","who":"pregnant parent","note":"CDC says people at higher risk of gestational diabetes may be tested earlier.","verify":false,"sources":[{"name":"CDC: Diabetes Testing","url":"https://www.cdc.gov/diabetes/diabetes-testing/index.html","date":"2024-05-15"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"}]},{"id":"screening-gbs","kind":"screening","era":"preg","title":"Group B strep (GBS) swab","startW":36,"endW":37,"a0":null,"a1":null,"open":false,"typical":"During the 36th or 37th week of each pregnancy.","who":"pregnant parent","note":"CDC says screening still applies when a cesarean birth is planned, and the third-trimester page only says \"a few weeks before your due date\".","verify":false,"sources":[{"name":"CDC: Screening for Group B Strep Bacteria","url":"https://www.cdc.gov/group-b-strep/testing/index.html","date":"2025-05-01"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your third trimester","url":"https://medlineplus.gov/ency/patientinstructions/000558.htm","date":"2026-05-29"}]},{"id":"vaccine-tdap-pregnancy","kind":"vaccine","era":"preg","title":"Tdap (whooping cough) vaccine in pregnancy","startW":27,"endW":36,"a0":null,"a1":null,"open":false,"typical":"One dose in every pregnancy, best given between weeks 27 and 36, earlier in that window if possible.","who":"pregnant parent","note":"It may be given at any point in pregnancy, and CDC says to give it right after birth if it was missed.","verify":false,"sources":[{"name":"CDC: Vaccine Recommendations Before, During, and After Pregnancy","url":"https://www.cdc.gov/vaccines-pregnancy/recommended-vaccines/index.html","date":"2026-10-07"},{"name":"CDC: Guidelines for Vaccinating Pregnant Women (clinician page)","url":"https://www.cdc.gov/vaccines-pregnancy/hcp/vaccination-guidelines/index.html","date":"2025-08-22"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"}]},{"id":"vaccine-flu-pregnancy","kind":"vaccine","era":"preg","title":"Flu shot in pregnancy (season-based, not week-based)","startW":null,"endW":null,"a0":null,"a1":null,"open":false,"typical":"Any week of pregnancy during flu season; CDC says ideally by the end of October.","who":"pregnant parent","note":"Timing follows the season, not the week of pregnancy: September or October is preferred in the first two trimesters, and July or August can be considered in the third.","verify":false,"sources":[{"name":"CDC: Vaccine Recommendations Before, During, and After Pregnancy","url":"https://www.cdc.gov/vaccines-pregnancy/recommended-vaccines/index.html","date":"2026-10-07"},{"name":"CDC: Guidelines for Vaccinating Pregnant Women (clinician page)","url":"https://www.cdc.gov/vaccines-pregnancy/hcp/vaccination-guidelines/index.html","date":"2025-08-22"}]},{"id":"vaccine-rsv-pregnancy","kind":"vaccine","era":"preg","title":"RSV vaccine in pregnancy","startW":32,"endW":36,"a0":null,"a1":null,"open":false,"typical":"One dose between 32 weeks 0 days and 36 weeks 6 days, September through January in most of the continental US.","who":"pregnant parent","note":"If the window is missed or the pregnant parent is not vaccinated, the baby can get an RSV antibody instead, and regions outside the continental US follow local guidance.","verify":false,"sources":[{"name":"CDC: RSV Vaccine Guidance for Pregnant Women (page shows two unlabeled dates, 2024-08-30 and 2025-01-31)","url":"https://www.cdc.gov/rsv/hcp/vaccine-clinical-guidance/pregnant-people.html","date":"2025-01-31"},{"name":"CDC: Guidelines for Vaccinating Pregnant Women (clinician page)","url":"https://www.cdc.gov/vaccines-pregnancy/hcp/vaccination-guidelines/index.html","date":"2025-08-22"},{"name":"CDC: Vaccine Recommendations Before, During, and After Pregnancy","url":"https://www.cdc.gov/vaccines-pregnancy/recommended-vaccines/index.html","date":"2026-10-07"}]},{"id":"screening-newborn-bloodspot","kind":"screening","era":"baby","title":"Newborn screening heel-prick blood spot","startW":0,"endW":0,"a0":"1d","a1":"2d","open":false,"typical":"Done before the baby leaves the hospital, usually when the baby is 1 to 2 days old.","who":"baby","note":"The fetched pages say only \"before leaving the hospital\" or \"shortly after birth\", and the 1 to 2 day figure comes from search results of HRSA and CDC documents, which also say a test before 24 hours may need repeating.","verify":true,"sources":[{"name":"MedlinePlus: Newborn Screening","url":"https://medlineplus.gov/newbornscreening.html","date":"2018-07-13"},{"name":"CDC: About Newborn Screening (covers the blood spot test only)","url":"https://www.cdc.gov/newborn-screening/about/index.html","date":"2026-08-14"},{"name":"HRSA: Newborn Screening Process [SEEN IN SEARCH RESULTS ONLY, fetch returned 403]","url":"https://newbornscreening.hrsa.gov/newborn-screening-process","date":null},{"name":"CDC: Newborn Screening Contingency Plan v3 [SEEN IN SEARCH RESULTS ONLY, PDF not fetched]","url":"https://www.cdc.gov/newborn-screening/media/pdfs/2025/05/NBS-CONPLAN-V3.pdf","date":"2024-11-01"}]},{"id":"screening-newborn-hearing","kind":"screening","era":"baby","title":"Newborn hearing screen","startW":0,"endW":4,"a0":"0d","a1":"1m","open":false,"typical":"Ideally before leaving the hospital, and no later than 1 month old.","who":"baby","note":"CDC's 1-3-6 guideline adds a full hearing evaluation by 3 months and early intervention by 6 months for babies who do not pass, and the sources give no separate timing for babies with risk factors.","verify":false,"sources":[{"name":"CDC: Hearing screening for babies (1-3-6 guideline)","url":"https://www.cdc.gov/hearing-loss-children/screening/index.html","date":"2024-10-08"},{"name":"MedlinePlus: Newborn Screening","url":"https://medlineplus.gov/newbornscreening.html","date":"2018-07-13"}]},{"id":"visit-first-pediatric","kind":"visit","era":"baby","title":"First pediatric visit (first-week visit)","startW":0,"endW":0,"a0":"3d","a1":"5d","open":false,"typical":"AAP lists a first-week visit when the baby is 3 to 5 days old.","who":"either","note":"The AAP page gives the age only, and the sources reviewed describe no high-risk or practice-level variations.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-1m","kind":"visit","era":"baby","title":"1-month well-child visit","startW":4,"endW":4,"a0":"1m","a1":"1m","open":false,"typical":"AAP lists a well-child visit at 1 month.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-2m","kind":"visit","era":"baby","title":"2-month well-child visit","startW":9,"endW":9,"a0":"2m","a1":"2m","open":false,"typical":"AAP lists a well-child visit at 2 months; the first routine vaccine series is also given around this age.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-4m","kind":"visit","era":"baby","title":"4-month well-child visit","startW":17,"endW":17,"a0":"4m","a1":"4m","open":false,"typical":"AAP lists a well-child visit at 4 months.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-6m","kind":"visit","era":"baby","title":"6-month well-child visit","startW":26,"endW":26,"a0":"6m","a1":"6m","open":false,"typical":"AAP lists a well-child visit at 6 months.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"postpartum-contact-3w","kind":"postpartum","era":"baby","title":"Early postpartum check-in (phone or in person)","startW":0,"endW":3,"a0":"0w","a1":"3w","open":false,"typical":"ACOG recommends contact with the care provider within the first 3 weeks after birth.","who":"pregnant parent","note":"This comes from search-result snippets of ACOG Committee Opinion 736 because the ACOG site returned 402, and the sources reviewed give no separate high-risk timing.","verify":true,"sources":[{"name":"ACOG Committee Opinion 736, Optimizing Postpartum Care (PubMed record) [SEEN IN SEARCH RESULTS ONLY: ACOG site returned 402, PubMed fetch blocked]","url":"https://pubmed.ncbi.nlm.nih.gov/29683911/","date":"2018-05-01"}]},{"id":"postpartum-comprehensive-visit","kind":"postpartum","era":"baby","title":"Comprehensive postpartum visit","startW":4,"endW":12,"a0":"4w","a1":"12w","open":false,"typical":"ACOG says no later than 12 weeks after birth, while older MedlinePlus text still says a single checkup at 4 to 6 weeks.","who":"pregnant parent","note":"The sources disagree on a single 4 to 6 week visit versus a 3-week contact plus a visit by 12 weeks, and both were seen only in search results, so confirm with ACOG.","verify":true,"sources":[{"name":"ACOG Committee Opinion 736, Optimizing Postpartum Care (PubMed record) [SEEN IN SEARCH RESULTS ONLY: ACOG site returned 402, PubMed fetch blocked]","url":"https://pubmed.ncbi.nlm.nih.gov/29683911/","date":"2018-05-01"},{"name":"MedlinePlus Encyclopedia: Vaginal delivery - discharge (says 4 to 6 weeks) [SEEN IN SEARCH RESULTS ONLY, page not fetched]","url":"https://medlineplus.gov/ency/patientinstructions/000628.htm","date":null}]},{"id":"gear-safe-sleep-room-share","kind":"gear","era":"baby","title":"Safe sleep space: firm flat crib or bassinet in your room","startW":0,"endW":26,"a0":"0d","a1":"6m","open":false,"typical":"AAP says to share a room, not a bed, for at least the first 6 months, with the baby on their back on a firm, flat surface.","who":"both","note":"AAP gives no deadline for setting up the sleep space before the baby comes home, and most of the advice applies to babies up to 1 year old.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: A Parent's Guide to Safe Sleep","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx","date":"2026-09-11"}]}];
 
   // The third verdict label lives here. Change the string to rename it everywhere.
   var VERD = {
@@ -332,14 +407,14 @@
 
   // ---------- state ----------
   var KEY = 'plainly-proto-v2';
-  function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone'}; }
+  function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone', due:''}; }
   function load(){
     try { var r = localStorage.getItem(KEY); if (r) { var o = JSON.parse(r); var d = defaults(); for (var k in d) { if (o[k] !== undefined) d[k] = o[k]; } return d; } } catch(e) {}
     return defaults();
   }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
   var S = load();
-  var U = {route:'dictionary', dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
+  var U = {route:routeFromHash(), tlView:'all', tlCat:'all', tlWeek:null, tlPage:null, tlOpen:null, dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
 
   // Tiers: sized = one count per age, counted = one count, mark = Have it / Not for us only.
   // A third-verdict entry never carries a number.
@@ -365,12 +440,13 @@
   function renderHeader(){
     var cur = U.route;
     var nav = function(r, label){ return '<button type="button" class="navbtn" data-nav="' + r + '"' + (cur === r ? ' aria-current="page"' : '') + '>' + label + '</button>'; };
+    var cta = '<button type="button" class="navcta" data-nav="timeline"' + (cur === 'timeline' ? ' aria-current="page"' : '') + '><span class="long">' + TL_CTA_LONG + '</span><span class="short">' + TL_NAME + '</span></button>';
     var auth = S.signedIn
       ? '<button type="button" class="authbtn" data-action="acct" aria-expanded="' + (U.acct ? 'true' : 'false') + '">Account</button>'
       : '<button type="button" class="authbtn" data-action="signin-open">Sign in</button>';
     var menu = (S.signedIn && U.acct)
       ? '<div class="acct-menu"><span class="sm">name@example.com</span><button type="button" class="btn" data-action="signout">Sign out</button></div>' : '';
-    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home">Plainly</button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + '</nav>' + auth + menu;
+    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home">Plainly</button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + cta + '</nav>' + auth + menu;
   }
 
   function detailHTML(it, ctx){
@@ -433,12 +509,20 @@
   // ---------- views ----------
   function renderHome(){
     var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
-    $('#view').innerHTML = '<section class="page hero"><div class="hero"><h1 class="h1" tabindex="-1">Baby gear, explained plainly.</h1>' +
-      '<p class="sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>' +
-      '<div class="actions"><button type="button" class="btn primary" data-nav="dictionary">Open the dictionary</button><button type="button" class="btn" data-nav="inventory">Start your inventory</button></div></div>' +
-      '<div class="box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
-      '<div><span class="cap">Three verdicts</span><div class="cards3" style="margin-top:8px">' +
-      picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span>' + esc(it.name) + '</span>' + chip(it) + '</div>'; }).join('') + '</div></div></section>';
+    $('#view').innerHTML = '<section class="page home">' +
+      '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained plainly.</h1>' +
+      '<p class="lead2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>' +
+      '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn big" data-nav="inventory">Start your inventory</button></div></div>' +
+      '<i class="img hero-img" aria-hidden="true"></i></div>' +
+      '<div class="box notice-box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
+      '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h">One plain verdict for every item.</h2>' +
+      '<div class="cards3">' + picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
+      '<section class="sec how" aria-labelledby="how-h"><h2 id="how-h" class="sec-h">What\'s coming, and when.</h2>' +
+      '<ol class="how-steps"><li><b>Enter your due date.</b><span>We lay out the weeks from there.</span></li>' +
+      '<li><b>See what\'s in each week.</b><span>The usual appointments and tests, and the gear decisions worth making around then. Quiet weeks stay quiet.</span></li>' +
+      '<li><b>Look at it together.</b><span>You and your partner see the same weeks, so neither of you has to be the one who remembers.</span></li></ol>' +
+      '<div class="actions"><button type="button" class="btn cta big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
+      '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></section></section>';
   }
 
   function renderDictionary(){
@@ -519,9 +603,189 @@
     if (focusSel) { var f = $('#ilist [data-slug="' + slug + '"] ' + focusSel); if (f && !f.disabled) f.focus(); else { var g = $('#ilist [data-slug="' + slug + '"] [data-action="inc"]'); if (g) g.focus(); } }
   }
 
+  // ---------- timeline ----------
+  var TL_NAME = 'Timeline';
+  var TL_CTA_LONG = 'See the timeline';
+  var HOME_CTA = 'See the weeks ahead';
+  var CATLAB = {visit:'Visit', test:'Test', gear:'Gear decision'};
+  var CAT_SORT = ['visit', 'test', 'gear'];
+  var DAY = 86400000;
+  var WEEKS = [];
+  (function(){ var n; for (n = 6; n <= 40; n++) WEEKS.push({era:'preg', n:n}); for (n = 0; n <= 26; n++) WEEKS.push({era:'baby', n:n}); })();
+  // Gear blocks come from the Dictionary's three stages (whenNeeded), not from invented weeks.
+  var GEAR = [
+    {id:'g-before', when:'before-birth', era:'preg', from:6,  to:40, title:'Before birth'},
+    {id:'g-first',  when:'first-weeks',  era:'baby', from:0,  to:5,  title:'First weeks'},
+    {id:'g-later',  when:'3-6-months',   era:'baby', from:13, to:26, title:'Can wait (3–6 months)'}
+  ];
+  var ICONS = {
+    visit: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h11v8H8l-3 3v-3H3z"/><path d="M17 9h4v8h-2v3l-3-3h-5v-2"/></svg>',
+    test: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M14 14l6 6"/></svg>',
+    gear: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/></svg>'
+  };
+  var WHO = {'pregnant parent':'The pregnant parent', 'both':'Both of you', 'baby':'The baby', 'either':'Either of you'};
+
+  function catOf(ev){ if (ev.gear || ev.kind === 'gear') return 'gear'; if (ev.kind === 'test' || ev.kind === 'screening') return 'test'; return 'visit'; }
+  function dueDate(){ if (!S.due) return null; var p = S.due.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); return isNaN(d.getTime()) ? null : d; }
+  function addDays(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+  function fmtDate(d){ return d.toLocaleDateString('en-US', {month:'short', day:'numeric'}); }
+  function weekStart(w, due){ return w.era === 'preg' ? addDays(due, -(280 - 7 * w.n)) : addDays(due, 7 * w.n); }
+  function weekRange(w, due){ var s = weekStart(w, due); return fmtDate(s) + ' to ' + fmtDate(addDays(s, 6)); }
+  function wkKey(w){ return w.era + w.n; }
+  function fromKey(k){ var m = /^(preg|baby)(\d+)$/.exec(k || ''); return m ? {era:m[1], n:+m[2]} : null; }
+  function wkLabel(w){ return (w.era === 'preg' ? 'Pregnancy week ' : 'Baby week ') + w.n; }
+  function wkIndex(w){ for (var i = 0; i < WEEKS.length; i++) if (WEEKS[i].era === w.era && WEEKS[i].n === w.n) return i; return 0; }
+  function sameWeek(a, b){ return !!a && !!b && a.era === b.era && a.n === b.n; }
+
+  function currentWeek(){
+    var due = dueDate(); if (!due) return null;
+    var t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+    var gest = 280 - Math.round((due.getTime() - t.getTime()) / DAY);
+    if (gest < 0) return null;
+    if (gest < 280) return {era:'preg', n:Math.max(6, Math.min(40, Math.floor(gest / 7)))};
+    return {era:'baby', n:Math.min(26, Math.floor((gest - 280) / 7))};
+  }
+
+  function ageWord(a){
+    var m = /^(\d+)([dwm])$/.exec(a || ''); if (!m) return a || '';
+    var n = +m[1], u = {d:'day', w:'week', m:'month'}[m[2]];
+    return n === 0 ? 'birth' : n + ' ' + u + (n === 1 ? '' : 's');
+  }
+  function timingText(ev){
+    if (ev.startW == null) return 'Usually any week while the season lasts';
+    if (ev.era === 'preg') {
+      if (ev.open) return 'Usually from about week ' + ev.startW;
+      return ev.endW > ev.startW ? 'Usually weeks ' + ev.startW + ' to ' + ev.endW : 'Usually around week ' + ev.startW;
+    }
+    var a = ageWord(ev.a0), b = ageWord(ev.a1), mo = /m$/.test(ev.a1 || ev.a0);
+    if (ev.a1 && ev.a1 !== ev.a0) return a === 'birth' ? 'Usually from birth to ' + b + ' old' : 'Usually ' + a.replace(/ (day|week|month)s?$/, '') + ' to ' + b + (mo ? ' old' : ' after birth');
+    return a === 'birth' ? 'Usually at birth' : 'Usually around ' + a + (mo ? ' old' : ' after birth');
+  }
+  function srcName(n){ return String(n).replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(); }
+
+  function evDetail(ev){
+    var src = (ev.sources || []).map(function(s){
+      return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(srcName(s.name)) + '</a>' + (s.date ? ' · ' + esc(s.date) : '') + '</li>';
+    }).join('');
+    return '<p>' + esc(ev.typical) + '</p>' +
+      '<p><b>Varies:</b> ' + esc(ev.note) + ' Your doctor or midwife sets your actual date.</p>' +
+      '<p class="sm">Who usually goes: ' + esc(WHO[ev.who] || ev.who) + '</p>' +
+      (ev.verify ? '<p class="sm">This timing is still being checked against official sources.</p>' : '') +
+      (src ? '<p class="sm">Sources</p><ul class="srcs">' + src + '</ul>' : '');
+  }
+  function gearDetail(g){
+    var nec = ITEMS.filter(function(it){ return it.when === g.when && it.verdict === 'necessary'; });
+    var open = nec.filter(function(it){ return !have(it) && !S.nfu[it.slug]; });
+    return '<p>' + nec.length + ' Necessary items in the Dictionary for this stage. ' + open.length + ' still open in your Inventory.</p>' +
+      (open.length ? '<p class="sm">' + esc(open.slice(0, 6).map(function(i){ return i.name; }).join(', ')) + (open.length > 6 ? ' and more' : '') + '</p>' : '') +
+      '<div class="actions"><button type="button" class="btn" data-action="tl-gear">Open What\'s left</button></div>';
+  }
+  function gearTime(g){ return g.when === 'before-birth' ? 'Usually made before your baby arrives' : g.when === 'first-weeks' ? 'Usually made in the first weeks' : 'Can wait until about 3 to 6 months'; }
+
+  function card(ev){
+    var c = catOf(ev), id = ev.id, open = U.tlOpen === id;
+    var title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title;
+    return '<article class="tc tc-' + c + '">' +
+      '<div class="tc-top"><span class="tc-label">' + ICONS[c] + CATLAB[c] + '</span>' + (ev.verify ? '<span class="tc-tag">Being checked</span>' : '') + '</div>' +
+      '<h4 class="tc-title">' + esc(title) + '</h4><p class="tc-time">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + '</p>' +
+      (ev.gear ? '<p class="tc-pill"><span class="v v-nec"><i class="mk" aria-hidden="true"></i>Necessary</span></p>' : '') +
+      '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
+      '<div class="tc-detail"' + (open ? '' : ' hidden') + '>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) + '</div></article>';
+  }
+
+  function eventsFor(w, mode){
+    var out = [];
+    TL.forEach(function(ev){
+      if (ev.startW == null || ev.era !== w.era) return;
+      if (mode === 'start' ? ev.startW === w.n : (w.n >= ev.startW && w.n <= ev.endW)) out.push(ev);
+    });
+    GEAR.forEach(function(g){
+      if (g.era !== w.era) return;
+      if (mode === 'start' ? g.from === w.n : (w.n >= g.from && w.n <= g.to)) out.push({gear:true, id:g.id, when:g.when, title:g.title});
+    });
+    out = out.filter(function(ev){ return U.tlCat === 'all' || U.tlCat === catOf(ev); });
+    out.sort(function(a, b){ return CAT_SORT.indexOf(catOf(a)) - CAT_SORT.indexOf(catOf(b)); });
+    return out;
+  }
+  function anyWeekEvents(){ return TL.filter(function(ev){ return ev.startW == null && (U.tlCat === 'all' || U.tlCat === catOf(ev)); }); }
+
+  function colHTML(w, now, due){
+    var evs = eventsFor(w, 'start'), isNow = sameWeek(w, now);
+    var past = !!now && (now.era === 'baby' ? (w.era === 'preg' || w.n < now.n) : (w.era === 'preg' && w.n < now.n));
+    return '<section class="tcol' + (isNow ? ' is-now' : '') + (past ? ' past' : '') + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
+      '<header class="tcol-h"><span class="cap">' + (w.era === 'preg' ? 'Pregnancy' : 'Baby') + (isNow ? ' · This week' : '') + '</span><b>Week ' + w.n + '</b>' +
+      (due ? '<span class="sm">about ' + weekRange(w, due) + '</span>' : '') + '</header>' +
+      (evs.length ? evs.map(card).join('') : '<p class="sm tcol-empty">Nothing in the usual timeline this week.</p>') + '</section>';
+  }
+
+  function narrowHTML(now, due){
+    var html = '', run = null, last = null;
+    function flush(){
+      if (!run) return;
+      var same = run.era === last.era;
+      html += '<p class="sm tl-gap">' + (sameWeek(run, last) ? wkLabel(run) : wkLabel(run) + ' to ' + (same ? last.n : wkLabel(last))) + ': nothing in the usual timeline.</p>';
+      run = null;
+    }
+    WEEKS.forEach(function(w){
+      if (!eventsFor(w, 'start').length && !sameWeek(w, now)) { if (!run) run = w; last = w; return; }
+      flush(); html += colHTML(w, now, due);
+    });
+    flush();
+    return html;
+  }
+
+  function isWide(){ return $('#proto').clientWidth >= 900; }
+
+  function timelineBody(now, due){
+    var any = anyWeekEvents(), anyHTML = any.length ? '<section class="tcol tcol-any"><header class="tcol-h"><span class="cap">Pregnancy</span><b>Not tied to a week</b></header>' + any.map(card).join('') + '</section>' : '';
+    if (!isWide()) return anyHTML + narrowHTML(now, due);
+    var size = 5, pages = Math.ceil(WEEKS.length / size);
+    if (U.tlPage == null) U.tlPage = now ? Math.floor(wkIndex(now) / size) : 0;
+    U.tlPage = Math.max(0, Math.min(pages - 1, U.tlPage));
+    var slice = WEEKS.slice(U.tlPage * size, U.tlPage * size + size);
+    return anyHTML + '<div class="tl-pager"><button type="button" class="btn" data-action="tl-page" data-dir="-1"' + (U.tlPage === 0 ? ' disabled' : '') + '>Earlier weeks</button>' +
+      '<span class="sm">' + wkLabel(slice[0]) + ' to ' + (slice[0].era === slice[slice.length - 1].era ? slice[slice.length - 1].n : wkLabel(slice[slice.length - 1])) + '</span>' +
+      '<button type="button" class="btn" data-action="tl-page" data-dir="1"' + (U.tlPage === pages - 1 ? ' disabled' : '') + '>Later weeks</button></div>' +
+      '<div class="tcols">' + slice.map(function(w){ return colHTML(w, now, due); }).join('') + '</div>';
+  }
+
+  function weekBody(now, due){
+    var w = fromKey(U.tlWeek) || now || {era:'preg', n:20}, i = wkIndex(w);
+    var opts = WEEKS.map(function(x){ return '<option value="' + wkKey(x) + '"' + (sameWeek(x, w) ? ' selected' : '') + '>' + wkLabel(x) + '</option>'; }).join('');
+    var cover = eventsFor(w, 'cover');
+    var starts = cover.filter(function(ev){ return ev.gear ? false : ev.startW === w.n; });
+    var around = cover.filter(function(ev){ return starts.indexOf(ev) < 0; });
+    var any = w.era === 'preg' ? anyWeekEvents() : [];
+    var head = '<div class="wk-head"><button type="button" class="btn" data-action="tl-step" data-dir="-1"' + (i === 0 ? ' disabled' : '') + ' aria-label="Previous week">←</button>' +
+      '<div class="wk-title"><label class="sr" for="tl-week">Choose a week</label><select id="tl-week" class="field">' + opts + '</select>' +
+      (due ? '<span class="sm">about ' + weekRange(w, due) + (sameWeek(w, now) ? ' · This week' : '') + '</span>' : '<span class="sm">Add a due date to see dates and this week.</span>') + '</div>' +
+      '<button type="button" class="btn" data-action="tl-step" data-dir="1"' + (i === WEEKS.length - 1 ? ' disabled' : '') + ' aria-label="Next week">→</button></div>' +
+      (now && !sameWeek(w, now) ? '<button type="button" class="linkbtn" data-action="tl-now">Jump to this week</button>' : '');
+    var group = function(t, list){ return list.length ? '<section class="wk-group"><h3 class="cap">' + t + '</h3><div class="wk-cards">' + list.map(card).join('') + '</div></section>' : ''; };
+    var body = group('Starts this week', starts) + group('Also around now', around) + group('Not tied to a week', any);
+    return head + (body || '<p class="sub" style="padding:10px 0">Nothing in the usual timeline this week.</p>');
+  }
+
+  function renderTimeline(){
+    var due = dueDate(), now = currentWeek();
+    var chip = function(attr, val, label, on){ return '<button type="button" class="chip" ' + attr + '="' + val + '" aria-pressed="' + on + '">' + label + '</button>'; };
+    var views = chip('data-tlv', 'all', 'Timeline', U.tlView === 'all') + chip('data-tlv', 'week', 'This week', U.tlView === 'week');
+    var cats = [['all', 'All'], ['visit', 'Visits'], ['test', 'Tests'], ['gear', 'Gear decisions']].map(function(c){ return chip('data-tlc', c[0], c[1], U.tlCat === c[0]); }).join('');
+    $('#view').innerHTML = '<section class="page tlpage"><div><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
+      '<p class="sub">The usual appointments, tests and gear decisions, laid out by week. Weeks with nothing in them stay empty.</p></div>' +
+      '<p class="notice">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates. Some timings are still being checked against official sources.</p>' +
+      '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
+      (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
+      '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p></div>' +
+      '<div class="controls tlctl"><div class="chips" role="group" aria-label="View">' + views + '</div><div class="chips" role="group" aria-label="Show">' + cats + '</div></div>' +
+      '<div id="tlbody">' + (U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due)) + '</div></section>';
+  }
+
+  function focusSel(sel){ var el = $(sel); if (el) el.focus(); }
+
   function render(focusHeading){
     renderHeader();
-    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else renderDictionary();
+    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else if (U.route === 'timeline') renderTimeline(); else renderDictionary();
     if (focusHeading) { var h = $('#view .h1'); if (h) h.focus({preventScroll:true}); }
   }
 
@@ -558,21 +822,34 @@
     btn.setAttribute('aria-expanded', open ? 'false' : 'true'); art.classList.toggle('is-open', !open);
   }
 
-  function go(route){
-    U.route = route; U.acct = false; U.pinned = {}; render(true);
-    var p = $('#proto'); if (p && p.getBoundingClientRect().top < 0) p.scrollIntoView({block:'start'});
+  // ---------- routes (hash based, so Back, deep links and shared links work) ----------
+  var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly'};
+  function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline'].indexOf(h) >= 0 ? h : 'home'; }
+  function show(route, focus){
+    U.route = route; U.acct = false; U.pinned = {};
+    try { document.title = TITLES[route]; } catch (e) {}
+    render(focus);
+    window.scrollTo(0, 0);
   }
+  function go(route){
+    if (routeFromHash() === route) { show(route, true); return; }
+    try { location.hash = route === 'home' ? '#/' : '#/' + route; } catch (e) {}
+    setTimeout(function(){ if (U.route !== route) show(route, true); }, 60);
+  }
+  window.addEventListener('hashchange', function(){ show(routeFromHash(), true); });
 
   // ---------- events ----------
   var proto = $('#proto');
   proto.addEventListener('click', function(e){
-    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter]');
+    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter],[data-tlv],[data-tlc]');
     if (!t || !proto.contains(t)) return;
     if (t.dataset.nav) { go(t.dataset.nav); return; }
     if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); return; }
     if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); return; }
     if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); return; }
     if (t.dataset.letter) { var h = document.getElementById('L-' + t.dataset.letter); if (h) h.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); return; }
+    if (t.dataset.tlv) { U.tlView = t.dataset.tlv; renderTimeline(); focusSel('[data-tlv="' + t.dataset.tlv + '"]'); return; }
+    if (t.dataset.tlc) { U.tlCat = t.dataset.tlc; renderTimeline(); focusSel('[data-tlc="' + t.dataset.tlc + '"]'); return; }
     var a = t.dataset.action, art = t.closest('[data-slug]'), slug = art && art.dataset.slug;
     if (a === 'toggle') toggleDetail(t);
     else if (a === 'inc') changeQty(slug, 1, null, '[data-action="inc"]');
@@ -585,12 +862,27 @@
       if (S.nfu[slug]) delete S.nfu[slug]; else { S.nfu[slug] = true; delete S.qty[slug]; }
       U.pinned[slug] = true; save(); refreshCard(slug, '[data-action="nfu"]'); renderSummary();
     }, function(){});
+    else if (a === 'tl-open') {
+      var id = t.dataset.id, body = t.nextElementSibling, opening = t.getAttribute('aria-expanded') !== 'true';
+      body.hidden = !opening; t.setAttribute('aria-expanded', opening ? 'true' : 'false'); t.textContent = opening ? 'Hide details' : 'See details';
+      U.tlOpen = opening ? id : null;
+    }
+    else if (a === 'tl-page') { U.tlPage = (U.tlPage || 0) + parseInt(t.dataset.dir, 10); renderTimeline(); focusSel('[data-action="tl-page"][data-dir="' + t.dataset.dir + '"]'); }
+    else if (a === 'tl-step') {
+      var cw = fromKey(U.tlWeek) || currentWeek() || {era:'preg', n:20}, ni = Math.max(0, Math.min(WEEKS.length - 1, wkIndex(cw) + parseInt(t.dataset.dir, 10)));
+      U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]');
+    }
+    else if (a === 'tl-now') { var nw = currentWeek(); if (nw) { U.tlWeek = wkKey(nw); U.tlPage = null; renderTimeline(); focusSel('#tl-week'); } }
+    else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
+    else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
     else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; $('#sheet').showModal(); }
     else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); }
     else if (a === 'acct') { U.acct = !U.acct; renderHeader(); }
   });
 
   proto.addEventListener('change', function(e){
+    if (e.target.id === 'tl-due') { S.due = e.target.value || ''; U.tlPage = null; U.tlWeek = null; save(); renderTimeline(); focusSel('#tl-due'); return; }
+    if (e.target.id === 'tl-week') { U.tlWeek = e.target.value; renderTimeline(); focusSel('#tl-week'); return; }
     if (e.target.classList.contains('qty-in')) {
       var art = e.target.closest('[data-slug]');
       changeQty(art.dataset.slug, 0, parseInt(e.target.value, 10), '.qty-in');
@@ -613,22 +905,11 @@
     if (U.pending) { var p = U.pending; U.pending = null; if (p.onCancel) p.onCancel(); }
   });
 
-  document.addEventListener('click', function(e){
-    var d = e.target.closest('button[data-device]'); if (!d) return;
-    S.device = d.dataset.device; save(); applyDevice();
-  });
-  $('#reset').addEventListener('click', function(){
-    S = defaults(); try { localStorage.removeItem(KEY); } catch(e) {}
-    U = {route:'dictionary', dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
-    applyDevice(); render(false);
-  });
-
-  function applyDevice(){
-    proto.dataset.device = S.device;
-    document.querySelectorAll('.seg [data-device]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.device === S.device)); });
+  if (window.ResizeObserver) {
+    var lastWide = proto.clientWidth >= 900;
+    new ResizeObserver(function(){ var w = proto.clientWidth >= 900; if (w !== lastWide) { lastWide = w; if (U.route === 'timeline') renderTimeline(); } }).observe(proto);
   }
-
-  applyDevice();
+  document.title = TITLES[U.route];
   render(false);
 })();
 </script>
@@ -665,7 +946,7 @@
       email: String(f.get('email') || '').trim(),
       website: String(f.get('website') || ''),
       page: cur ? cur.textContent : 'Home',
-      device: (document.getElementById('proto') || {dataset: {}}).dataset.device || ''
+      device: window.innerWidth < 640 ? 'phone' : 'desktop'
     };
     sendBtn.disabled = true;
     statusEl.textContent = 'Sending...';

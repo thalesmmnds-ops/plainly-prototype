@@ -29,7 +29,7 @@
       email: String(f.get('email') || '').trim(),
       website: String(f.get('website') || ''),
       page: cur ? cur.textContent : 'Home',
-      device: (document.getElementById('proto') || {dataset: {}}).dataset.device || ''
+      device: window.innerWidth < 640 ? 'phone' : 'desktop'
     };
     sendBtn.disabled = true;
     statusEl.textContent = 'Sending...';

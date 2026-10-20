@@ -12,16 +12,22 @@ let t = read('template.html');
 const items = read('items.json').replace(/<\//g, '<\\/');
 if (!t.includes('__ITEMS__')) throw new Error('template is missing the __ITEMS__ placeholder');
 t = t.replace('__ITEMS__', () => items);
+const timeline = read('timeline.json').replace(/<\//g, '<\\/');
+if (!t.includes('__TIMELINE__')) throw new Error('template is missing the __TIMELINE__ placeholder');
+t = t.replace('__TIMELINE__', () => timeline);
+// A copy without the standalone extras, for previewing as a Claude artifact.
+fs.writeFileSync(path.join(root, 'artifact.html'), t);
 t = t.replace(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');
 
 const styleEnd = t.indexOf('</style>');
 if (styleEnd < 0) throw new Error('no </style> in template');
-const head = t.slice(0, styleEnd) + '\n' + read('extras.css') + '\n</style>';
+const head = (t.slice(0, styleEnd) + '\n' + read('extras.css') + '\n</style>')
+  .replace('<title>Plainly Prototype</title>', '<title>Plainly: Baby gear, explained plainly</title>');
 let body = t.slice(styleEnd + '</style>'.length);
 
-const wrapOpen = '<div class="wrap">';
-if (!body.includes(wrapOpen)) throw new Error('no .wrap in template');
-body = body.replace(wrapOpen, () => wrapOpen + '\n' + read('banner.html'));
+const protoOpen = '<div class="proto" id="proto"';
+if (!body.includes(protoOpen)) throw new Error('no .proto in template');
+body = body.replace(protoOpen, () => read('banner.html') + '\n' + protoOpen);
 
 const firstScript = body.indexOf('<script>');
 if (firstScript < 0) throw new Error('no <script> in template');
@@ -33,7 +39,7 @@ const doc =
   '<meta charset="utf-8">\n' +
   '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n' +
   '<meta name="robots" content="noindex, nofollow">\n' +
-  '<meta name="description" content="An early clickable prototype of Plainly, a baby-gear guide. Shared to collect feedback.">\n' +
+  '<meta name="description" content="Baby gear, explained plainly. What each item is, and whether you need it.">\n' +
   '<style>:root{color-scheme:light} body{margin:0}</style>\n' +
   head + '\n</head>\n<body>\n' + body + '</body>\n</html>\n';
 

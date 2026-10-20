@@ -42,7 +42,6 @@
 
   /* the prototype frame */
   .proto{container-type:inline-size; background:var(--paper); color:var(--w-ink); border:1.5px solid var(--stroke); border-radius:18px; overflow:hidden; font-size:14px; line-height:1.45;}
-  .proto[data-device="phone"]{width:min(100%, 390px); margin-inline:auto;}
   .proto[data-device="desktop"]{width:100%;}
   .proto button, .proto input{font-family:inherit;}
   .proto button:focus-visible, .proto input:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
@@ -171,53 +170,129 @@
   .notes h2{font-family:var(--font-display); font-size:1.25rem; font-weight:600; margin:0 0 10px;}
   .notes ol, .notes ul{margin:0; padding-left:20px; display:grid; gap:8px; color:var(--ink-soft); font-size:.9375rem;}
   .notes li::marker{color:var(--accent); font-weight:700;}
+  /* header: two rows on narrow frames, one row from 640px; nav CTA */
+  .hdr{flex-wrap:wrap; row-gap:4px;}
+  .hdr .logo{order:1; margin-right:auto;}
+  .hdr .authbtn{order:2;}
+  .hdr nav{order:3; flex:1 1 100%; display:flex; gap:6px;}
+  .hdr nav .navbtn{flex:1 1 0; text-align:center; padding:8px 6px;}
+  .navcta{flex:1.3 1 0; border:1.5px solid transparent; border-radius:10px; background:#C99A3B; color:#2A2420; padding:8px 10px; font-size:13.5px; font-weight:600; cursor:pointer; text-align:center; white-space:nowrap;}
+  .navcta[aria-current="page"]{text-decoration:underline; text-underline-offset:4px;}
+  .navcta .long{display:none;}
+  .btn.cta{background:#C99A3B; color:#2A2420; border-color:transparent;}
+
+  /* home: how it works */
+  .how{border-top:1.5px solid var(--stroke); padding-top:14px; display:grid; gap:10px;}
+  .how-h{margin:0; font-size:16px; font-weight:700;}
+  .how-steps{margin:0; padding-left:20px; display:grid; gap:8px;}
+
+  /* timeline */
+  .tlpage{gap:12px;}
+  .notice{margin:0; border:1.5px solid var(--stroke); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--w-soft);}
+  .datebox{display:grid; gap:6px;}
+  .daterow{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .daterow .field{width:auto; flex:0 1 190px;}
+  .tlctl{display:grid; gap:8px;}
+  .tcols{display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:10px; align-items:start;}
+  .tcol{border:1.5px solid var(--stroke); border-radius:12px; padding:0 0 10px; display:grid; gap:8px; align-content:start; min-width:0; margin-bottom:10px;}
+  .tcols .tcol{margin-bottom:0;}
+  .tcol.is-now{border-top:5px solid var(--w-ink);}
+  .tcol.past{background-image:repeating-linear-gradient(135deg, transparent 0 7px, var(--fill) 7px 8px);}
+  .tcol-h{padding:10px 10px 0; display:grid; gap:1px;}
+  .tcol-h b{font-size:15px;}
+  .tcol-empty{padding:0 10px; margin:0;}
+  .tl-gap{margin:0 0 10px; padding:2px;}
+  .tl-pager{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; flex-wrap:wrap;}
+  .tc{border:1.5px solid var(--stroke); border-left-width:5px; border-radius:10px; padding:8px 10px; margin:0 8px; display:grid; gap:4px; background:var(--paper); min-width:0;}
+  .tc-gear{border-left-color:#B85A38;}
+  .tc-visit, .tc-test{border-left-color:var(--w-ink);}
+  .tc-top{display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;}
+  .tc-label{display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--w-soft);}
+  .tc-label .ico{margin-top:0;}
+  .tc-tag{font-size:10.5px; font-weight:600; border:1.5px dashed var(--stroke); border-radius:6px; padding:0 5px;}
+  .tc-title{margin:0; font-size:14px; font-weight:700; line-height:1.25;}
+  .tc-time{margin:0; font-size:12.5px; color:var(--w-soft);}
+  .tc-pill{margin:2px 0 0;}
+  .tc-more{justify-self:start; border:0; background:none; padding:6px 0 2px; font-size:12.5px; font-weight:600; text-decoration:underline; text-underline-offset:3px; cursor:pointer; color:inherit;}
+  .tc-detail{display:grid; gap:7px; font-size:13px; padding-top:6px; border-top:1px dashed var(--stroke);}
+  .tc-detail[hidden]{display:none;}
+  .tc-detail p{margin:0;}
+  .srcs{margin:0; padding-left:18px; display:grid; gap:4px; font-size:12.5px;}
+  .srcs a{color:inherit; overflow-wrap:anywhere;}
+  .wk-head{display:flex; align-items:center; gap:8px;}
+  .wk-title{flex:1; display:grid; gap:3px; min-width:0;}
+  .wk-group{display:grid; gap:8px; margin-top:12px;}
+  .wk-group > h3{margin:0;}
+  .wk-cards{display:grid; gap:8px;}
+  .wk-cards .tc{margin:0;}
+  .navcta:focus-visible, .tc-more:focus-visible, .tl-pager button:focus-visible, .wk-head button:focus-visible, .wk-head select:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
+
+  @container (min-width: 640px){
+    .hdr{flex-wrap:nowrap;}
+    .hdr .logo{order:0; margin-right:0;}
+    .hdr nav{order:0; flex:1 1 auto;}
+    .hdr nav .navbtn{flex:0 0 auto; padding:8px 10px;}
+    .hdr .authbtn{order:0;}
+    .navcta{flex:0 0 auto; margin-left:6px;}
+    .navcta .long{display:inline;}
+    .navcta .short{display:none;}
+    .wk-cards{grid-template-columns:repeat(2, minmax(0, 1fr));}
+    .tlctl{grid-template-columns:auto 1fr; align-items:center;}
+  }
+  /* website layout: full width, sticky header, centered content */
+  body{padding:0; background:var(--paper); color:var(--w-ink);}
+  .proto{max-width:none; border:0; border-radius:0; overflow:visible; min-height:100vh; display:flex; flex-direction:column; font-size:15px;}
+  .proto main{flex:1 0 auto;}
+  .hdr{position:sticky; top:0; z-index:6; background:var(--paper); padding-top:max(8px, env(safe-area-inset-top, 0px)); padding-inline:max(16px, calc((100% - 1120px) / 2 + 12px));}
+  .acct-menu{right:max(16px, calc((100% - 1120px) / 2 + 12px));}
+  .page{max-width:1120px; width:100%; margin-inline:auto;}
+  .ftr{padding-inline:max(16px, calc((100% - 1120px) / 2 + 12px));}
+  .letter{scroll-margin-top:76px;}
+
+  /* type */
+  .h1{font-family:var(--font-display); font-weight:600; font-size:clamp(26px, 3.4vw, 36px); line-height:1.12; letter-spacing:-0.01em;}
+  .h1.display{font-size:clamp(34px, 5.2vw, 56px); line-height:1.04;}
+  .sec-h, .how-h{font-family:var(--font-display); font-weight:600; font-size:clamp(20px, 2.4vw, 26px); line-height:1.2; margin:0;}
+  .logo{font-family:var(--font-display); font-weight:600; font-size:19px;}
+
+  /* hover */
+  .navbtn:hover, .authbtn:hover, .chip:hover, .linkbtn:hover, .btn:hover:not(.primary):not(.cta), .item-head:hover .name, .card-head:hover .name{background-color:var(--fill);}
+  .item-head:hover .name, .card-head:hover .name{background-color:transparent; text-decoration:underline; text-underline-offset:3px;}
+  .btn.primary:hover, .btn.cta:hover, .navcta:hover{opacity:.9;}
+
+  /* home */
+  .home{gap:36px; padding-top:28px; padding-bottom:40px;}
+  .hero-grid{display:grid; gap:20px; align-items:center;}
+  .hero-copy{display:grid; gap:14px; align-content:center;}
+  .lead2{margin:0; font-size:16px; color:var(--w-soft); max-width:46ch;}
+  .hero-img{aspect-ratio:4/3; width:100%;}
+  .btn.big{padding:12px 18px; font-size:15px; border-radius:12px;}
+  .sec{display:grid; gap:14px;}
+  .notice-box{font-size:14px;}
+  .mini{padding:12px; font-size:14px; gap:8px;}
+  .mini .name{font-weight:700;}
+  .how-steps{list-style:none; padding:0; margin:0; display:grid; gap:12px; counter-reset:step;}
+  .how-steps li{counter-increment:step; border:1.5px solid var(--stroke); border-radius:12px; padding:14px; display:grid; gap:6px; align-content:start;}
+  .how-steps li::before{content:counter(step); width:26px; height:26px; border:1.5px solid var(--stroke); border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:12px;}
+  .how-steps li span{color:var(--w-soft);}
+  .how{border-top:0; padding-top:0;}
+  @container (min-width: 640px){
+    .hdr{padding-inline:max(24px, calc((100% - 1120px) / 2 + 12px));}
+    .ftr{padding-inline:max(24px, calc((100% - 1120px) / 2 + 12px));}
+    .hero-grid{grid-template-columns:1.1fr .9fr; gap:44px;}
+    .how-steps{grid-template-columns:repeat(3, 1fr);}
+    .cards3{gap:14px;}
+    .home{gap:48px; padding-top:44px;}
+  }
 </style>
 
-<div class="wrap">
-  <header>
-    <div class="eyebrow">Plainly v1, clickable prototype</div>
-    <h1 class="page-title">Prototype</h1>
-    <p class="lede">Built from your five changes, using the real 44 entries from the guide. Search, expand items, change quantities and the baby's age. Your choices are saved in this browser.</p>
-    <div class="tools">
-      <div class="seg" role="group" aria-label="Screen width">
-        <button type="button" data-device="phone" aria-pressed="true">Phone</button>
-        <button type="button" data-device="desktop" aria-pressed="false">Desktop</button>
-      </div>
-      <button type="button" class="reset" id="reset">Reset demo</button>
-    </div>
-  </header>
-
-  <div class="proto" id="proto" data-device="phone">
-    <header class="hdr" id="hdr"></header>
-    <main id="view"></main>
-    <footer class="ftr">
-      <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
-      <span>How verdicts work · Privacy · Contact</span>
-    </footer>
-  </div>
-
-  <section class="notes" aria-label="Notes">
-    <div>
-      <h2>What changed</h2>
-      <ol>
-        <li>The nav is Logo, Inventory, Dictionary, Sign in.</li>
-        <li>The Dictionary is A to Z, with a short line on every row about what it is and does. The third verdict stays "Skip it".</li>
-        <li>Tap any item to open a bigger image and a fuller description. Where that content doesn't exist yet, it is lorem ipsum.</li>
-        <li>Inventory opens on What's left, with I have and All items one tap away. Only clothes-like items take a number: bodysuits, zip-up sleepers and the sleep sack (one count per age), then fitted crib sheets, burp cloths, bottles, pacifiers, swaddle, baby gates and furniture anchors (one count). Everything else is Have it or Not for us.</li>
-        <li>The age tag starts on All. Picking an age changes only the three items that come in sizes.</li>
-      </ol>
-    </div>
-    <div>
-      <h2>To confirm</h2>
-      <ul>
-        <li>Towels aren't in the guide yet, so your "6 towels" example isn't here. The cpo-strategist proposes adding baby towels and washcloths as a counted item in the first batch of new entries.</li>
-        <li>Diapers and wipes are Have it only here. A count that falls every day goes stale and reads like a restock list.</li>
-        <li>The control is called "Baby's age" here. The cpo-strategist suggests "Size", because gifts often run ahead of the baby.</li>
-        <li>"You're covered" counts an item once you have it, by a tap or a count of 1 or more, whatever the count.</li>
-        <li>Signing in is faked. The sheet opens on your first change, and either button signs you in.</li>
-      </ul>
-    </div>
-  </section>
+<div class="proto" id="proto" data-device="desktop">
+  <header class="hdr" id="hdr"></header>
+  <main id="view"></main>
+  <footer class="ftr">
+    <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
+    <span>How verdicts work · Privacy · Contact</span>
+  </footer>
 </div>
 
 <dialog id="sheet" aria-labelledby="sheet-title">
@@ -237,6 +312,7 @@
   'use strict';
 
   var ITEMS = __ITEMS__;
+  var TL = __TIMELINE__;
 
   // The third verdict label lives here. Change the string to rename it everywhere.
   var VERD = {
@@ -261,14 +337,14 @@
 
   // ---------- state ----------
   var KEY = 'plainly-proto-v2';
-  function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone'}; }
+  function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone', due:''}; }
   function load(){
     try { var r = localStorage.getItem(KEY); if (r) { var o = JSON.parse(r); var d = defaults(); for (var k in d) { if (o[k] !== undefined) d[k] = o[k]; } return d; } } catch(e) {}
     return defaults();
   }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
   var S = load();
-  var U = {route:'dictionary', dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
+  var U = {route:routeFromHash(), tlView:'all', tlCat:'all', tlWeek:null, tlPage:null, tlOpen:null, dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
 
   // Tiers: sized = one count per age, counted = one count, mark = Have it / Not for us only.
   // A third-verdict entry never carries a number.
@@ -294,12 +370,13 @@
   function renderHeader(){
     var cur = U.route;
     var nav = function(r, label){ return '<button type="button" class="navbtn" data-nav="' + r + '"' + (cur === r ? ' aria-current="page"' : '') + '>' + label + '</button>'; };
+    var cta = '<button type="button" class="navcta" data-nav="timeline"' + (cur === 'timeline' ? ' aria-current="page"' : '') + '><span class="long">' + TL_CTA_LONG + '</span><span class="short">' + TL_NAME + '</span></button>';
     var auth = S.signedIn
       ? '<button type="button" class="authbtn" data-action="acct" aria-expanded="' + (U.acct ? 'true' : 'false') + '">Account</button>'
       : '<button type="button" class="authbtn" data-action="signin-open">Sign in</button>';
     var menu = (S.signedIn && U.acct)
       ? '<div class="acct-menu"><span class="sm">name@example.com</span><button type="button" class="btn" data-action="signout">Sign out</button></div>' : '';
-    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home">Plainly</button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + '</nav>' + auth + menu;
+    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home">Plainly</button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + cta + '</nav>' + auth + menu;
   }
 
   function detailHTML(it, ctx){
@@ -362,12 +439,20 @@
   // ---------- views ----------
   function renderHome(){
     var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
-    $('#view').innerHTML = '<section class="page hero"><div class="hero"><h1 class="h1" tabindex="-1">Baby gear, explained plainly.</h1>' +
-      '<p class="sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>' +
-      '<div class="actions"><button type="button" class="btn primary" data-nav="dictionary">Open the dictionary</button><button type="button" class="btn" data-nav="inventory">Start your inventory</button></div></div>' +
-      '<div class="box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
-      '<div><span class="cap">Three verdicts</span><div class="cards3" style="margin-top:8px">' +
-      picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span>' + esc(it.name) + '</span>' + chip(it) + '</div>'; }).join('') + '</div></div></section>';
+    $('#view').innerHTML = '<section class="page home">' +
+      '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained plainly.</h1>' +
+      '<p class="lead2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>' +
+      '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn big" data-nav="inventory">Start your inventory</button></div></div>' +
+      '<i class="img hero-img" aria-hidden="true"></i></div>' +
+      '<div class="box notice-box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
+      '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h">One plain verdict for every item.</h2>' +
+      '<div class="cards3">' + picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
+      '<section class="sec how" aria-labelledby="how-h"><h2 id="how-h" class="sec-h">What\'s coming, and when.</h2>' +
+      '<ol class="how-steps"><li><b>Enter your due date.</b><span>We lay out the weeks from there.</span></li>' +
+      '<li><b>See what\'s in each week.</b><span>The usual appointments and tests, and the gear decisions worth making around then. Quiet weeks stay quiet.</span></li>' +
+      '<li><b>Look at it together.</b><span>You and your partner see the same weeks, so neither of you has to be the one who remembers.</span></li></ol>' +
+      '<div class="actions"><button type="button" class="btn cta big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
+      '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></section></section>';
   }
 
   function renderDictionary(){
@@ -448,9 +533,189 @@
     if (focusSel) { var f = $('#ilist [data-slug="' + slug + '"] ' + focusSel); if (f && !f.disabled) f.focus(); else { var g = $('#ilist [data-slug="' + slug + '"] [data-action="inc"]'); if (g) g.focus(); } }
   }
 
+  // ---------- timeline ----------
+  var TL_NAME = 'Timeline';
+  var TL_CTA_LONG = 'See the timeline';
+  var HOME_CTA = 'See the weeks ahead';
+  var CATLAB = {visit:'Visit', test:'Test', gear:'Gear decision'};
+  var CAT_SORT = ['visit', 'test', 'gear'];
+  var DAY = 86400000;
+  var WEEKS = [];
+  (function(){ var n; for (n = 6; n <= 40; n++) WEEKS.push({era:'preg', n:n}); for (n = 0; n <= 26; n++) WEEKS.push({era:'baby', n:n}); })();
+  // Gear blocks come from the Dictionary's three stages (whenNeeded), not from invented weeks.
+  var GEAR = [
+    {id:'g-before', when:'before-birth', era:'preg', from:6,  to:40, title:'Before birth'},
+    {id:'g-first',  when:'first-weeks',  era:'baby', from:0,  to:5,  title:'First weeks'},
+    {id:'g-later',  when:'3-6-months',   era:'baby', from:13, to:26, title:'Can wait (3–6 months)'}
+  ];
+  var ICONS = {
+    visit: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h11v8H8l-3 3v-3H3z"/><path d="M17 9h4v8h-2v3l-3-3h-5v-2"/></svg>',
+    test: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M14 14l6 6"/></svg>',
+    gear: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/></svg>'
+  };
+  var WHO = {'pregnant parent':'The pregnant parent', 'both':'Both of you', 'baby':'The baby', 'either':'Either of you'};
+
+  function catOf(ev){ if (ev.gear || ev.kind === 'gear') return 'gear'; if (ev.kind === 'test' || ev.kind === 'screening') return 'test'; return 'visit'; }
+  function dueDate(){ if (!S.due) return null; var p = S.due.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); return isNaN(d.getTime()) ? null : d; }
+  function addDays(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+  function fmtDate(d){ return d.toLocaleDateString('en-US', {month:'short', day:'numeric'}); }
+  function weekStart(w, due){ return w.era === 'preg' ? addDays(due, -(280 - 7 * w.n)) : addDays(due, 7 * w.n); }
+  function weekRange(w, due){ var s = weekStart(w, due); return fmtDate(s) + ' to ' + fmtDate(addDays(s, 6)); }
+  function wkKey(w){ return w.era + w.n; }
+  function fromKey(k){ var m = /^(preg|baby)(\d+)$/.exec(k || ''); return m ? {era:m[1], n:+m[2]} : null; }
+  function wkLabel(w){ return (w.era === 'preg' ? 'Pregnancy week ' : 'Baby week ') + w.n; }
+  function wkIndex(w){ for (var i = 0; i < WEEKS.length; i++) if (WEEKS[i].era === w.era && WEEKS[i].n === w.n) return i; return 0; }
+  function sameWeek(a, b){ return !!a && !!b && a.era === b.era && a.n === b.n; }
+
+  function currentWeek(){
+    var due = dueDate(); if (!due) return null;
+    var t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+    var gest = 280 - Math.round((due.getTime() - t.getTime()) / DAY);
+    if (gest < 0) return null;
+    if (gest < 280) return {era:'preg', n:Math.max(6, Math.min(40, Math.floor(gest / 7)))};
+    return {era:'baby', n:Math.min(26, Math.floor((gest - 280) / 7))};
+  }
+
+  function ageWord(a){
+    var m = /^(\d+)([dwm])$/.exec(a || ''); if (!m) return a || '';
+    var n = +m[1], u = {d:'day', w:'week', m:'month'}[m[2]];
+    return n === 0 ? 'birth' : n + ' ' + u + (n === 1 ? '' : 's');
+  }
+  function timingText(ev){
+    if (ev.startW == null) return 'Usually any week while the season lasts';
+    if (ev.era === 'preg') {
+      if (ev.open) return 'Usually from about week ' + ev.startW;
+      return ev.endW > ev.startW ? 'Usually weeks ' + ev.startW + ' to ' + ev.endW : 'Usually around week ' + ev.startW;
+    }
+    var a = ageWord(ev.a0), b = ageWord(ev.a1), mo = /m$/.test(ev.a1 || ev.a0);
+    if (ev.a1 && ev.a1 !== ev.a0) return a === 'birth' ? 'Usually from birth to ' + b + ' old' : 'Usually ' + a.replace(/ (day|week|month)s?$/, '') + ' to ' + b + (mo ? ' old' : ' after birth');
+    return a === 'birth' ? 'Usually at birth' : 'Usually around ' + a + (mo ? ' old' : ' after birth');
+  }
+  function srcName(n){ return String(n).replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(); }
+
+  function evDetail(ev){
+    var src = (ev.sources || []).map(function(s){
+      return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(srcName(s.name)) + '</a>' + (s.date ? ' · ' + esc(s.date) : '') + '</li>';
+    }).join('');
+    return '<p>' + esc(ev.typical) + '</p>' +
+      '<p><b>Varies:</b> ' + esc(ev.note) + ' Your doctor or midwife sets your actual date.</p>' +
+      '<p class="sm">Who usually goes: ' + esc(WHO[ev.who] || ev.who) + '</p>' +
+      (ev.verify ? '<p class="sm">This timing is still being checked against official sources.</p>' : '') +
+      (src ? '<p class="sm">Sources</p><ul class="srcs">' + src + '</ul>' : '');
+  }
+  function gearDetail(g){
+    var nec = ITEMS.filter(function(it){ return it.when === g.when && it.verdict === 'necessary'; });
+    var open = nec.filter(function(it){ return !have(it) && !S.nfu[it.slug]; });
+    return '<p>' + nec.length + ' Necessary items in the Dictionary for this stage. ' + open.length + ' still open in your Inventory.</p>' +
+      (open.length ? '<p class="sm">' + esc(open.slice(0, 6).map(function(i){ return i.name; }).join(', ')) + (open.length > 6 ? ' and more' : '') + '</p>' : '') +
+      '<div class="actions"><button type="button" class="btn" data-action="tl-gear">Open What\'s left</button></div>';
+  }
+  function gearTime(g){ return g.when === 'before-birth' ? 'Usually made before your baby arrives' : g.when === 'first-weeks' ? 'Usually made in the first weeks' : 'Can wait until about 3 to 6 months'; }
+
+  function card(ev){
+    var c = catOf(ev), id = ev.id, open = U.tlOpen === id;
+    var title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title;
+    return '<article class="tc tc-' + c + '">' +
+      '<div class="tc-top"><span class="tc-label">' + ICONS[c] + CATLAB[c] + '</span>' + (ev.verify ? '<span class="tc-tag">Being checked</span>' : '') + '</div>' +
+      '<h4 class="tc-title">' + esc(title) + '</h4><p class="tc-time">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + '</p>' +
+      (ev.gear ? '<p class="tc-pill"><span class="v v-nec"><i class="mk" aria-hidden="true"></i>Necessary</span></p>' : '') +
+      '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
+      '<div class="tc-detail"' + (open ? '' : ' hidden') + '>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) + '</div></article>';
+  }
+
+  function eventsFor(w, mode){
+    var out = [];
+    TL.forEach(function(ev){
+      if (ev.startW == null || ev.era !== w.era) return;
+      if (mode === 'start' ? ev.startW === w.n : (w.n >= ev.startW && w.n <= ev.endW)) out.push(ev);
+    });
+    GEAR.forEach(function(g){
+      if (g.era !== w.era) return;
+      if (mode === 'start' ? g.from === w.n : (w.n >= g.from && w.n <= g.to)) out.push({gear:true, id:g.id, when:g.when, title:g.title});
+    });
+    out = out.filter(function(ev){ return U.tlCat === 'all' || U.tlCat === catOf(ev); });
+    out.sort(function(a, b){ return CAT_SORT.indexOf(catOf(a)) - CAT_SORT.indexOf(catOf(b)); });
+    return out;
+  }
+  function anyWeekEvents(){ return TL.filter(function(ev){ return ev.startW == null && (U.tlCat === 'all' || U.tlCat === catOf(ev)); }); }
+
+  function colHTML(w, now, due){
+    var evs = eventsFor(w, 'start'), isNow = sameWeek(w, now);
+    var past = !!now && (now.era === 'baby' ? (w.era === 'preg' || w.n < now.n) : (w.era === 'preg' && w.n < now.n));
+    return '<section class="tcol' + (isNow ? ' is-now' : '') + (past ? ' past' : '') + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
+      '<header class="tcol-h"><span class="cap">' + (w.era === 'preg' ? 'Pregnancy' : 'Baby') + (isNow ? ' · This week' : '') + '</span><b>Week ' + w.n + '</b>' +
+      (due ? '<span class="sm">about ' + weekRange(w, due) + '</span>' : '') + '</header>' +
+      (evs.length ? evs.map(card).join('') : '<p class="sm tcol-empty">Nothing in the usual timeline this week.</p>') + '</section>';
+  }
+
+  function narrowHTML(now, due){
+    var html = '', run = null, last = null;
+    function flush(){
+      if (!run) return;
+      var same = run.era === last.era;
+      html += '<p class="sm tl-gap">' + (sameWeek(run, last) ? wkLabel(run) : wkLabel(run) + ' to ' + (same ? last.n : wkLabel(last))) + ': nothing in the usual timeline.</p>';
+      run = null;
+    }
+    WEEKS.forEach(function(w){
+      if (!eventsFor(w, 'start').length && !sameWeek(w, now)) { if (!run) run = w; last = w; return; }
+      flush(); html += colHTML(w, now, due);
+    });
+    flush();
+    return html;
+  }
+
+  function isWide(){ return $('#proto').clientWidth >= 900; }
+
+  function timelineBody(now, due){
+    var any = anyWeekEvents(), anyHTML = any.length ? '<section class="tcol tcol-any"><header class="tcol-h"><span class="cap">Pregnancy</span><b>Not tied to a week</b></header>' + any.map(card).join('') + '</section>' : '';
+    if (!isWide()) return anyHTML + narrowHTML(now, due);
+    var size = 5, pages = Math.ceil(WEEKS.length / size);
+    if (U.tlPage == null) U.tlPage = now ? Math.floor(wkIndex(now) / size) : 0;
+    U.tlPage = Math.max(0, Math.min(pages - 1, U.tlPage));
+    var slice = WEEKS.slice(U.tlPage * size, U.tlPage * size + size);
+    return anyHTML + '<div class="tl-pager"><button type="button" class="btn" data-action="tl-page" data-dir="-1"' + (U.tlPage === 0 ? ' disabled' : '') + '>Earlier weeks</button>' +
+      '<span class="sm">' + wkLabel(slice[0]) + ' to ' + (slice[0].era === slice[slice.length - 1].era ? slice[slice.length - 1].n : wkLabel(slice[slice.length - 1])) + '</span>' +
+      '<button type="button" class="btn" data-action="tl-page" data-dir="1"' + (U.tlPage === pages - 1 ? ' disabled' : '') + '>Later weeks</button></div>' +
+      '<div class="tcols">' + slice.map(function(w){ return colHTML(w, now, due); }).join('') + '</div>';
+  }
+
+  function weekBody(now, due){
+    var w = fromKey(U.tlWeek) || now || {era:'preg', n:20}, i = wkIndex(w);
+    var opts = WEEKS.map(function(x){ return '<option value="' + wkKey(x) + '"' + (sameWeek(x, w) ? ' selected' : '') + '>' + wkLabel(x) + '</option>'; }).join('');
+    var cover = eventsFor(w, 'cover');
+    var starts = cover.filter(function(ev){ return ev.gear ? false : ev.startW === w.n; });
+    var around = cover.filter(function(ev){ return starts.indexOf(ev) < 0; });
+    var any = w.era === 'preg' ? anyWeekEvents() : [];
+    var head = '<div class="wk-head"><button type="button" class="btn" data-action="tl-step" data-dir="-1"' + (i === 0 ? ' disabled' : '') + ' aria-label="Previous week">←</button>' +
+      '<div class="wk-title"><label class="sr" for="tl-week">Choose a week</label><select id="tl-week" class="field">' + opts + '</select>' +
+      (due ? '<span class="sm">about ' + weekRange(w, due) + (sameWeek(w, now) ? ' · This week' : '') + '</span>' : '<span class="sm">Add a due date to see dates and this week.</span>') + '</div>' +
+      '<button type="button" class="btn" data-action="tl-step" data-dir="1"' + (i === WEEKS.length - 1 ? ' disabled' : '') + ' aria-label="Next week">→</button></div>' +
+      (now && !sameWeek(w, now) ? '<button type="button" class="linkbtn" data-action="tl-now">Jump to this week</button>' : '');
+    var group = function(t, list){ return list.length ? '<section class="wk-group"><h3 class="cap">' + t + '</h3><div class="wk-cards">' + list.map(card).join('') + '</div></section>' : ''; };
+    var body = group('Starts this week', starts) + group('Also around now', around) + group('Not tied to a week', any);
+    return head + (body || '<p class="sub" style="padding:10px 0">Nothing in the usual timeline this week.</p>');
+  }
+
+  function renderTimeline(){
+    var due = dueDate(), now = currentWeek();
+    var chip = function(attr, val, label, on){ return '<button type="button" class="chip" ' + attr + '="' + val + '" aria-pressed="' + on + '">' + label + '</button>'; };
+    var views = chip('data-tlv', 'all', 'Timeline', U.tlView === 'all') + chip('data-tlv', 'week', 'This week', U.tlView === 'week');
+    var cats = [['all', 'All'], ['visit', 'Visits'], ['test', 'Tests'], ['gear', 'Gear decisions']].map(function(c){ return chip('data-tlc', c[0], c[1], U.tlCat === c[0]); }).join('');
+    $('#view').innerHTML = '<section class="page tlpage"><div><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
+      '<p class="sub">The usual appointments, tests and gear decisions, laid out by week. Weeks with nothing in them stay empty.</p></div>' +
+      '<p class="notice">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates. Some timings are still being checked against official sources.</p>' +
+      '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
+      (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
+      '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p></div>' +
+      '<div class="controls tlctl"><div class="chips" role="group" aria-label="View">' + views + '</div><div class="chips" role="group" aria-label="Show">' + cats + '</div></div>' +
+      '<div id="tlbody">' + (U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due)) + '</div></section>';
+  }
+
+  function focusSel(sel){ var el = $(sel); if (el) el.focus(); }
+
   function render(focusHeading){
     renderHeader();
-    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else renderDictionary();
+    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else if (U.route === 'timeline') renderTimeline(); else renderDictionary();
     if (focusHeading) { var h = $('#view .h1'); if (h) h.focus({preventScroll:true}); }
   }
 
@@ -487,21 +752,34 @@
     btn.setAttribute('aria-expanded', open ? 'false' : 'true'); art.classList.toggle('is-open', !open);
   }
 
-  function go(route){
-    U.route = route; U.acct = false; U.pinned = {}; render(true);
-    var p = $('#proto'); if (p && p.getBoundingClientRect().top < 0) p.scrollIntoView({block:'start'});
+  // ---------- routes (hash based, so Back, deep links and shared links work) ----------
+  var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly'};
+  function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline'].indexOf(h) >= 0 ? h : 'home'; }
+  function show(route, focus){
+    U.route = route; U.acct = false; U.pinned = {};
+    try { document.title = TITLES[route]; } catch (e) {}
+    render(focus);
+    window.scrollTo(0, 0);
   }
+  function go(route){
+    if (routeFromHash() === route) { show(route, true); return; }
+    try { location.hash = route === 'home' ? '#/' : '#/' + route; } catch (e) {}
+    setTimeout(function(){ if (U.route !== route) show(route, true); }, 60);
+  }
+  window.addEventListener('hashchange', function(){ show(routeFromHash(), true); });
 
   // ---------- events ----------
   var proto = $('#proto');
   proto.addEventListener('click', function(e){
-    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter]');
+    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter],[data-tlv],[data-tlc]');
     if (!t || !proto.contains(t)) return;
     if (t.dataset.nav) { go(t.dataset.nav); return; }
     if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); return; }
     if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); return; }
     if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); return; }
     if (t.dataset.letter) { var h = document.getElementById('L-' + t.dataset.letter); if (h) h.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); return; }
+    if (t.dataset.tlv) { U.tlView = t.dataset.tlv; renderTimeline(); focusSel('[data-tlv="' + t.dataset.tlv + '"]'); return; }
+    if (t.dataset.tlc) { U.tlCat = t.dataset.tlc; renderTimeline(); focusSel('[data-tlc="' + t.dataset.tlc + '"]'); return; }
     var a = t.dataset.action, art = t.closest('[data-slug]'), slug = art && art.dataset.slug;
     if (a === 'toggle') toggleDetail(t);
     else if (a === 'inc') changeQty(slug, 1, null, '[data-action="inc"]');
@@ -514,12 +792,27 @@
       if (S.nfu[slug]) delete S.nfu[slug]; else { S.nfu[slug] = true; delete S.qty[slug]; }
       U.pinned[slug] = true; save(); refreshCard(slug, '[data-action="nfu"]'); renderSummary();
     }, function(){});
+    else if (a === 'tl-open') {
+      var id = t.dataset.id, body = t.nextElementSibling, opening = t.getAttribute('aria-expanded') !== 'true';
+      body.hidden = !opening; t.setAttribute('aria-expanded', opening ? 'true' : 'false'); t.textContent = opening ? 'Hide details' : 'See details';
+      U.tlOpen = opening ? id : null;
+    }
+    else if (a === 'tl-page') { U.tlPage = (U.tlPage || 0) + parseInt(t.dataset.dir, 10); renderTimeline(); focusSel('[data-action="tl-page"][data-dir="' + t.dataset.dir + '"]'); }
+    else if (a === 'tl-step') {
+      var cw = fromKey(U.tlWeek) || currentWeek() || {era:'preg', n:20}, ni = Math.max(0, Math.min(WEEKS.length - 1, wkIndex(cw) + parseInt(t.dataset.dir, 10)));
+      U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]');
+    }
+    else if (a === 'tl-now') { var nw = currentWeek(); if (nw) { U.tlWeek = wkKey(nw); U.tlPage = null; renderTimeline(); focusSel('#tl-week'); } }
+    else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
+    else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
     else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; $('#sheet').showModal(); }
     else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); }
     else if (a === 'acct') { U.acct = !U.acct; renderHeader(); }
   });
 
   proto.addEventListener('change', function(e){
+    if (e.target.id === 'tl-due') { S.due = e.target.value || ''; U.tlPage = null; U.tlWeek = null; save(); renderTimeline(); focusSel('#tl-due'); return; }
+    if (e.target.id === 'tl-week') { U.tlWeek = e.target.value; renderTimeline(); focusSel('#tl-week'); return; }
     if (e.target.classList.contains('qty-in')) {
       var art = e.target.closest('[data-slug]');
       changeQty(art.dataset.slug, 0, parseInt(e.target.value, 10), '.qty-in');
@@ -542,22 +835,11 @@
     if (U.pending) { var p = U.pending; U.pending = null; if (p.onCancel) p.onCancel(); }
   });
 
-  document.addEventListener('click', function(e){
-    var d = e.target.closest('button[data-device]'); if (!d) return;
-    S.device = d.dataset.device; save(); applyDevice();
-  });
-  $('#reset').addEventListener('click', function(){
-    S = defaults(); try { localStorage.removeItem(KEY); } catch(e) {}
-    U = {route:'dictionary', dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
-    applyDevice(); render(false);
-  });
-
-  function applyDevice(){
-    proto.dataset.device = S.device;
-    document.querySelectorAll('.seg [data-device]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.device === S.device)); });
+  if (window.ResizeObserver) {
+    var lastWide = proto.clientWidth >= 900;
+    new ResizeObserver(function(){ var w = proto.clientWidth >= 900; if (w !== lastWide) { lastWide = w; if (U.route === 'timeline') renderTimeline(); } }).observe(proto);
   }
-
-  applyDevice();
+  document.title = TITLES[U.route];
   render(false);
 })();
 </script>
