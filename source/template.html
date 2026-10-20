@@ -5,22 +5,11 @@
 <style>
   /* Layout: page chrome in brand tokens; the prototype is one grayscale app frame (phone or desktop width) whose layout responds to the frame's own width via container queries. */
   :root{
-    --bg:#F1EADC; --ink:#2A2420; --ink-soft:#646057; --border:#D2C6AE; --accent:#8F340E;
-    --paper:#FBF8F2; --w-ink:#3A332D; --w-soft:#6E655A; --stroke:#8C8478; --fill:#E4DED3; --fill-2:#CFC8BB;
+    --bg:#FFFFFF; --ink:#000000; --ink-soft:#595959; --border:#D4D4D4; --accent:#8F340E;
+    --paper:#FFFFFF; --w-ink:#000000; --w-soft:#595959; --stroke:#8A8A8A; --fill:#EFEFEF; --fill-2:#DCDCDC;
     --font-display:'Fraunces', Georgia, serif;
     --font-body:'Public Sans', system-ui, sans-serif;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#1B1712; --ink:#EDE6D8; --ink-soft:#B3A797; --border:#3C332A; --accent:#F0A17A;
-      --paper:#241F19; --w-ink:#E5DDCF; --w-soft:#B3A797; --stroke:#7A7064; --fill:#332C25; --fill-2:#4A4137;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#1B1712; --ink:#EDE6D8; --ink-soft:#B3A797; --border:#3C332A; --accent:#F0A17A;
-    --paper:#241F19; --w-ink:#E5DDCF; --w-soft:#B3A797; --stroke:#7A7064; --fill:#332C25; --fill-2:#4A4137;
-    color-scheme: dark;
+    color-scheme: light;
   }
   *{box-sizing:border-box;}
   body{
