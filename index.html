@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="An early clickable prototype of Plainly, a baby-gear guide. Shared to collect feedback.">
+<style>:root{color-scheme:light} body{margin:0}</style>
+<title>Plainly Prototype</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: page chrome in brand tokens; the prototype is one grayscale app frame (phone or desktop width) whose layout responds to the frame's own width via container queries. */
+  :root{
+    --bg:#F1EADC; --ink:#2A2420; --ink-soft:#646057; --border:#D2C6AE; --accent:#8F340E;
+    --paper:#FBF8F2; --w-ink:#3A332D; --w-soft:#6E655A; --stroke:#8C8478; --fill:#E4DED3; --fill-2:#CFC8BB;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Public Sans', system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1B1712; --ink:#EDE6D8; --ink-soft:#B3A797; --border:#3C332A; --accent:#F0A17A;
+      --paper:#241F19; --w-ink:#E5DDCF; --w-soft:#B3A797; --stroke:#7A7064; --fill:#332C25; --fill-2:#4A4137;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1B1712; --ink:#EDE6D8; --ink-soft:#B3A797; --border:#3C332A; --accent:#F0A17A;
+    --paper:#241F19; --w-ink:#E5DDCF; --w-soft:#B3A797; --stroke:#7A7064; --fill:#332C25; --fill-2:#4A4137;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--font-body); line-height:1.5;
+    padding-block:40px 80px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap{max-width:1040px; margin:0 auto;}
+  .eyebrow{font-size:.75rem; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--accent);}
+  h1.page-title{font-family:var(--font-display); font-size:clamp(1.9rem,4vw,2.6rem); font-weight:600; line-height:1.15; margin:.4em 0 .35em; text-wrap:balance;}
+  .lede{max-width:66ch; color:var(--ink-soft); font-size:1.0625rem; margin:0;}
+  .tools{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin:22px 0 18px;}
+  .seg{display:inline-flex; border:1px solid var(--border); border-radius:999px; overflow:hidden;}
+  .seg button{font:inherit; font-size:.875rem; font-weight:500; padding:6px 14px; border:0; background:none; color:var(--ink); cursor:pointer;}
+  .seg button[aria-pressed="true"]{background:var(--ink); color:var(--bg);}
+  .tools .reset{font:inherit; font-size:.875rem; padding:6px 14px; border:1px solid var(--border); border-radius:999px; background:none; color:var(--ink); cursor:pointer;}
+  .tools button:focus-visible, .seg button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  /* the prototype frame */
+  .proto{container-type:inline-size; background:var(--paper); color:var(--w-ink); border:1.5px solid var(--stroke); border-radius:18px; overflow:hidden; font-size:14px; line-height:1.45;}
+  .proto[data-device="phone"]{width:min(100%, 390px); margin-inline:auto;}
+  .proto[data-device="desktop"]{width:100%;}
+  .proto button, .proto input{font-family:inherit;}
+  .proto button:focus-visible, .proto input:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+  .sm{font-size:12.5px; color:var(--w-soft); margin:0;}
+  .cap{font-size:10.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--w-soft);}
+
+  .hdr{position:relative; display:flex; align-items:center; gap:4px; padding:8px 10px; border-bottom:1.5px solid var(--stroke);}
+  .logo{font-weight:700; font-size:15px; padding:8px 8px 8px 4px; border:0; background:none; color:inherit; cursor:pointer;}
+  .hdr nav{display:flex; gap:0; flex:1;}
+  .navbtn{border:0; background:none; color:inherit; padding:8px 8px; font-size:13.5px; font-weight:500; cursor:pointer; border-radius:8px;}
+  .navbtn[aria-current="page"]{font-weight:700; text-decoration:underline; text-underline-offset:5px;}
+  .authbtn{border:1.5px solid var(--stroke); border-radius:8px; background:none; color:inherit; padding:6px 10px; font-size:13px; font-weight:600; cursor:pointer;}
+  .acct-menu{position:absolute; right:10px; top:calc(100% - 2px); z-index:2; background:var(--paper); border:1.5px solid var(--stroke); border-radius:10px; padding:10px 12px; display:grid; gap:8px; min-width:200px;}
+
+  .page{padding:16px 14px 22px; display:grid; gap:14px;}
+  .h1{font-size:22px; font-weight:700; line-height:1.15; margin:0;}
+  .sub{color:var(--w-soft); margin:4px 0 0;}
+  .field{width:100%; border:1.5px solid var(--stroke); border-radius:10px; background:var(--paper); color:inherit; padding:10px 12px; font-size:14px;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{border:1.5px solid var(--stroke); border-radius:999px; padding:6px 12px; font-size:13px; background:var(--paper); color:inherit; cursor:pointer;}
+  .chip[aria-pressed="true"]{background:var(--w-ink); color:var(--paper); border-color:var(--w-ink);}
+  .controls{display:grid; gap:10px;}
+  .az{display:flex; flex-wrap:wrap; gap:2px;}
+  .az button{border:0; background:none; color:inherit; font-size:12px; font-weight:600; width:24px; height:28px; cursor:pointer; border-radius:6px; text-decoration:underline; text-underline-offset:3px;}
+  .letter{font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--w-soft); padding:12px 0 2px; border-bottom:1.5px solid var(--stroke); scroll-margin-top:8px;}
+
+  .img{border:1.5px solid var(--stroke); border-radius:8px; background-color:var(--fill);
+    background-image:
+      linear-gradient(to top right, transparent calc(50% - .75px), var(--stroke) calc(50% - .75px), var(--stroke) calc(50% + .75px), transparent calc(50% + .75px)),
+      linear-gradient(to bottom right, transparent calc(50% - .75px), var(--stroke) calc(50% - .75px), var(--stroke) calc(50% + .75px), transparent calc(50% + .75px)); display:block;}
+  .thumb{width:48px; height:48px; flex:none;}
+  .img.big{aspect-ratio:4/3; width:100%;}
+
+  .v{display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:600; border:1.5px solid var(--stroke); border-radius:6px; padding:0 7px; white-space:nowrap; line-height:1.55;}
+  .mk{display:inline-block; width:10px; height:10px; position:relative; flex:none;}
+  .v-nec .mk::before{content:"\2713"; position:absolute; left:0; top:-2px; font-size:11px; line-height:1;}
+  .v-nice .mk{border-radius:50%; background:currentColor; width:8px; height:8px;}
+  .v-dep .mk{border-radius:50%; border:1.5px solid currentColor; background:linear-gradient(90deg, currentColor 50%, transparent 50%);}
+  .have-tag{font-size:11.5px; font-weight:600; color:var(--w-soft);}
+
+  .item{border-bottom:1px dashed var(--stroke);}
+  .item-head, .card-head{display:flex; align-items:center; gap:12px; width:100%; background:none; border:0; color:inherit; text-align:left; cursor:pointer; padding:12px 0;}
+  .txt{display:grid; gap:3px; min-width:0; flex:1;}
+  .line1{display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px;}
+  .name{font-weight:600;}
+  .desc{color:var(--w-soft); font-size:13px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .is-open .desc{display:block; -webkit-line-clamp:unset;}
+  .chev{flex:none; transition:transform .15s; font-size:12px;}
+  .is-open > h3 .chev, .is-open > .item-h .chev{transform:rotate(180deg);}
+  h3.item-h, h3.ch{margin:0; font-size:inherit;}
+  .detail{padding:2px 0 16px; display:grid; gap:12px;}
+  .detail[hidden]{display:none;}
+  .dtext{display:grid; gap:9px; min-width:0;}
+  .dtext p{margin:0;}
+  .lead{font-weight:500;}
+  .lorem{color:var(--w-soft);}
+  .facts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0;}
+  .facts div{border:1.5px solid var(--stroke); border-radius:8px; padding:6px 9px; display:grid; gap:1px;}
+  .facts dt{font-size:10.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--w-soft);}
+  .facts dd{margin:0; font-weight:600;}
+  .safety{display:flex; gap:8px; align-items:flex-start; border:1.5px solid var(--stroke); border-radius:8px; padding:8px 10px;}
+  .ico{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; flex:none; margin-top:2px;}
+  .actions{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;}
+  .btn{border:1.5px solid var(--stroke); border-radius:10px; background:var(--paper); color:inherit; padding:9px 14px; font-size:13.5px; font-weight:600; cursor:pointer;}
+  .btn.primary{background:var(--w-ink); color:var(--paper); border-color:var(--w-ink);}
+  .btn.quiet{border-color:transparent; text-decoration:underline; text-underline-offset:3px;}
+  .linkbtn{border:0; background:none; color:var(--w-soft); font-size:12.5px; text-decoration:underline; text-underline-offset:3px; cursor:pointer; padding:8px 4px;}
+
+  .sum{border:1.5px solid var(--stroke); border-radius:12px; padding:12px 14px; display:grid; gap:4px;}
+  .sum strong{font-size:16px;}
+  .ctl-label{display:block; margin-bottom:6px;}
+  .grp{display:grid; gap:10px; align-content:start;}
+  .grp > h2{margin:0; font-size:13px; font-weight:700; padding:10px 0 4px; border-bottom:1.5px solid var(--stroke);}
+  .cards{display:grid; gap:10px; grid-template-columns:1fr;}
+  .card{border:1.5px solid var(--stroke); border-radius:12px; padding:2px 12px 10px; display:grid; gap:2px; align-content:start; min-width:0;}
+  .card.is-have{background:var(--fill);}
+  .card.is-nfu{opacity:.62;}
+  .card .thumb{width:44px; height:44px;}
+  .qrow{display:flex; align-items:flex-end; justify-content:space-between; gap:8px; flex-wrap:wrap;}
+  .qty{display:grid; gap:4px;}
+  .stepper{display:inline-grid; grid-template-columns:42px 62px 42px; border:1.5px solid var(--stroke); border-radius:10px; overflow:hidden;}
+  .stepper button{height:42px; border:0; background:var(--paper); color:inherit; font-size:20px; cursor:pointer;}
+  .stepper button:disabled{opacity:.35; cursor:default;}
+  .qty-in{height:42px; width:100%; text-align:center; border:0; border-inline:1.5px solid var(--stroke); background:var(--paper); color:inherit; font-size:16px; font-weight:700; -moz-appearance:textfield;}
+  .qty-in::-webkit-inner-spin-button, .qty-in::-webkit-outer-spin-button{-webkit-appearance:none; margin:0;}
+  .brk{padding-top:2px;}
+  .readout{font-weight:600;}
+  .mark{display:grid; grid-template-columns:1fr 1fr; border:1.5px solid var(--stroke); border-radius:10px; overflow:hidden; margin-top:2px;}
+  .mark button{height:42px; border:0; background:var(--paper); color:inherit; font-size:13.5px; font-weight:600; cursor:pointer;}
+  .mark button + button{border-left:1.5px solid var(--stroke);}
+  .mark button[aria-pressed="true"]{background:var(--w-ink); color:var(--paper);}
+
+  .hero{display:grid; gap:12px;}
+  .hero .h1{font-size:26px;}
+  .box{border:1.5px solid var(--stroke); border-radius:10px; padding:10px 12px;}
+  .cards3{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+  .mini{border:1.5px solid var(--stroke); border-radius:10px; padding:8px; display:grid; gap:6px; font-size:12px; align-content:start;}
+  .mini .img{aspect-ratio:1;}
+  .ftr{border-top:1.5px solid var(--stroke); padding:12px 14px; display:grid; gap:4px; font-size:12px; color:var(--w-soft);}
+
+  dialog{border:1.5px solid var(--stroke); border-radius:16px; background:var(--paper); color:var(--w-ink); padding:20px; width:min(92vw, 360px); font-family:var(--font-body); font-size:14px;}
+  dialog::backdrop{background:rgba(0,0,0,.5);}
+  dialog .stack{display:grid; gap:10px;}
+  dialog h2{margin:0; font-size:17px;}
+  dialog button, dialog input{font-family:inherit;}
+
+  @container (min-width: 640px){
+    .page{padding:24px 28px 32px; gap:18px;}
+    .hdr{padding:10px 24px;}
+    .detail{grid-template-columns:minmax(0, 230px) 1fr; gap:22px; align-items:start;}
+    .cards{grid-template-columns:repeat(2, 1fr);}
+    .controls{grid-template-columns:1fr auto; align-items:start;}
+    .controls .field{grid-column:1 / -1;}
+    .ftr{padding:14px 28px;}
+  }
+  @container (min-width: 900px){
+    .cards{grid-template-columns:repeat(3, 1fr);}
+    .card.is-open{grid-column:1 / -1;}
+  }
+  @container (min-width: 640px) and (max-width: 899px){
+    .card.is-open{grid-column:1 / -1;}
+  }
+
+  .notes{margin-top:44px; display:grid; gap:28px; grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr)); max-width:980px;}
+  .notes h2{font-family:var(--font-display); font-size:1.25rem; font-weight:600; margin:0 0 10px;}
+  .notes ol, .notes ul{margin:0; padding-left:20px; display:grid; gap:8px; color:var(--ink-soft); font-size:.9375rem;}
+  .notes li::marker{color:var(--accent); font-weight:700;}
+
+  /* standalone extras: draft banner and feedback form */
+  .banner{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; border:1px solid var(--border); border-radius:12px; padding:10px 14px; margin:0 0 22px; font-size:.9375rem; color:var(--ink-soft);}
+  .banner p{margin:0; flex:1 1 280px;}
+  .banner button{font:inherit; font-size:.875rem; font-weight:600; padding:6px 14px; border:1px solid var(--ink); border-radius:999px; background:none; color:var(--ink); cursor:pointer;}
+  .fb-fab{position:fixed; right:max(16px, env(safe-area-inset-right, 0px)); bottom:max(16px, env(safe-area-inset-bottom, 0px)); z-index:5; border:1.5px solid var(--w-ink); background:var(--w-ink); color:var(--paper); border-radius:999px; padding:10px 16px; font:600 14px var(--font-body); cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.25);}
+  .banner button:focus-visible, .fb-fab:focus-visible, #fb button:focus-visible, #fb input:focus-visible, #fb select:focus-visible, #fb textarea:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
+  .banner button:focus-visible{outline-color:var(--ink);}
+  #fb{max-height:92vh; overflow:auto;}
+  #fb form{display:grid; gap:12px;}
+  #fb label, #fb fieldset{display:grid; gap:5px; font-size:13px; font-weight:600; border:0; padding:0; margin:0; min-width:0;}
+  #fb legend{padding:0; margin-bottom:5px;}
+  #fb .opts{display:flex; flex-wrap:wrap; gap:6px 14px;}
+  #fb .opts label{display:inline-flex; align-items:center; gap:6px; font-weight:500;}
+  #fb textarea.field{min-height:110px; resize:vertical; font-family:inherit;}
+  #fb .row{display:flex; flex-wrap:wrap; gap:8px;}
+  #fb .note{font-size:12.5px; color:var(--w-soft); margin:0;}
+  #fb-status{min-height:1.2em; font-size:13px; margin:0;}
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="banner" role="note">
+    <p>Early prototype, shared to collect feedback. The verdicts are drafts still under review, and nothing here is medical or safety advice.</p>
+    <button type="button" id="fb-open-banner">Give feedback</button>
+  </div>
+
+  <header>
+    <div class="eyebrow">Plainly v1, clickable prototype</div>
+    <h1 class="page-title">Prototype</h1>
+    <p class="lede">Built from your five changes, using the real 44 entries from the guide. Search, expand items, change quantities and the baby's age. Your choices are saved in this browser.</p>
+    <div class="tools">
+      <div class="seg" role="group" aria-label="Screen width">
+        <button type="button" data-device="phone" aria-pressed="true">Phone</button>
+        <button type="button" data-device="desktop" aria-pressed="false">Desktop</button>
+      </div>
+      <button type="button" class="reset" id="reset">Reset demo</button>
+    </div>
+  </header>
+
+  <div class="proto" id="proto" data-device="phone">
+    <header class="hdr" id="hdr"></header>
+    <main id="view"></main>
+    <footer class="ftr">
+      <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
+      <span>How verdicts work · Privacy · Contact</span>
+    </footer>
+  </div>
+
+  <section class="notes" aria-label="Notes">
+    <div>
+      <h2>What changed</h2>
+      <ol>
+        <li>The nav is Logo, Inventory, Dictionary, Sign in.</li>
+        <li>The Dictionary is A to Z, with a short line on every row about what it is and does. The third verdict stays "Skip it".</li>
+        <li>Tap any item to open a bigger image and a fuller description. Where that content doesn't exist yet, it is lorem ipsum.</li>
+        <li>Inventory opens on What's left, with I have and All items one tap away. Only clothes-like items take a number: bodysuits, zip-up sleepers and the sleep sack (one count per age), then fitted crib sheets, burp cloths, bottles, pacifiers, swaddle, baby gates and furniture anchors (one count). Everything else is Have it or Not for us.</li>
+        <li>The age tag starts on All. Picking an age changes only the three items that come in sizes.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>To confirm</h2>
+      <ul>
+        <li>Towels aren't in the guide yet, so your "6 towels" example isn't here. The cpo-strategist proposes adding baby towels and washcloths as a counted item in the first batch of new entries.</li>
+        <li>Diapers and wipes are Have it only here. A count that falls every day goes stale and reads like a restock list.</li>
+        <li>The control is called "Baby's age" here. The cpo-strategist suggests "Size", because gifts often run ahead of the baby.</li>
+        <li>"You're covered" counts an item once you have it, by a tap or a count of 1 or more, whatever the count.</li>
+        <li>Signing in is faked. The sheet opens on your first change, and either button signs you in.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<dialog id="sheet" aria-labelledby="sheet-title">
+  <div class="stack">
+    <h2 id="sheet-title">Sign in to keep your inventory</h2>
+    <button type="button" class="btn primary" data-sheet="signin">Continue with Google</button>
+    <span class="sm" style="text-align:center">or</span>
+    <input class="field" type="email" id="sheet-email" placeholder="Email" aria-label="Email">
+    <button type="button" class="btn" data-sheet="signin">Email me a link</button>
+    <p class="sm">Not a registry. Nothing is shared or for sale.</p>
+    <button type="button" class="btn quiet" data-sheet="notnow">Not now</button>
+  </div>
+</dialog>
+
+<button type="button" class="fb-fab" id="fb-open">Give feedback</button>
+<dialog id="fb" aria-labelledby="fb-title">
+  <form id="fb-form" novalidate>
+    <h2 id="fb-title" style="margin:0; font-size:17px;">Share your feedback</h2>
+    <label>What was confusing, missing or useful?
+      <textarea class="field" id="fb-message" name="message" maxlength="2000" required></textarea>
+    </label>
+    <fieldset>
+      <legend>Did it make sense at first glance?</legend>
+      <div class="opts">
+        <label><input type="radio" name="clear" value="Yes"> Yes</label>
+        <label><input type="radio" name="clear" value="Partly"> Partly</label>
+        <label><input type="radio" name="clear" value="No"> No</label>
+      </div>
+    </fieldset>
+    <label>I am
+      <select class="field" name="role">
+        <option value="">Choose one (optional)</option>
+        <option>Expecting a baby</option>
+        <option>A new parent</option>
+        <option>Something else</option>
+      </select>
+    </label>
+    <label>Email, only if you'd like a reply
+      <input class="field" type="email" name="email" maxlength="200" autocomplete="email">
+    </label>
+    <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <p class="note">Please don't include health details about you or your baby. We use this only to improve Plainly.</p>
+    <p id="fb-status" role="status" aria-live="polite"></p>
+    <div class="row">
+      <button type="submit" class="btn primary" id="fb-send">Send feedback</button>
+      <button type="button" class="btn" id="fb-cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+  'use strict';
+
+  var ITEMS = [{"slug":"baby-bathtub","name":"Baby bathtub","category":"diapering-bath","verdict":"nice-to-have","reason":"It makes the first wobbly baths less awkward. A sink works too.","when":"first-weeks","desc":"A small plastic tub, often with a sloped insert that holds a newborn.","aliases":[],"advised":false,"safety":null},{"slug":"baby-carrier","name":"Baby carrier or wrap","category":"travel","verdict":"nice-to-have","reason":"Being hands-free is a real relief, but fit is personal, so try one on before buying.","when":"first-weeks","desc":"Fabric that holds your baby against your chest. Wraps are a long piece of cloth you tie; structured carriers buckle.","aliases":["sling","wrap"],"advised":false,"safety":null},{"slug":"baby-gates","name":"Baby gates","category":"safety","verdict":"necessary","reason":"Only if you have stairs, and not until your baby starts moving, so it can wait.","when":"3-6-months","desc":"Gates that block stairs or doorways, either pressure-mounted or screwed into the wall.","aliases":["stair gate"],"advised":false,"safety":null},{"slug":"baby-monitor","name":"Baby monitor","category":"gadgets","verdict":"nice-to-have","reason":"Useful once your baby sleeps out of earshot. If they're in your room, you're the monitor.","when":"first-weeks","desc":"A camera or microphone in the nursery that sends sound or video to a parent unit or your phone.","aliases":[],"advised":false,"safety":null},{"slug":"baby-shoes","name":"Baby shoes","category":"clothes","verdict":"skip-it","reason":"Babies who can't walk don't need shoes. Socks keep feet warm.","when":"3-6-months","desc":"Small soft or hard-soled shoes sized for infants.","aliases":[],"advised":false,"safety":null},{"slug":"bassinet","name":"Bassinet","category":"furniture-sleep","verdict":"nice-to-have","reason":"A crib or play yard in your room does the same job.","when":"before-birth","desc":"A small bed on legs that fits next to yours for the first few months.","aliases":["moses basket"],"advised":false,"safety":null},{"slug":"bodysuits","name":"Bodysuits","category":"clothes","verdict":"necessary","reason":"The everyday base layer. Six to eight in each early size is plenty.","when":"before-birth","desc":"A one-piece top that snaps between the legs, so it stays tucked.","aliases":["onesie"],"advised":false,"safety":null},{"slug":"bottle-sterilizer","name":"Bottle sterilizer","category":"feeding","verdict":"skip-it","reason":"Boiling water or a dishwasher's hot cycle does the same job.","when":"first-weeks","desc":"A countertop or microwave device that steams bottles and pump parts clean.","aliases":[],"advised":false,"safety":null},{"slug":"bottle-warmer","name":"Bottle warmer","category":"feeding","verdict":"skip-it","reason":"A bowl of warm water does the same thing, and many babies take milk at room temperature.","when":"first-weeks","desc":"A small electric device that heats a bottle of milk.","aliases":[],"advised":false,"safety":null},{"slug":"bottles","name":"Bottles","category":"feeding","verdict":"necessary","reason":"You'll need them for formula or pumped milk, and even nursing parents use a few so someone else can feed.","when":"before-birth","desc":"Plastic or glass bottles with a soft nipple. Newborns use the slowest-flow nipple.","aliases":[],"advised":false,"safety":null},{"slug":"bouncer","name":"Bouncer or rocker","category":"furniture-sleep","verdict":"nice-to-have","reason":"A safe spot to set your baby down awake for a few minutes. Not for sleep.","when":"first-weeks","desc":"A low, reclined seat on a springy frame that bounces or rocks as your baby moves.","aliases":[],"advised":false,"safety":null},{"slug":"breast-pump","name":"Breast pump","category":"feeding","verdict":"nice-to-have","reason":"Most US health plans cover one, so check before buying.","when":"first-weeks","desc":"A hand or electric pump that draws breast milk into a bottle.","aliases":[],"advised":false,"safety":null},{"slug":"burp-cloths","name":"Burp cloths","category":"feeding","verdict":"necessary","reason":"You'll go through several a day. Any soft cloth works.","when":"before-birth","desc":"Absorbent cloths you put over your shoulder when burping your baby.","aliases":[],"advised":false,"safety":null},{"slug":"car-seat-mirror","name":"Car seat mirror","category":"travel","verdict":"skip-it","reason":"Add-ons aren't crash-tested with your seat, and you shouldn't be watching the back seat while driving.","when":"before-birth","desc":"A mirror that straps to the back-seat headrest so you can see a rear-facing baby from the driver's seat.","aliases":[],"advised":false,"safety":null},{"slug":"car-seat-stroller-frame","name":"Car seat stroller frame","category":"travel","verdict":"nice-to-have","reason":"Handy for the first months, but it's outgrown when the infant car seat is.","when":"before-birth","desc":"A lightweight wheeled frame with no seat of its own. Your infant car seat clicks straight into it.","aliases":["snap-and-go"],"advised":false,"safety":null},{"slug":"car-seat","name":"Car seat","category":"travel","verdict":"necessary","reason":"Every US state requires one, and many hospitals check before you drive home.","when":"before-birth","desc":"A padded seat with a harness that faces the back of the car. Infant versions have a carry handle and click into a base that stays in the car.","aliases":["infant car seat","baby capsule"],"advised":false,"safety":null},{"slug":"changing-pad","name":"Changing pad","category":"diapering-bath","verdict":"nice-to-have","reason":"A towel on the floor works in a pinch.","when":"before-birth","desc":"A contoured, wipeable pad you put on a dresser or the floor for diaper changes.","aliases":[],"advised":false,"safety":null},{"slug":"changing-table","name":"Changing table","category":"furniture-sleep","verdict":"skip-it","reason":"A changing pad on a dresser does the same job, and you keep the dresser.","when":"before-birth","desc":"A waist-high table with a rail and shelves, used only for diaper changes.","aliases":[],"advised":false,"safety":null},{"slug":"crib-bumpers","name":"Crib bumpers","category":"furniture-sleep","verdict":"skip-it","reason":"Padded bumpers have been banned for sale in the US since 2022. A bare crib is the safe setup.","when":"before-birth","desc":"Padded strips tied around the inside of a crib's slats.","aliases":[],"advised":true,"safety":"Don't use bumpers, even ones you already have. Take them out of the crib."},{"slug":"crib-mattress","name":"Crib mattress","category":"furniture-sleep","verdict":"necessary","reason":"Firm, flat, and snug to the crib frame. That's where safe-sleep guidance starts.","when":"before-birth","desc":"A thin, firm mattress sized to fit a standard crib with no gap at the edges.","aliases":[],"advised":false,"safety":null},{"slug":"crib","name":"Crib","category":"furniture-sleep","verdict":"necessary","reason":"It's where your baby will sleep for the next two to three years.","when":"before-birth","desc":"A small bed with slatted sides. Most have a mattress height you lower as your baby learns to stand.","aliases":["cot"],"advised":false,"safety":null},{"slug":"diaper-bag","name":"Diaper bag","category":"travel","verdict":"skip-it","reason":"Any backpack you already own does the same job.","when":"before-birth","desc":"A bag with lots of pockets for diapers, wipes, and a change of clothes.","aliases":[],"advised":false,"safety":null},{"slug":"diaper-pail","name":"Diaper pail","category":"diapering-bath","verdict":"nice-to-have","reason":"It contains the smell better. A lidded trash can you empty daily works fine.","when":"before-birth","desc":"A lidded bin that seals used diapers away.","aliases":[],"advised":false,"safety":null},{"slug":"diapers","name":"Diapers","category":"diapering-bath","verdict":"necessary","reason":"Expect eight to twelve a day early on. Don't stockpile the newborn size, because babies outgrow it fast.","when":"before-birth","desc":"Disposable or cloth diapers, sized by your baby's weight.","aliases":["nappies"],"advised":false,"safety":null},{"slug":"digital-thermometer","name":"Digital thermometer","category":"diapering-bath","verdict":"necessary","reason":"It's the first thing your pediatrician will ask about when your baby seems unwell.","when":"before-birth","desc":"A small electronic thermometer that reads temperature in seconds.","aliases":[],"advised":false,"safety":null},{"slug":"fitted-crib-sheets","name":"Fitted crib sheets","category":"furniture-sleep","verdict":"necessary","reason":"Two or three are enough. You'll change them more often than you expect.","when":"before-birth","desc":"Sheets with elastic all the way around, sized for a crib mattress.","aliases":[],"advised":false,"safety":null},{"slug":"formula-prep-machine","name":"Formula prep machine","category":"feeding","verdict":"skip-it","reason":"An expensive shortcut for a two-minute task. A kettle and a scoop work.","when":"first-weeks","desc":"A countertop machine that mixes formula powder and warm water at the push of a button.","aliases":[],"advised":false,"safety":null},{"slug":"furniture-anchors","name":"Furniture anchors","category":"safety","verdict":"necessary","reason":"Cheap straps that keep dressers and shelves from tipping. Install them once and forget them.","when":"before-birth","desc":"Straps or brackets that fix tall furniture to the wall.","aliases":["anti-tip kit"],"advised":false,"safety":null},{"slug":"glider","name":"Glider or nursing chair","category":"furniture-sleep","verdict":"nice-to-have","reason":"You'll spend hours sitting through feeds, and any comfortable chair with arms works.","when":"before-birth","desc":"A padded chair that rocks or glides smoothly, often with a matching footstool.","aliases":["rocking chair"],"advised":false,"safety":null},{"slug":"high-chair","name":"High chair","category":"feeding","verdict":"necessary","reason":"You won't need it until solids, around six months, so it can wait.","when":"3-6-months","desc":"A tall chair with a tray and a harness for meals.","aliases":[],"advised":false,"safety":null},{"slug":"inclined-sleeper","name":"Inclined sleeper","category":"furniture-sleep","verdict":"skip-it","reason":"Banned for sale in the US since 2022. Babies should sleep flat.","when":"before-birth","desc":"A sleeper that holds a baby at an angle instead of flat.","aliases":[],"advised":true,"safety":"Don't use one for sleep, even one you already have. Inclined sleepers have been linked to infant deaths and were recalled."},{"slug":"nail-clippers","name":"Nail clippers or file","category":"diapering-bath","verdict":"necessary","reason":"Newborn nails are sharp and grow fast.","when":"first-weeks","desc":"Small clippers or an emery file sized for tiny nails.","aliases":[],"advised":false,"safety":null},{"slug":"nursing-pillow","name":"Nursing pillow","category":"feeding","verdict":"nice-to-have","reason":"It takes strain off your arms and back during feeds. A regular pillow works for many parents.","when":"first-weeks","desc":"A firm, C-shaped pillow that wraps around your waist to raise your baby during feeds.","aliases":[],"advised":false,"safety":null},{"slug":"pacifiers","name":"Pacifiers","category":"feeding","verdict":"nice-to-have","reason":"Many babies like them, and they're cheap enough to try. Some won't take one at all.","when":"first-weeks","desc":"A soft nipple on a shield, for sucking between feeds.","aliases":["dummy","binky"],"advised":false,"safety":null},{"slug":"play-yard","name":"Play yard (travel crib)","category":"furniture-sleep","verdict":"nice-to-have","reason":"Useful for travel or a second floor, not needed if you have a crib.","when":"first-weeks","desc":"A foldable crib with mesh sides that packs into a bag.","aliases":["pack 'n play","travel cot"],"advised":false,"safety":null},{"slug":"sleep-positioner","name":"Sleep positioner or wedge","category":"furniture-sleep","verdict":"skip-it","reason":"The FDA and AAP advise against them. Flat and bare is the safe setup.","when":"before-birth","desc":"Foam wedges or bolsters meant to hold a sleeping baby in one position.","aliases":[],"advised":true,"safety":"Don't use one, even one you already have. Lay your baby on their back on a firm, flat mattress with nothing else in the crib."},{"slug":"sleep-sack","name":"Sleep sack","category":"clothes","verdict":"necessary","reason":"Loose blankets aren't safe in the crib, and this is how you keep your baby warm instead.","when":"first-weeks","desc":"A wearable blanket with arm holes that zips over pajamas.","aliases":["wearable blanket","sleep bag"],"advised":false,"safety":null},{"slug":"smart-sock","name":"Smart sock or vitals monitor","category":"gadgets","verdict":"skip-it","reason":"The AAP doesn't recommend them for preventing SIDS, and false alarms add worry rather than remove it.","when":"first-weeks","desc":"A sock or clip that tracks your baby's heart rate and oxygen and alerts your phone.","aliases":[],"advised":false,"safety":null},{"slug":"stroller","name":"Stroller","category":"travel","verdict":"necessary","reason":"You'll use it most days for the first few years.","when":"before-birth","desc":"A wheeled seat you push. Many fold down for the trunk, and some recline flat for newborns.","aliases":["pram","pushchair"],"advised":false,"safety":null},{"slug":"swaddle","name":"Swaddle","category":"clothes","verdict":"nice-to-have","reason":"Many newborns settle better wrapped. You'll stop once your baby starts trying to roll.","when":"first-weeks","desc":"A blanket or zip-up wrap that holds a newborn's arms snugly at their sides.","aliases":[],"advised":false,"safety":null},{"slug":"white-noise-machine","name":"White noise machine","category":"gadgets","verdict":"nice-to-have","reason":"It helps some babies sleep through household noise. A free phone app is a fine test first.","when":"first-weeks","desc":"A small speaker that plays steady background sound.","aliases":["sound machine"],"advised":false,"safety":null},{"slug":"wipe-warmer","name":"Wipe warmer","category":"diapering-bath","verdict":"skip-it","reason":"Nice idea, but most parents stop using it within a few weeks. It's not a safety or comfort issue either way.","when":"before-birth","desc":"A plug-in box that keeps a pack of wipes warm.","aliases":[],"advised":false,"safety":null},{"slug":"wipes","name":"Wipes","category":"diapering-bath","verdict":"necessary","reason":"You'll use them for far more than diapers.","when":"before-birth","desc":"Soft, damp cloths in a resealable pack.","aliases":[],"advised":false,"safety":null},{"slug":"zip-up-sleepers","name":"Zip-up sleepers","category":"clothes","verdict":"necessary","reason":"You'll appreciate a zipper at 3 a.m. Snaps are slower.","when":"before-birth","desc":"Footed one-piece pajamas that zip from neck to ankle.","aliases":["footie pajamas"],"advised":false,"safety":null}];
+
+  // The third verdict label lives here. Change the string to rename it everywhere.
+  var VERD = {
+    'necessary':    {label:'Necessary',      cls:'nec'},
+    'nice-to-have': {label:'Nice-to-have',   cls:'nice'},
+    'skip-it':      {label:'Skip it', cls:'dep'}
+  };
+  var CAT = {'furniture-sleep':'Furniture & sleep', feeding:'Feeding', clothes:'Clothes', travel:'Travel', gadgets:'Gadgets', safety:'Safety', 'diapering-bath':'Diapering & bath'};
+  var CAT_ORDER = ['furniture-sleep','feeding','clothes','travel','gadgets','safety','diapering-bath'];
+  var WHEN = {'before-birth':'Before birth', 'first-weeks':'First weeks', '3-6-months':'Can wait (3–6 months)'};
+  var WHEN_ORDER = ['before-birth','first-weeks','3-6-months'];
+  var AGES = [['nb','Newborn'],['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6 months and up']];
+  var LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
+  var COVERED = "You're covered on the essentials. You don't need everything else on this list. Most parents don't.";
+
+  var BY = {}; ITEMS.forEach(function(it){ BY[it.slug] = it; });
+  var SORTED = ITEMS.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+  var REDUCE = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function $(s, r){ return (r || document).querySelector(s); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  // ---------- state ----------
+  var KEY = 'plainly-proto-v2';
+  function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone'}; }
+  function load(){
+    try { var r = localStorage.getItem(KEY); if (r) { var o = JSON.parse(r); var d = defaults(); for (var k in d) { if (o[k] !== undefined) d[k] = o[k]; } return d; } } catch(e) {}
+    return defaults();
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
+  var S = load();
+  var U = {route:'dictionary', dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
+
+  // Tiers: sized = one count per age, counted = one count, mark = Have it / Not for us only.
+  // A third-verdict entry never carries a number.
+  var SIZED = {'bodysuits':1, 'zip-up-sleepers':1, 'sleep-sack':1};
+  var COUNTED = {'fitted-crib-sheets':1, 'burp-cloths':1, 'bottles':1, 'pacifiers':1, 'swaddle':1, 'baby-gates':1, 'furniture-anchors':1};
+  function tier(it){ if (it.verdict === 'skip-it') return 'mark'; if (SIZED[it.slug]) return 'sized'; if (COUNTED[it.slug]) return 'counted'; return 'mark'; }
+  function ageLabel(id){ if (id === 'all') return 'All'; for (var i = 0; i < AGES.length; i++) if (AGES[i][0] === id) return AGES[i][1]; return id; }
+  function getQ(it, age){ var q = S.qty[it.slug]; if (!q) return 0; return tier(it) === 'sized' ? (q[age] || 0) : (q.all || 0); }
+  function setQ(it, age, n){
+    n = Math.max(0, Math.min(99, Math.floor(Number(n) || 0)));
+    var q = S.qty[it.slug] || (S.qty[it.slug] = {});
+    if (tier(it) === 'sized') q[age] = n; else q.all = n;
+    if (n > 0) delete S.nfu[it.slug];
+    save();
+  }
+  function total(it){ var q = S.qty[it.slug]; if (!q) return 0; var t = 0; for (var k in q) t += q[k] || 0; return t; }
+  function have(it){ return total(it) > 0; }
+  function leftCount(){ return ITEMS.filter(function(it){ return it.verdict === 'necessary' && !have(it) && !S.nfu[it.slug]; }).length; }
+
+  // ---------- small renderers ----------
+  function chip(it){ var v = VERD[it.verdict]; return '<span class="v v-' + v.cls + '"><i class="mk" aria-hidden="true"></i>' + esc(v.label) + '</span>'; }
+
+  function renderHeader(){
+    var cur = U.route;
+    var nav = function(r, label){ return '<button type="button" class="navbtn" data-nav="' + r + '"' + (cur === r ? ' aria-current="page"' : '') + '>' + label + '</button>'; };
+    var auth = S.signedIn
+      ? '<button type="button" class="authbtn" data-action="acct" aria-expanded="' + (U.acct ? 'true' : 'false') + '">Account</button>'
+      : '<button type="button" class="authbtn" data-action="signin-open">Sign in</button>';
+    var menu = (S.signedIn && U.acct)
+      ? '<div class="acct-menu"><span class="sm">name@example.com</span><button type="button" class="btn" data-action="signout">Sign out</button></div>' : '';
+    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home">Plainly</button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + '</nav>' + auth + menu;
+  }
+
+  function detailHTML(it, ctx){
+    var alias = it.aliases && it.aliases.length ? '<p class="sm">Also called ' + esc(it.aliases.join(', ')) + '</p>' : '';
+    var safety = (it.advised && it.safety)
+      ? '<p class="safety"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L19 6 L19 11 Q19 17.5 12 21 Q5 17.5 5 11 L5 6 Z"/></svg><span>' + esc(it.safety) + '</span></p>' : '';
+    return '<i class="img big" aria-hidden="true"></i><div class="dtext">' + alias +
+      '<p class="lead">' + esc(it.desc) + '</p>' +
+      '<p><b>Why this verdict:</b> ' + esc(it.reason) + '</p>' + safety +
+      '<dl class="facts"><div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div><div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
+      '<p class="lorem">' + LOREM + '</p></div>';
+  }
+
+  function rowHTML(it, open){
+    var n = total(it);
+    return '<article class="item' + (open ? ' is-open' : '') + '" data-slug="' + it.slug + '">' +
+      '<h3 class="item-h"><button type="button" class="item-head" data-action="toggle" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="det-d-' + it.slug + '">' +
+      '<i class="img thumb" aria-hidden="true"></i>' +
+      '<span class="txt"><span class="line1"><span class="name">' + esc(it.name) + '</span>' + chip(it) + (n ? '<span class="have-tag">✓ In inventory</span>' : '') + '</span>' +
+      '<span class="desc">' + esc(it.desc) + '</span></span><span class="chev" aria-hidden="true">▾</span></button></h3>' +
+      '<div class="detail" id="det-d-' + it.slug + '"' + (open ? '' : ' hidden') + '>' + (open ? detailHTML(it, 'dict') : '') + '</div></article>';
+  }
+
+  function breakdown(it){
+    if (tier(it) !== 'sized' || S.age === 'all') return '';
+    var q = S.qty[it.slug] || {}; var parts = [];
+    AGES.forEach(function(a){ if (a[0] !== S.age && q[a[0]] > 0) parts.push(a[1] + ' ' + q[a[0]]); });
+    return parts.length ? '<p class="sm brk">Also: ' + esc(parts.join(' · ')) + '</p>' : '';
+  }
+
+  function sizeReadout(it){
+    var q = S.qty[it.slug] || {}, parts = [];
+    AGES.forEach(function(a){ if (q[a[0]] > 0) parts.push(a[1] + ' ' + q[a[0]]); });
+    return '<span class="readout">' + (parts.length ? esc(parts.join(' · ')) : 'None yet') + '</span>';
+  }
+
+  function cardHTML(it, open){
+    var t = tier(it), h = have(it), nfu = !!S.nfu[it.slug], nm = esc(it.name), body = '';
+    var nfuLink = !h ? '<button type="button" class="linkbtn" data-action="nfu" aria-pressed="' + (nfu ? 'true' : 'false') + '">' + (nfu ? 'Not for us ✓' : 'Not for us') + '</button>' : '';
+    if (t === 'mark') {
+      body = '<div class="mark" role="group" aria-label="' + nm + '">' +
+        '<button type="button" data-action="markhave" aria-pressed="' + (h ? 'true' : 'false') + '">Have it</button>' +
+        '<button type="button" data-action="nfu" aria-pressed="' + (nfu ? 'true' : 'false') + '">Not for us</button></div>';
+    } else if (t === 'sized' && S.age === 'all') {
+      body = '<div class="qrow"><div class="qty"><span class="cap">You have</span>' + sizeReadout(it) + '<span class="sm">Pick an age above to change a count.</span></div>' + nfuLink + '</div>';
+    } else {
+      var n = getQ(it, S.age), cap = t === 'sized' ? ageLabel(S.age) : 'You have';
+      body = '<div class="qrow"><div class="qty" role="group" aria-label="' + nm + ' quantity"><span class="cap">' + esc(cap) + '</span>' +
+        '<div class="stepper"><button type="button" data-action="dec" aria-label="One fewer, ' + nm + '"' + (n <= 0 ? ' disabled' : '') + '>−</button>' +
+        '<input class="qty-in" type="number" min="0" max="99" step="1" inputmode="numeric" value="' + n + '" aria-label="' + nm + ', ' + esc(cap) + '">' +
+        '<button type="button" data-action="inc" aria-label="One more, ' + nm + '">+</button></div></div>' + nfuLink + '</div>' + breakdown(it);
+    }
+    return '<article class="card' + (h ? ' is-have' : '') + (nfu ? ' is-nfu' : '') + (open ? ' is-open' : '') + '" data-slug="' + it.slug + '">' +
+      '<h3 class="ch"><button type="button" class="card-head" data-action="toggle" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="det-i-' + it.slug + '">' +
+      '<i class="img thumb" aria-hidden="true"></i><span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span></span><span class="chev" aria-hidden="true">▾</span></button></h3>' +
+      body +
+      '<div class="detail" id="det-i-' + it.slug + '"' + (open ? '' : ' hidden') + '>' + (open ? detailHTML(it, 'inv') : '') + '</div></article>';
+  }
+
+  // ---------- views ----------
+  function renderHome(){
+    var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
+    $('#view').innerHTML = '<section class="page hero"><div class="hero"><h1 class="h1" tabindex="-1">Baby gear, explained plainly.</h1>' +
+      '<p class="sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>' +
+      '<div class="actions"><button type="button" class="btn primary" data-nav="dictionary">Open the dictionary</button><button type="button" class="btn" data-nav="inventory">Start your inventory</button></div></div>' +
+      '<div class="box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
+      '<div><span class="cap">Three verdicts</span><div class="cards3" style="margin-top:8px">' +
+      picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span>' + esc(it.name) + '</span>' + chip(it) + '</div>'; }).join('') + '</div></div></section>';
+  }
+
+  function renderDictionary(){
+    var chips = [['all','All'],['necessary','Necessary'],['nice-to-have','Nice-to-have'],['skip-it', VERD['skip-it'].label]].map(function(c){
+      return '<button type="button" class="chip" data-dv="' + c[0] + '" aria-pressed="' + (U.dv === c[0]) + '">' + esc(c[1]) + '</button>'; }).join('');
+    $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Dictionary</h1><p class="sub">What each item is and what it does, with a plain verdict. Tap an item to see more.</p></div>' +
+      '<div class="controls"><div class="field-wrap" style="grid-column:1/-1"><label class="sr" for="dq">Search the dictionary</label><input id="dq" class="field" type="search" placeholder="Search items" value="' + esc(U.dq) + '" autocomplete="off"></div>' +
+      '<div class="chips" role="group" aria-label="Filter by verdict">' + chips + '</div>' +
+      '<p class="sm" id="dcount" aria-live="polite"></p></div><div class="az" id="az" aria-label="Jump to a letter"></div><div id="dlist"></div></section>';
+    renderDictList();
+  }
+
+  function dictFilter(it){
+    if (U.dv !== 'all' && it.verdict !== U.dv) return false;
+    if (U.dq) { var q = U.dq.toLowerCase(); var hay = (it.name + ' ' + it.desc + ' ' + (it.aliases || []).join(' ')).toLowerCase(); if (hay.indexOf(q) < 0) return false; }
+    return true;
+  }
+
+  function renderDictList(){
+    var list = SORTED.filter(dictFilter), html = '', last = '', letters = [];
+    list.forEach(function(it){
+      var L = it.name.charAt(0).toUpperCase();
+      if (L !== last) { last = L; letters.push(L); html += '<div class="letter" id="L-' + L + '">' + L + '</div>'; }
+      html += rowHTML(it, U.open.dict === it.slug);
+    });
+    if (!list.length) html = '<p class="sub" style="padding:14px 0">Nothing matches. Try a different word or clear the filter.</p>';
+    $('#dlist').innerHTML = html;
+    $('#dcount').textContent = list.length + (list.length === 1 ? ' item' : ' items');
+    $('#az').innerHTML = letters.map(function(L){ return '<button type="button" data-letter="' + L + '" aria-label="Jump to ' + L + '">' + L + '</button>'; }).join('');
+  }
+
+  function renderInventory(){
+    var ageChips = [['all','All']].concat(AGES).map(function(a){ return '<button type="button" class="chip" data-age="' + a[0] + '" aria-pressed="' + (S.age === a[0]) + '">' + esc(a[1]) + '</button>'; }).join('');
+    var views = [['left',"What's left"],['have','I have'],['all','All items']].map(function(v){
+      return '<button type="button" class="chip" data-iv="' + v[0] + '" aria-pressed="' + (U.iv === v[0]) + '">' + esc(v[1]) + '</button>'; }).join('');
+    $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to track sizes.</p></div>' +
+      '<div class="sum" id="isum" aria-live="polite"></div>' +
+      '<div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
+      '<p class="sm" style="margin-top:6px">Age only changes the three items that come in sizes. Pick All to see every size.</p></div>' +
+      '<div><span class="cap ctl-label" id="show-label">Show</span><div class="chips" role="group" aria-labelledby="show-label">' + views + '</div></div>' +
+      '<div><label class="sr" for="iq">Search items</label><input id="iq" class="field" type="search" placeholder="Search items" value="' + esc(U.iq) + '" autocomplete="off"></div>' +
+      '<div id="ilist"></div></section>';
+    renderSummary(); renderInvList();
+  }
+
+  function renderSummary(){
+    var el = $('#isum'); if (!el) return;
+    var left = leftCount();
+    el.innerHTML = left > 0 ? '<strong>' + left + ' essentials left to decide</strong><span class="sm">An item counts once you have at least one, or mark it Not for us.</span>' : '<strong>' + esc(COVERED) + '</strong>';
+  }
+
+  function invFilter(it){
+    if (U.iq) { var q = U.iq.toLowerCase(); if ((it.name + ' ' + (it.aliases || []).join(' ')).toLowerCase().indexOf(q) < 0) return false; }
+    var pin = !!U.pinned[it.slug];
+    if (U.iv === 'have') return have(it) || pin;
+    if (U.iv === 'left') return (it.verdict === 'necessary' && !have(it) && !S.nfu[it.slug]) || pin;
+    return true;
+  }
+
+  function renderInvList(){
+    var list = SORTED.filter(invFilter), left = U.iv === 'left';
+    var order = left ? WHEN_ORDER : CAT_ORDER, titles = left ? WHEN : CAT, groups = {};
+    order.forEach(function(g){ groups[g] = []; });
+    list.forEach(function(it){ groups[left ? it.when : it.category].push(it); });
+    var html = '';
+    order.forEach(function(g){
+      if (!groups[g].length) return;
+      html += '<div class="grp"><h2>' + esc(titles[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it, U.open.inv === it.slug); }).join('') + '</div></div>';
+    });
+    if (!list.length) html = '<p class="sub" style="padding:14px 0">' + (U.iv === 'have' ? 'Nothing here yet. Use + on any card to add it.' : (U.iv === 'left' ? 'Nothing left to decide.' : 'Nothing matches that search.')) + '</p>';
+    $('#ilist').innerHTML = html;
+  }
+
+  function refreshCard(slug, focusSel){
+    var old = $('#ilist [data-slug="' + slug + '"]'); if (!old) return;
+    var tmp = document.createElement('div'); tmp.innerHTML = cardHTML(BY[slug], U.open.inv === slug);
+    old.replaceWith(tmp.firstElementChild);
+    if (focusSel) { var f = $('#ilist [data-slug="' + slug + '"] ' + focusSel); if (f && !f.disabled) f.focus(); else { var g = $('#ilist [data-slug="' + slug + '"] [data-action="inc"]'); if (g) g.focus(); } }
+  }
+
+  function render(focusHeading){
+    renderHeader();
+    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else renderDictionary();
+    if (focusHeading) { var h = $('#view .h1'); if (h) h.focus({preventScroll:true}); }
+  }
+
+  // ---------- actions ----------
+  function requireAuth(fn, onCancel){
+    if (S.signedIn) { fn(); return; }
+    U.pending = {fn:fn, onCancel:onCancel}; $('#sheet').showModal();
+  }
+
+  function changeQty(slug, delta, absolute, focusSel){
+    var it = BY[slug], cur = getQ(it, S.age);
+    var next = absolute != null ? absolute : cur + delta;
+    if (isNaN(next)) next = 0;
+    next = Math.max(0, Math.min(99, next));
+    if (next === cur) { refreshCard(slug, focusSel); return; }
+    requireAuth(function(){
+      setQ(it, S.age, next); U.pinned[slug] = true; refreshCard(slug, focusSel); renderSummary();
+    }, function(){ refreshCard(slug); });
+  }
+
+  function toggleDetail(btn){
+    var art = btn.closest('article'), slug = art.dataset.slug, ctx = art.classList.contains('card') ? 'inv' : 'dict';
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    var root = art.closest(ctx === 'inv' ? '#ilist' : '#dlist');
+    if (!open) {
+      root.querySelectorAll('[data-action="toggle"][aria-expanded="true"]').forEach(function(b){
+        var a = b.closest('article'); b.setAttribute('aria-expanded', 'false'); a.classList.remove('is-open');
+        var d = a.querySelector('.detail'); d.hidden = true; d.innerHTML = '';
+      });
+    }
+    var det = art.querySelector('.detail');
+    if (open) { det.hidden = true; det.innerHTML = ''; U.open[ctx] = null; }
+    else { det.innerHTML = detailHTML(BY[slug], ctx); det.hidden = false; U.open[ctx] = slug; }
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true'); art.classList.toggle('is-open', !open);
+  }
+
+  function go(route){
+    U.route = route; U.acct = false; U.pinned = {}; render(true);
+    var p = $('#proto'); if (p && p.getBoundingClientRect().top < 0) p.scrollIntoView({block:'start'});
+  }
+
+  // ---------- events ----------
+  var proto = $('#proto');
+  proto.addEventListener('click', function(e){
+    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter]');
+    if (!t || !proto.contains(t)) return;
+    if (t.dataset.nav) { go(t.dataset.nav); return; }
+    if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); return; }
+    if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); return; }
+    if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); return; }
+    if (t.dataset.letter) { var h = document.getElementById('L-' + t.dataset.letter); if (h) h.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); return; }
+    var a = t.dataset.action, art = t.closest('[data-slug]'), slug = art && art.dataset.slug;
+    if (a === 'toggle') toggleDetail(t);
+    else if (a === 'inc') changeQty(slug, 1, null, '[data-action="inc"]');
+    else if (a === 'dec') changeQty(slug, -1, null, '[data-action="dec"]');
+    else if (a === 'markhave') requireAuth(function(){
+      var it = BY[slug]; setQ(it, 'all', have(it) ? 0 : 1); U.pinned[slug] = true;
+      refreshCard(slug, '[data-action="markhave"]'); renderSummary();
+    }, function(){});
+    else if (a === 'nfu') requireAuth(function(){
+      if (S.nfu[slug]) delete S.nfu[slug]; else { S.nfu[slug] = true; delete S.qty[slug]; }
+      U.pinned[slug] = true; save(); refreshCard(slug, '[data-action="nfu"]'); renderSummary();
+    }, function(){});
+    else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; $('#sheet').showModal(); }
+    else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); }
+    else if (a === 'acct') { U.acct = !U.acct; renderHeader(); }
+  });
+
+  proto.addEventListener('change', function(e){
+    if (e.target.classList.contains('qty-in')) {
+      var art = e.target.closest('[data-slug]');
+      changeQty(art.dataset.slug, 0, parseInt(e.target.value, 10), '.qty-in');
+    }
+  });
+  proto.addEventListener('input', function(e){
+    if (e.target.id === 'dq') { U.dq = e.target.value; U.open.dict = null; renderDictList(); }
+    else if (e.target.id === 'iq') { U.iq = e.target.value; U.pinned = {}; U.open.inv = null; renderInvList(); }
+  });
+
+  var sheet = $('#sheet');
+  sheet.addEventListener('click', function(e){
+    var b = e.target.closest('[data-sheet]'); if (!b) return;
+    var p = U.pending; U.pending = null;
+    if (b.dataset.sheet === 'signin') {
+      S.signedIn = true; save(); sheet.close(); renderHeader(); if (p && p.fn) p.fn();
+    } else { sheet.close(); if (p && p.onCancel) p.onCancel(); }
+  });
+  sheet.addEventListener('close', function(){
+    if (U.pending) { var p = U.pending; U.pending = null; if (p.onCancel) p.onCancel(); }
+  });
+
+  document.addEventListener('click', function(e){
+    var d = e.target.closest('button[data-device]'); if (!d) return;
+    S.device = d.dataset.device; save(); applyDevice();
+  });
+  $('#reset').addEventListener('click', function(){
+    S = defaults(); try { localStorage.removeItem(KEY); } catch(e) {}
+    U = {route:'dictionary', dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
+    applyDevice(); render(false);
+  });
+
+  function applyDevice(){
+    proto.dataset.device = S.device;
+    document.querySelectorAll('.seg [data-device]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.device === S.device)); });
+  }
+
+  applyDevice();
+  render(false);
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var dlg = document.getElementById('fb');
+  var form = document.getElementById('fb-form');
+  var statusEl = document.getElementById('fb-status');
+  var sendBtn = document.getElementById('fb-send');
+  var cancelBtn = document.getElementById('fb-cancel');
+
+  function openDialog() {
+    statusEl.textContent = '';
+    cancelBtn.textContent = 'Cancel';
+    dlg.showModal();
+    document.getElementById('fb-message').focus();
+  }
+  document.getElementById('fb-open').addEventListener('click', openDialog);
+  document.getElementById('fb-open-banner').addEventListener('click', openDialog);
+  cancelBtn.addEventListener('click', function () { dlg.close(); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = new FormData(form);
+    var message = String(f.get('message') || '').trim();
+    if (!message) { statusEl.textContent = 'Please write a few words first.'; return; }
+    var cur = document.querySelector('.hdr [aria-current="page"]');
+    var payload = {
+      message: message,
+      clear: String(f.get('clear') || ''),
+      role: String(f.get('role') || ''),
+      email: String(f.get('email') || '').trim(),
+      website: String(f.get('website') || ''),
+      page: cur ? cur.textContent : 'Home',
+      device: (document.getElementById('proto') || {dataset: {}}).dataset.device || ''
+    };
+    sendBtn.disabled = true;
+    statusEl.textContent = 'Sending...';
+    fetch('/api/feedback', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      if (!r.ok) { var err = new Error('status'); err.code = r.status; throw err; }
+      form.reset();
+      sendBtn.disabled = false;
+      cancelBtn.textContent = 'Close';
+      statusEl.textContent = 'Thank you. That helps.';
+    }).catch(function (err) {
+      sendBtn.disabled = false;
+      statusEl.textContent = err && err.code === 503
+        ? "Feedback isn't switched on yet. Please try again later."
+        : "Couldn't send that. Please try again.";
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

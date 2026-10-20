@@ -1,0 +1,35 @@
+<button type="button" class="fb-fab" id="fb-open">Give feedback</button>
+<dialog id="fb" aria-labelledby="fb-title">
+  <form id="fb-form" novalidate>
+    <h2 id="fb-title" style="margin:0; font-size:17px;">Share your feedback</h2>
+    <label>What was confusing, missing or useful?
+      <textarea class="field" id="fb-message" name="message" maxlength="2000" required></textarea>
+    </label>
+    <fieldset>
+      <legend>Did it make sense at first glance?</legend>
+      <div class="opts">
+        <label><input type="radio" name="clear" value="Yes"> Yes</label>
+        <label><input type="radio" name="clear" value="Partly"> Partly</label>
+        <label><input type="radio" name="clear" value="No"> No</label>
+      </div>
+    </fieldset>
+    <label>I am
+      <select class="field" name="role">
+        <option value="">Choose one (optional)</option>
+        <option>Expecting a baby</option>
+        <option>A new parent</option>
+        <option>Something else</option>
+      </select>
+    </label>
+    <label>Email, only if you'd like a reply
+      <input class="field" type="email" name="email" maxlength="200" autocomplete="email">
+    </label>
+    <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <p class="note">Please don't include health details about you or your baby. We use this only to improve Plainly.</p>
+    <p id="fb-status" role="status" aria-live="polite"></p>
+    <div class="row">
+      <button type="submit" class="btn primary" id="fb-send">Send feedback</button>
+      <button type="button" class="btn" id="fb-cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>
