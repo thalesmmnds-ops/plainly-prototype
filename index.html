@@ -66,7 +66,7 @@
   .controls{display:grid; gap:var(--s12);}
   .az{display:flex; flex-wrap:wrap; gap:0;}
   .az button{border:0; background:none; color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:600; width:36px; height:44px; cursor:pointer; border-radius:6px; text-decoration:underline; text-underline-offset:3px;}
-  .letter{font-size:.875rem; line-height:1.25rem; font-weight:600; color:var(--w-soft); padding:var(--s12) 0 var(--s4); border-bottom:1.5px solid var(--stroke); scroll-margin-top:118px;}
+  .letter{font-size:.875rem; line-height:1.25rem; font-weight:600; color:var(--w-soft); padding:var(--s12) 0 var(--s4); border-bottom:1.5px solid var(--stroke); margin:0;}
 
   .img{border:1.5px solid var(--stroke); border-radius:8px; background-color:var(--fill);
     background-image:
@@ -103,6 +103,7 @@
   .lead{font-weight:500;}
   .lorem{color:var(--w-soft);}
   .facts{display:grid; grid-template-columns:1fr 1fr; gap:var(--s8); margin:0;}
+  .facts.one{grid-template-columns:1fr;}
   .facts div{border:1.5px solid var(--stroke); border-radius:8px; padding:var(--s8) var(--s12); display:grid; gap:var(--s2);}
   .facts dt{font-size:.75rem; line-height:1rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--w-ink);}
   .facts dd{margin:0; font-weight:600;}
@@ -140,6 +141,9 @@
   .mark button{height:44px; border:0; background:var(--paper); color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:600; cursor:pointer;}
   .mark button + button{border-left:1.5px solid var(--control);}
   .mark button[aria-pressed="true"]{background:var(--w-ink); color:var(--paper);}
+  .stepper button:focus-visible, .stepper .qty-in:focus-visible, .mark button:focus-visible{outline-offset:-4px;}
+  .skip{position:absolute; left:-9999px; top:var(--s8); z-index:20; min-height:44px; padding:0 var(--s16); border:1.5px solid var(--w-ink); border-radius:10px; background:var(--w-ink); color:var(--paper); font:600 .875rem/1.25rem var(--font-body); cursor:pointer;}
+  .skip:focus{left:var(--s8);}
 
   .box{border:1.5px solid var(--stroke); border-radius:10px; padding:var(--s12) var(--s16);}
   .ftr{display:grid; gap:var(--s4); padding:var(--s16) var(--edge); border-top:1.5px solid var(--stroke); font-size:.875rem; line-height:1.25rem; color:var(--w-soft);}
@@ -180,7 +184,7 @@
   .tcol.is-now{border-top:5px solid var(--w-ink);}
   .tcol.past{background-image:repeating-linear-gradient(135deg, transparent 0 7px, var(--fill) 7px 8px);}
   .tcol-h{padding:var(--s12) var(--s12) 0; display:grid; gap:var(--s2);}
-  .tcol-h b{font-size:1rem; line-height:1.5rem;}
+  .tcol-h .wk{margin:0; font-size:1rem; line-height:1.5rem; font-weight:700;}
   .tcol-empty{padding:0 var(--s12); margin:0;}
   .tl-gap{margin:0 0 var(--s16); padding:var(--s4);}
   .tl-pager{display:flex; align-items:center; justify-content:space-between; gap:var(--s8); margin-bottom:var(--s16); flex-wrap:wrap;}
@@ -199,17 +203,18 @@
   .tc-detail[hidden]{display:none;}
   .tc-detail p{margin:0;}
   .srcs{margin:0; padding-left:18px; display:grid; gap:var(--s4); font-size:.875rem; line-height:1.25rem;}
-  .srcs a{color:inherit; overflow-wrap:anywhere;}
+  .srcs li{min-height:24px;}
+  .srcs a{display:inline-block; padding:2px 0; color:inherit; overflow-wrap:anywhere;}
   .wk-head{display:flex; align-items:center; gap:var(--s8);}
   .wk-head .btn{min-width:44px; padding:0;}
   .wk-title{flex:1; display:grid; gap:var(--s4); min-width:0;}
   .wk-group{display:grid; gap:var(--s8); margin-top:var(--s12);}
-  .wk-group > h3{margin:0;}
+  .wk-group > h2{margin:0;}
   .wk-cards{display:grid; gap:var(--s12);}
   .wk-cards .tc{margin:0;}
 
   /* hover */
-  .navbtn:hover, .authbtn:hover, .chip:hover, .linkbtn:hover, .btn:hover:not(.primary):not(.cta):not(:disabled){background-color:var(--fill);}
+  .navbtn:hover, .authbtn:hover, .chip:not([aria-pressed="true"]):hover, .linkbtn:hover, .btn:hover:not(.primary):not(.cta):not(:disabled){background-color:var(--fill);}
   .item-head:hover .name, .card-head:hover .name{text-decoration:underline; text-underline-offset:3px;}
   .btn.primary:hover, .btn.cta:hover, .navcta:hover{opacity:.9;}
 
@@ -233,7 +238,6 @@
     #ilist{gap:var(--s32);}
     .controls{grid-template-columns:1fr auto; align-items:start;}
     .controls .field{grid-column:1 / -1;}
-    .letter{scroll-margin-top:78px;}
     .hero-grid{grid-template-columns:1.1fr .9fr; gap:var(--s48);}
     .lead2{font-size:1.25rem; line-height:1.75rem;}
     .cards3{grid-template-columns:repeat(3, 1fr); gap:var(--s16);}
@@ -272,6 +276,7 @@
   #fb .note{font-size:.875rem; line-height:1.25rem; color:var(--w-soft); margin:0;}
   #fb-status{min-height:1.25rem; font-size:.875rem; line-height:1.25rem; margin:0;}
   .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .ftr{padding-bottom:calc(var(--s16) + 60px);}
 
 </style>
 </head>
@@ -284,6 +289,7 @@
 </div>
 
 <div class="proto" id="proto" data-device="desktop">
+  <button type="button" class="skip" data-action="skip">Skip to content</button>
   <header class="hdr" id="hdr"></header>
   <main id="view"></main>
   <footer class="ftr">
@@ -371,9 +377,45 @@
   // ---------- state ----------
   var KEY = 'plainly-proto-v2';
   function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone', due:''}; }
+  // Saved data is untrusted: keep only values of the right shape, so one odd value can never stop the page from drawing.
+  var DAY_MS = 86400000;
+  function validDue(s){
+    if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+    var p = s.split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    if (isNaN(d.getTime()) || d.getMonth() !== +p[1] - 1) return false;
+    var t0 = new Date(); t0 = new Date(t0.getFullYear(), t0.getMonth(), t0.getDate());
+    var days = Math.round((d.getTime() - t0.getTime()) / DAY_MS);
+    return days >= -190 && days <= 290;   // from about six months ago to nine months ahead
+  }
+  function cleanQty(q){
+    var out = {}, keys = ['all'].concat(AGES.map(function(a){ return a[0]; }));
+    if (!q || typeof q !== 'object') return out;
+    Object.keys(q).forEach(function(slug){
+      if (!BY[slug] || !q[slug] || typeof q[slug] !== 'object') return;
+      keys.forEach(function(k){ var n = q[slug][k]; if (typeof n === 'number' && isFinite(n) && n >= 0) { (out[slug] || (out[slug] = {}))[k] = Math.min(99, Math.floor(n)); } });
+    });
+    return out;
+  }
+  function cleanNfu(m){
+    var out = {}; if (!m || typeof m !== 'object') return out;
+    Object.keys(m).forEach(function(slug){ if (BY[slug] && m[slug] === true) out[slug] = true; });
+    return out;
+  }
   function load(){
-    try { var r = localStorage.getItem(KEY); if (r) { var o = JSON.parse(r); var d = defaults(); for (var k in d) { if (o[k] !== undefined) d[k] = o[k]; } return d; } } catch(e) {}
-    return defaults();
+    var d = defaults();
+    try {
+      var r = localStorage.getItem(KEY);
+      if (r) {
+        var o = JSON.parse(r);
+        if (o && typeof o === 'object') {
+          if (o.signedIn === true) d.signedIn = true;
+          if (o.age === 'all' || AGES.some(function(a){ return a[0] === o.age; })) d.age = o.age;
+          d.qty = cleanQty(o.qty); d.nfu = cleanNfu(o.nfu);
+          if (validDue(o.due)) d.due = o.due;
+        }
+      }
+    } catch(e) {}
+    return d;
   }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
   var S = load();
@@ -419,7 +461,7 @@
     return '<i class="img big" aria-hidden="true"></i><div class="dtext">' + alias +
       '<p class="lead">' + esc(it.desc) + '</p>' +
       '<p><b>Why this verdict:</b> ' + esc(it.reason) + '</p>' + safety +
-      '<dl class="facts"><div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div><div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
+      '<dl class="facts' + (it.verdict === 'skip-it' ? ' one' : '') + '">' + (it.verdict === 'skip-it' ? '' : '<div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div>') + '<div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
       '<p class="lorem">' + LOREM + '</p></div>';
   }
 
@@ -508,7 +550,7 @@
     var list = SORTED.filter(dictFilter), html = '', last = '', letters = [];
     list.forEach(function(it){
       var L = it.name.charAt(0).toUpperCase();
-      if (L !== last) { last = L; letters.push(L); html += '<div class="letter" id="L-' + L + '">' + L + '</div>'; }
+      if (L !== last) { last = L; letters.push(L); html += '<h2 class="letter" id="L-' + L + '">' + L + '</h2>'; }
       html += rowHTML(it, U.open.dict === it.slug);
     });
     if (!list.length) html = '<p class="sub" style="padding:16px 0">Nothing matches. Try a different word or clear the filter.</p>';
@@ -555,7 +597,7 @@
       if (!groups[g].length) return;
       html += '<div class="grp"><h2>' + esc(titles[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it, U.open.inv === it.slug); }).join('') + '</div></div>';
     });
-    if (!list.length) html = '<p class="sub" style="padding:16px 0">' + (U.iv === 'have' ? 'Nothing here yet. Use + on any card to add it.' : (U.iv === 'left' ? 'Nothing left to decide.' : 'Nothing matches that search.')) + '</p>';
+    if (!list.length) html = '<p class="sub" style="padding:16px 0">' + (U.iv === 'have' ? 'Nothing here yet. Tap Have it, or + on a card, to add something.' : (U.iv === 'left' ? 'Nothing left to decide.' : 'Nothing matches that search.')) + '</p>';
     $('#ilist').innerHTML = html;
   }
 
@@ -589,7 +631,7 @@
   var WHO = {'pregnant parent':'The pregnant parent', 'both':'Both of you', 'baby':'The baby', 'either':'Either of you'};
 
   function catOf(ev){ if (ev.gear || ev.kind === 'gear') return 'gear'; if (ev.kind === 'test' || ev.kind === 'screening') return 'test'; return 'visit'; }
-  function dueDate(){ if (!S.due) return null; var p = S.due.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); return isNaN(d.getTime()) ? null : d; }
+  function dueDate(){ if (!S.due || !validDue(S.due)) return null; var p = S.due.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); return isNaN(d.getTime()) ? null : d; }
   function addDays(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
   function fmtDate(d){ return d.toLocaleDateString('en-US', {month:'short', day:'numeric'}); }
   function weekStart(w, due){ return w.era === 'preg' ? addDays(due, -(280 - 7 * w.n)) : addDays(due, 7 * w.n); }
@@ -604,9 +646,10 @@
     var due = dueDate(); if (!due) return null;
     var t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
     var gest = 280 - Math.round((due.getTime() - t.getTime()) / DAY);
-    if (gest < 0) return null;
-    if (gest < 280) return {era:'preg', n:Math.max(6, Math.min(40, Math.floor(gest / 7)))};
-    return {era:'baby', n:Math.min(26, Math.floor((gest - 280) / 7))};
+    if (gest < 42) return null;   // before pregnancy week 6: not covered, so no week is marked
+    if (gest < 280) return {era:'preg', n:Math.min(40, Math.floor(gest / 7))};
+    var bw = Math.floor((gest - 280) / 7);
+    return bw > 26 ? null : {era:'baby', n:bw};   // older than baby week 26: not covered
   }
 
   function ageWord(a){
@@ -650,9 +693,9 @@
     var title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title;
     return '<article class="tc tc-' + c + '">' +
       '<div class="tc-top"><span class="tc-label">' + ICONS[c] + CATLAB[c] + '</span>' + (ev.verify ? '<span class="tc-tag">Being checked</span>' : '') + '</div>' +
-      '<h4 class="tc-title">' + esc(title) + '</h4><p class="tc-time">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + '</p>' +
+      '<h3 class="tc-title">' + esc(title) + '</h3><p class="tc-time">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + '</p>' +
       (ev.gear ? '<p class="tc-pill"><span class="v v-nec"><i class="mk" aria-hidden="true"></i>Necessary</span></p>' : '') +
-      '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
+      '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" data-title="' + esc(title) + '" aria-label="' + (open ? 'Hide details: ' : 'See details: ') + esc(title) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
       '<div class="tc-detail"' + (open ? '' : ' hidden') + '>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) + '</div></article>';
   }
 
@@ -676,9 +719,9 @@
     var evs = eventsFor(w, 'start'), isNow = sameWeek(w, now);
     var past = !!now && (now.era === 'baby' ? (w.era === 'preg' || w.n < now.n) : (w.era === 'preg' && w.n < now.n));
     return '<section class="tcol' + (isNow ? ' is-now' : '') + (past ? ' past' : '') + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
-      '<header class="tcol-h"><span class="cap">' + (w.era === 'preg' ? 'Pregnancy' : 'Baby') + (isNow ? ' · This week' : '') + '</span><b>Week ' + w.n + '</b>' +
+      '<header class="tcol-h"><span class="cap">' + (w.era === 'preg' ? 'Pregnancy' : 'Baby') + (isNow ? ' · This week' : '') + '</span><h2 class="wk">Week ' + w.n + '</h2>' +
       (due ? '<span class="sm">about ' + weekRange(w, due) + '</span>' : '') + '</header>' +
-      (evs.length ? evs.map(card).join('') : '<p class="sm tcol-empty">Nothing in the usual timeline this week.</p>') + '</section>';
+      (evs.length ? evs.map(card).join('') : '<p class="sm tcol-empty">Nothing new starts this week.</p>') + '</section>';
   }
 
   function narrowHTML(now, due){
@@ -686,7 +729,7 @@
     function flush(){
       if (!run) return;
       var same = run.era === last.era;
-      html += '<p class="sm tl-gap">' + (sameWeek(run, last) ? wkLabel(run) : wkLabel(run) + ' to ' + (same ? last.n : wkLabel(last))) + ': nothing in the usual timeline.</p>';
+      html += '<p class="sm tl-gap">' + (sameWeek(run, last) ? wkLabel(run) : wkLabel(run) + ' to ' + (same ? last.n : wkLabel(last))) + ': nothing new starts.</p>';
       run = null;
     }
     WEEKS.forEach(function(w){
@@ -700,7 +743,7 @@
   function isWide(){ return $('#proto').clientWidth >= 900; }
 
   function timelineBody(now, due){
-    var any = anyWeekEvents(), anyHTML = any.length ? '<section class="tcol tcol-any"><header class="tcol-h"><span class="cap">Pregnancy</span><b>Not tied to a week</b></header>' + any.map(card).join('') + '</section>' : '';
+    var any = anyWeekEvents(), anyHTML = any.length ? '<section class="tcol tcol-any"><header class="tcol-h"><span class="cap">Pregnancy</span><h2 class="wk">Not tied to a week</h2></header>' + any.map(card).join('') + '</section>' : '';
     if (!isWide()) return anyHTML + narrowHTML(now, due);
     var size = 5, pages = Math.ceil(WEEKS.length / size);
     if (U.tlPage == null) U.tlPage = now ? Math.floor(wkIndex(now) / size) : 0;
@@ -724,9 +767,19 @@
       (due ? '<span class="sm">about ' + weekRange(w, due) + (sameWeek(w, now) ? ' · This week' : '') + '</span>' : '<span class="sm">Add a due date to see dates and this week.</span>') + '</div>' +
       '<button type="button" class="btn" data-action="tl-step" data-dir="1"' + (i === WEEKS.length - 1 ? ' disabled' : '') + ' aria-label="Next week">→</button></div>' +
       (now && !sameWeek(w, now) ? '<button type="button" class="linkbtn" data-action="tl-now">Jump to this week</button>' : '');
-    var group = function(t, list){ return list.length ? '<section class="wk-group"><h3 class="cap">' + t + '</h3><div class="wk-cards">' + list.map(card).join('') + '</div></section>' : ''; };
+    var group = function(t, list){ return list.length ? '<section class="wk-group"><h2 class="cap">' + t + '</h2><div class="wk-cards">' + list.map(card).join('') + '</div></section>' : ''; };
     var body = group('Starts this week', starts) + group('Also around now', around) + group('Not tied to a week', any);
     return head + (body || '<p class="sub" style="padding:12px 0">Nothing in the usual timeline this week.</p>');
+  }
+
+  function dueNote(due, now){ return due && !now ? 'This date is outside the weeks covered here (pregnancy week 6 to baby week 26), so no week is marked as this week.' : ''; }
+  function refreshTimelineBody(){
+    var due = dueDate(), now = currentWeek(), body = $('#tlbody'); if (!body) return;
+    body.innerHTML = U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due);
+    var row = $('.daterow'), clr = row && row.querySelector('[data-action="tl-clear"]');
+    if (row && S.due && !clr) row.insertAdjacentHTML('beforeend', '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>');
+    else if (clr && !S.due) clr.remove();
+    var note = $('#due-note'); if (note) note.textContent = dueNote(due, now);
   }
 
   function renderTimeline(){
@@ -735,16 +788,16 @@
     var views = chip('data-tlv', 'all', 'Timeline', U.tlView === 'all') + chip('data-tlv', 'week', 'This week', U.tlView === 'week');
     var cats = [['all', 'All'], ['visit', 'Visits'], ['test', 'Tests'], ['gear', 'Gear decisions']].map(function(c){ return chip('data-tlc', c[0], c[1], U.tlCat === c[0]); }).join('');
     $('#view').innerHTML = '<section class="page tlpage"><div><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
-      '<p class="sub">The usual appointments, tests and gear decisions, laid out by week. Weeks with nothing in them stay empty.</p></div>' +
+      '<p class="sub">The usual appointments, tests and gear decisions, laid out by week. Weeks with nothing new stay empty.</p></div>' +
       '<p class="notice">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates. Some timings are still being checked against official sources.</p>' +
       '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
       (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
-      '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p></div>' +
+      '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p><p class="sm" id="due-note" aria-live="polite">' + dueNote(due, now) + '</p></div>' +
       '<div class="controls tlctl"><div class="chips" role="group" aria-label="View">' + views + '</div><div class="chips" role="group" aria-label="Show">' + cats + '</div></div>' +
       '<div id="tlbody">' + (U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due)) + '</div></section>';
   }
 
-  function focusSel(sel){ var el = $(sel); if (el) el.focus(); }
+  function focusSel(sel, alt){ var el = $(sel); if (el && !el.disabled) { el.focus(); return; } var a = alt && $(alt); if (a && !a.disabled) a.focus(); }
 
   function render(focusHeading){
     renderHeader();
@@ -753,9 +806,19 @@
   }
 
   // ---------- actions ----------
+  function rememberOpener(){
+    var el = document.activeElement, art = el && el.closest ? el.closest('[data-slug]') : null;
+    U.opener = {el:el, slug:art ? art.dataset.slug : null, action:el && el.dataset ? el.dataset.action : null};
+  }
+  function restoreFocus(afterSignIn){
+    var o = U.opener; U.opener = null; if (!o) return;
+    if (afterSignIn && o.action === 'signin-open') { focusSel('[data-action="acct"]'); return; }
+    if (o.el && document.contains(o.el) && !o.el.disabled) { o.el.focus(); return; }
+    if (o.slug && o.action) focusSel('#ilist [data-slug="' + o.slug + '"] [data-action="' + o.action + '"]', '#ilist [data-slug="' + o.slug + '"] [data-action="inc"]');
+  }
   function requireAuth(fn, onCancel){
     if (S.signedIn) { fn(); return; }
-    U.pending = {fn:fn, onCancel:onCancel}; $('#sheet').showModal();
+    U.pending = {fn:fn, onCancel:onCancel}; rememberOpener(); $('#sheet').showModal();
   }
 
   function changeQty(slug, delta, absolute, focusSel){
@@ -807,9 +870,9 @@
     var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter],[data-tlv],[data-tlc]');
     if (!t || !proto.contains(t)) return;
     if (t.dataset.nav) { go(t.dataset.nav); return; }
-    if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); return; }
-    if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); return; }
-    if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); return; }
+    if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); focusSel('[data-dv="' + t.dataset.dv + '"]'); return; }
+    if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); focusSel('[data-iv="' + t.dataset.iv + '"]'); return; }
+    if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); focusSel('[data-age="' + t.dataset.age + '"]'); return; }
     if (t.dataset.letter) { var h = document.getElementById('L-' + t.dataset.letter); if (h) h.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); return; }
     if (t.dataset.tlv) { U.tlView = t.dataset.tlv; renderTimeline(); focusSel('[data-tlv="' + t.dataset.tlv + '"]'); return; }
     if (t.dataset.tlc) { U.tlCat = t.dataset.tlc; renderTimeline(); focusSel('[data-tlc="' + t.dataset.tlc + '"]'); return; }
@@ -827,29 +890,39 @@
     }, function(){});
     else if (a === 'tl-open') {
       var id = t.dataset.id, body = t.nextElementSibling, opening = t.getAttribute('aria-expanded') !== 'true';
-      body.hidden = !opening; t.setAttribute('aria-expanded', opening ? 'true' : 'false'); t.textContent = opening ? 'Hide details' : 'See details';
+      body.hidden = !opening; t.setAttribute('aria-expanded', opening ? 'true' : 'false'); t.textContent = opening ? 'Hide details' : 'See details'; t.setAttribute('aria-label', (opening ? 'Hide details: ' : 'See details: ') + (t.dataset.title || ''));
       U.tlOpen = opening ? id : null;
     }
-    else if (a === 'tl-page') { U.tlPage = (U.tlPage || 0) + parseInt(t.dataset.dir, 10); renderTimeline(); focusSel('[data-action="tl-page"][data-dir="' + t.dataset.dir + '"]'); }
+    else if (a === 'tl-page') { U.tlPage = (U.tlPage || 0) + parseInt(t.dataset.dir, 10); renderTimeline(); focusSel('[data-action="tl-page"][data-dir="' + t.dataset.dir + '"]', '[data-action="tl-page"][data-dir="' + (-parseInt(t.dataset.dir, 10)) + '"]'); }
     else if (a === 'tl-step') {
       var cw = fromKey(U.tlWeek) || currentWeek() || {era:'preg', n:20}, ni = Math.max(0, Math.min(WEEKS.length - 1, wkIndex(cw) + parseInt(t.dataset.dir, 10)));
-      U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]');
+      U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]', '[data-action="tl-step"][data-dir="' + (-parseInt(t.dataset.dir, 10)) + '"]');
     }
     else if (a === 'tl-now') { var nw = currentWeek(); if (nw) { U.tlWeek = wkKey(nw); U.tlPage = null; renderTimeline(); focusSel('#tl-week'); } }
     else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
     else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
-    else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; $('#sheet').showModal(); }
-    else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); }
-    else if (a === 'acct') { U.acct = !U.acct; renderHeader(); }
+    else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; rememberOpener(); $('#sheet').showModal(); }
+    else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); focusSel('[data-action="signin-open"]'); }
+    else if (a === 'acct') { U.acct = !U.acct; renderHeader(); focusSel('[data-action="acct"]'); }
+    else if (a === 'skip') { var sh = $('#view .h1'); if (sh) sh.focus(); }
   });
 
   proto.addEventListener('change', function(e){
-    if (e.target.id === 'tl-due') { S.due = e.target.value || ''; U.tlPage = null; U.tlWeek = null; save(); renderTimeline(); focusSel('#tl-due'); return; }
+    if (e.target.id === 'tl-due') {
+      var dv = e.target.value || '';
+      if (dv && !validDue(dv)) return;   // half-typed or out-of-range date: wait, and say so on blur
+      S.due = dv; U.tlPage = null; U.tlWeek = null; save(); refreshTimelineBody(); return;
+    }
     if (e.target.id === 'tl-week') { U.tlWeek = e.target.value; renderTimeline(); focusSel('#tl-week'); return; }
     if (e.target.classList.contains('qty-in')) {
       var art = e.target.closest('[data-slug]');
       changeQty(art.dataset.slug, 0, parseInt(e.target.value, 10), '.qty-in');
     }
+  });
+  proto.addEventListener('focusout', function(e){
+    if (e.target.id !== 'tl-due') return;
+    var v = e.target.value || '', note = $('#due-note'); if (!note) return;
+    note.textContent = (v && !validDue(v)) ? 'That date looks off. Enter a due date from about six months ago to nine months from now.' : dueNote(dueDate(), currentWeek());
   });
   proto.addEventListener('input', function(e){
     if (e.target.id === 'dq') { U.dq = e.target.value; U.open.dict = null; renderDictList(); }
@@ -861,19 +934,19 @@
     var b = e.target.closest('[data-sheet]'); if (!b) return;
     var p = U.pending; U.pending = null;
     if (b.dataset.sheet === 'signin') {
-      S.signedIn = true; save(); sheet.close(); renderHeader(); if (p && p.fn) p.fn();
-    } else { sheet.close(); if (p && p.onCancel) p.onCancel(); }
+      S.signedIn = true; save(); sheet.close(); renderHeader(); if (p && p.fn) p.fn(); restoreFocus(true);
+    } else { sheet.close(); if (p && p.onCancel) p.onCancel(); restoreFocus(false); }
   });
   sheet.addEventListener('close', function(){
-    if (U.pending) { var p = U.pending; U.pending = null; if (p.onCancel) p.onCancel(); }
+    if (U.pending) { var p = U.pending; U.pending = null; if (p.onCancel) p.onCancel(); restoreFocus(false); }
   });
 
   if (window.ResizeObserver) {
     var lastWide = proto.clientWidth >= 900;
-    new ResizeObserver(function(){ var w = proto.clientWidth >= 900; if (w !== lastWide) { lastWide = w; if (U.route === 'timeline') renderTimeline(); } }).observe(proto);
+    new ResizeObserver(function(){ var w = proto.clientWidth >= 900; if (w !== lastWide) { lastWide = w; if (U.route === 'timeline') refreshTimelineBody(); } }).observe(proto);
   }
   document.title = TITLES[U.route];
-  render(false);
+  try { render(false); } catch (err) { try { localStorage.removeItem(KEY); } catch (e2) {} S = defaults(); render(false); }
 })();
 </script>
 
@@ -901,14 +974,14 @@
     var f = new FormData(form);
     var message = String(f.get('message') || '').trim();
     if (!message) { statusEl.textContent = 'Please write a few words first.'; return; }
-    var cur = document.querySelector('.hdr [aria-current="page"]');
+    var pageName = {'#/dictionary': 'Dictionary', '#/inventory': 'Inventory', '#/timeline': 'Timeline'}[location.hash] || 'Home';
     var payload = {
       message: message,
       clear: String(f.get('clear') || ''),
       role: String(f.get('role') || ''),
       email: String(f.get('email') || '').trim(),
       website: String(f.get('website') || ''),
-      page: cur ? cur.textContent : 'Home',
+      page: pageName,
       device: window.innerWidth < 640 ? 'phone' : 'desktop'
     };
     sendBtn.disabled = true;

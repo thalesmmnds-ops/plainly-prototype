@@ -21,14 +21,14 @@
     var f = new FormData(form);
     var message = String(f.get('message') || '').trim();
     if (!message) { statusEl.textContent = 'Please write a few words first.'; return; }
-    var cur = document.querySelector('.hdr [aria-current="page"]');
+    var pageName = {'#/dictionary': 'Dictionary', '#/inventory': 'Inventory', '#/timeline': 'Timeline'}[location.hash] || 'Home';
     var payload = {
       message: message,
       clear: String(f.get('clear') || ''),
       role: String(f.get('role') || ''),
       email: String(f.get('email') || '').trim(),
       website: String(f.get('website') || ''),
-      page: cur ? cur.textContent : 'Home',
+      page: pageName,
       device: window.innerWidth < 640 ? 'phone' : 'desktop'
     };
     sendBtn.disabled = true;

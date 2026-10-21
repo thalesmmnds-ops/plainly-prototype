@@ -17,3 +17,4 @@
   #fb .note{font-size:.875rem; line-height:1.25rem; color:var(--w-soft); margin:0;}
   #fb-status{min-height:1.25rem; font-size:.875rem; line-height:1.25rem; margin:0;}
   .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .ftr{padding-bottom:calc(var(--s16) + 60px);}
