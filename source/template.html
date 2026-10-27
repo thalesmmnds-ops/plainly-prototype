@@ -41,7 +41,7 @@
   .hdr nav{order:3; flex:1 1 100%; display:flex; gap:var(--s8);}
   .navbtn{display:inline-flex; align-items:center; justify-content:center; flex:1 1 0; min-height:44px; padding:0 var(--s8); border:0; background:none; color:inherit; border-radius:var(--r-inner); font-size:.875rem; line-height:1.25rem; font-weight:500; cursor:pointer;}
   .navbtn[aria-current="page"]{font-weight:700; text-decoration:underline; text-underline-offset:5px;}
-  .navcta{flex:1.3 1 0; display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 var(--s16); border:1.5px solid var(--w-ink); border-radius:var(--r-pill); background:transparent; color:var(--w-ink); font-size:.875rem; line-height:1.25rem; font-weight:600; cursor:pointer; white-space:nowrap;}
+  .navcta{flex:1.3 1 0; display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 var(--s16); border:1.5px solid transparent; border-radius:var(--r-pill); background:transparent; color:var(--w-ink); font-size:.875rem; line-height:1.25rem; font-weight:600; cursor:pointer; white-space:nowrap;}
   .navcta[aria-current="page"]{text-decoration:underline; text-underline-offset:4px;}
   .navcta .long{display:none;}
   .authbtn{order:2; display:inline-flex; align-items:center; min-height:44px; padding:0 var(--s16); border:1.5px solid var(--control); border-radius:var(--r-pill); background:none; color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:600; cursor:pointer;}
@@ -73,15 +73,14 @@
   .img.big{aspect-ratio:4/3; width:100%;}
 
   /* verdict tags: three shapes, not just three glyphs. Necessary is filled, Nice-to-have is outlined with a dot, Skip it is a quiet empty circle. */
-  .v{display:inline-flex; align-items:center; gap:var(--s4); min-height:24px; padding:0 var(--s8); border:1.5px solid var(--stroke); border-radius:var(--r-tag); background:var(--raised); color:var(--w-ink); font-size:.75rem; line-height:1rem; font-weight:600; white-space:nowrap;}
-  .mk{display:inline-block; width:14px; height:14px; position:relative; flex:none;}
+  /* verdict tags: 24px, 6px corners (labels, not buttons), roomier inside like Airbnb's tags.
+     Same circle icon on all three until an icon set is chosen; the word and the color carry the verdict. */
+  .v{display:inline-flex; justify-self:start; width:fit-content; align-items:center; gap:6px; min-height:24px; padding:0 var(--s12) 0 10px; border:1.5px solid var(--stroke); border-radius:var(--r-tag); background:var(--raised); color:var(--w-ink); font-size:.75rem; line-height:1rem; font-weight:600; white-space:nowrap;}
+  .mk{display:inline-block; width:8px; height:8px; border-radius:50%; background:currentColor; flex:none;}
   /* verdict colors from brand-core: Necessary green, Nice-to-have gold, Skip it muted warm gray (never red) */
   .v-nec{background:var(--necessary); border-color:var(--necessary); color:var(--raised);}
-  .v-nec .mk::before{content:"\2713"; position:absolute; left:1px; top:-1px; font-size:14px; line-height:1;}
   .v-nice{border-color:var(--nice); background:var(--nice-bg); color:var(--nice);}
-  .v-nice .mk::before{content:""; position:absolute; left:3px; top:3px; width:8px; height:8px; border-radius:50%; background:currentColor;}
   .v-dep{color:var(--skip); border-color:var(--skip);}
-  .v-dep .mk::before{content:""; position:absolute; left:1px; top:1px; width:12px; height:12px; border-radius:50%; border:1.5px solid currentColor;}
   .have-tag{font-size:.75rem; line-height:1rem; font-weight:600; color:var(--w-ink);}
 
   .item{border-bottom:1px dashed var(--stroke);}
