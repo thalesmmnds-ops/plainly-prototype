@@ -67,6 +67,16 @@
   .chip{position:relative; display:inline-flex; align-items:center; min-height:36px; padding:0 var(--s12); border:1.5px solid var(--control); border-radius:var(--r-pill); background:var(--raised); color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:500; cursor:pointer;}
   .chip::before{content:""; position:absolute; inset:-4px 0;}
   .chip[aria-pressed="true"]{background:var(--sel); color:var(--on-sel); border-color:var(--sel);}
+  /* baby's-age chips: one brand color per age (oat, terracotta, mustard, forest, warm taupe), tint when off, deep fill + white when on */
+  .chip.age{gap:6px; padding:0 var(--s16) 0 var(--s12); border-color:transparent; background:var(--a-tint); color:var(--a-ink); font-weight:600;}
+  .chip.age[aria-pressed="true"]{background:var(--a-deep); border-color:var(--a-deep); color:#FFFFFF;}
+  .chip.age:not([aria-pressed="true"]):hover{background:var(--a-tint); border-color:var(--a-ink);}
+  .age-ico{width:16px; height:16px; flex:none; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+  .age-all{--a-tint:#E6DED0; --a-ink:#3D352E; --a-deep:#2A2420;}
+  .age-nb{--a-tint:#F2DDD3; --a-ink:#8C4128; --a-deep:var(--clay);}
+  .age-m03{--a-tint:#F3E6C6; --a-ink:#6B4F12; --a-deep:#8C6B1F;}
+  .age-m36{--a-tint:#DCE3DA; --a-ink:#33473A; --a-deep:#33473A;}
+  .age-m6{--a-tint:#E5DDD2; --a-ink:#4E443A; --a-deep:#6B5F52;}
   .controls{display:grid; gap:var(--s12);}
   .az{display:flex; flex-wrap:wrap; gap:0;}
   .az button{border:0; background:none; color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:600; width:36px; height:44px; cursor:pointer; border-radius:var(--r-tag); text-decoration:underline; text-underline-offset:3px;}
@@ -127,7 +137,7 @@
   .ctl-label{display:block; margin-bottom:var(--s8);}
   #ilist{display:grid; gap:var(--s40);}
   .grp{display:grid; gap:var(--s16); align-content:start;}
-  .grp > h2{margin:0; font-size:1rem; line-height:1.5rem; font-weight:700; padding:0 0 var(--s8); border-bottom:1.5px solid var(--stroke);}
+  .grp > h2{margin:0; font-size:1rem; line-height:1.5rem; font-weight:700; padding:0;}
   .cards{display:grid; gap:var(--s16); grid-template-columns:1fr;}
   .card{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s8) var(--s20) var(--s20); display:grid; gap:var(--s8); align-content:start; min-width:0;}
   .card.is-have{background:var(--fill);}
@@ -441,6 +451,16 @@
   var SIZED = {'bodysuits':1, 'zip-up-sleepers':1, 'sleep-sack':1};
   var COUNTED = {'fitted-crib-sheets':1, 'burp-cloths':1, 'bottles':1, 'pacifiers':1, 'swaddle':1, 'baby-gates':1, 'furniture-anchors':1};
   function tier(it){ if (it.verdict === 'skip-it') return 'mark'; if (SIZED[it.slug]) return 'sized'; if (COUNTED[it.slug]) return 'counted'; return 'mark'; }
+  // Baby's-age filter: one color and one line icon per age. Placeholder icons until an icon set is chosen.
+  var AGE_KEY = {'all':'all', 'nb':'nb', '0-3':'m03', '3-6':'m36', '6+':'m6'};
+  var AGE_ICON = {
+    'all': '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>',
+    'nb': '<path d="M12 3c.8 5 3.9 8.1 9 9-5.1.9-8.2 4-9 9-.8-5-3.9-8.1-9-9 5.1-.9 8.2-4 9-9Z"/>',
+    '0-3': '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>',
+    '3-6': '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
+    '6+': '<path d="M12 21v-8M12 13c0-4.4 3.1-7 7.5-7 0 4.4-3.1 7-7.5 7ZM12 15.5c0-3.6-2.6-6-6.5-6 0 3.6 2.6 6 6.5 6Z"/>'
+  };
+  function ageIcon(id){ return '<svg class="age-ico" viewBox="0 0 24 24" aria-hidden="true">' + (AGE_ICON[id] || '') + '</svg>'; }
   function ageLabel(id){ if (id === 'all') return 'All'; for (var i = 0; i < AGES.length; i++) if (AGES[i][0] === id) return AGES[i][1]; return id; }
   function getQ(it, age){ var q = S.qty[it.slug]; if (!q) return 0; return tier(it) === 'sized' ? (q[age] || 0) : (q.all || 0); }
   function setQ(it, age, n){
@@ -596,7 +616,7 @@
   }
 
   function renderInventory(){
-    var ageChips = [['all','All']].concat(AGES).map(function(a){ return '<button type="button" class="chip" data-age="' + a[0] + '" aria-pressed="' + (S.age === a[0]) + '">' + esc(a[1]) + '</button>'; }).join('');
+    var ageChips = [['all','All']].concat(AGES).map(function(a){ return '<button type="button" class="chip age age-' + AGE_KEY[a[0]] + '" data-age="' + a[0] + '" aria-pressed="' + (S.age === a[0]) + '">' + ageIcon(a[0]) + esc(a[1]) + '</button>'; }).join('');
     var views = [['left',"What's left"],['have','I have'],['all','All items']].map(function(v){
       return '<button type="button" class="chip" data-iv="' + v[0] + '" aria-pressed="' + (U.iv === v[0]) + '">' + esc(v[1]) + '</button>'; }).join('');
     $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to track sizes.</p></div>' +
