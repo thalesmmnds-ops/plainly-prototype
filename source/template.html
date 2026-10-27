@@ -99,7 +99,6 @@
   .dtext{display:grid; gap:var(--s12); min-width:0;}
   .dtext p{margin:0;}
   .lead{font-weight:500;}
-  .lorem{color:var(--w-soft);}
   .facts{display:grid; grid-template-columns:1fr 1fr; gap:var(--s8); margin:0;}
   .facts.one{grid-template-columns:1fr;}
   .facts div{background:var(--paper); border:0; border-radius:var(--r-inner); padding:var(--s8) var(--s12); display:grid; gap:var(--s2);}
@@ -158,7 +157,7 @@
   .home{gap:var(--s64); padding-top:var(--s40); padding-bottom:var(--s64);}
   .hero-grid{display:grid; gap:var(--s24); align-items:center;}
   .hero-copy{display:grid; gap:var(--s24); align-content:center;}
-  .lead2{margin:0; font-size:1rem; line-height:1.5rem; color:var(--w-soft); max-width:46ch;}
+  .lead2{text-wrap:pretty; margin:0; font-size:1rem; line-height:1.5rem; color:var(--w-soft); max-width:46ch;}
   .hero-img{aspect-ratio:4/3; width:100%;}
   .sec{display:grid; gap:var(--s24);}
   .notice-box{font-size:.875rem; line-height:1.25rem;}
@@ -171,6 +170,11 @@
   .how-steps li::before{content:counter(step); width:28px; height:28px; border:1.5px solid var(--stroke); border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:.875rem; line-height:1.25rem;}
   .how-steps li span{color:var(--w-soft);}
   .how{display:grid; gap:var(--s16);}
+  .vdefs{margin:0; display:grid; gap:var(--s16);}
+  .vdefs dd{margin:var(--s8) 0 0;}
+  .plain-list{margin:0; padding-left:20px; display:grid; gap:var(--s8);}
+  .how-page{max-width:760px;}
+  .ftr .flink{min-height:44px; padding:0; border:0; background:none; color:inherit; font:inherit; text-decoration:underline; text-underline-offset:3px; cursor:pointer;}
 
   /* timeline */
   .notice{background:var(--raised); margin:0; border:0; border-radius:var(--r-field); padding:var(--s16) var(--s20); font-size:.875rem; line-height:1.25rem; color:var(--w-soft);}
@@ -266,7 +270,7 @@
   <main id="view"></main>
   <footer class="ftr">
     <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
-    <span>How verdicts work · Privacy · Contact</span>
+    <span><button type="button" class="flink" data-nav="verdicts">How verdicts work</button> · Privacy · Contact</span>
   </footer>
 </div>
 
@@ -300,7 +304,10 @@
   var WHEN = {'before-birth':'Before birth', 'first-weeks':'First weeks', '3-6-months':'Can wait (3–6 months)'};
   var WHEN_ORDER = ['before-birth','first-weeks','3-6-months'];
   var AGES = [['nb','Newborn'],['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6 months and up']];
-  var LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
+  // Page copy. Item copy (desc, reason, more, sources) comes from plainly/content/guide via `npm run prototype:export`.
+  var MORE_LABEL = 'Good to know';
+  var HERO_LEAD = "Too many products, too much advice. For new and expecting parents: what each item is, whether you need it, and what's left to decide.";
+  var REVIEW_NOTE = "Each safety claim links to its source, such as the AAP, CPSC or CDC. A clinician hasn't reviewed these verdicts yet, so if something looks wrong, please tell us.";
   var COVERED = "You're covered on the essentials. You don't need everything else on this list. Most parents don't.";
 
   var BY = {}; ITEMS.forEach(function(it){ BY[it.slug] = it; });
@@ -398,7 +405,18 @@
       '<p class="lead">' + esc(it.desc) + '</p>' +
       '<p><b>Why this verdict:</b> ' + esc(it.reason) + '</p>' + safety +
       '<dl class="facts' + (it.verdict === 'skip-it' ? ' one' : '') + '">' + (it.verdict === 'skip-it' ? '' : '<div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div>') + '<div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
-      '<p class="lorem">' + LOREM + '</p></div>';
+      moreHTML(it) + '</div>';
+  }
+
+  function srcList(sources){
+    var li = (sources || []).filter(function(s){ return /^https:\/\//.test(s.url); }).map(function(s){
+      return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(srcName(s.name)) + '<span class="sr"> (opens in a new tab)</span></a>' + (s.date ? ' · ' + esc(s.date) : '') + '</li>';
+    }).join('');
+    return li ? '<p class="sm">Sources</p><ul class="srcs">' + li + '</ul>' : '';
+  }
+  function moreHTML(it){
+    if (!it.more) return '';
+    return '<p><b>' + MORE_LABEL + ':</b> ' + esc(it.more) + '</p>' + srcList(it.sources);
   }
 
   function rowHTML(it, open){
@@ -452,7 +470,7 @@
     var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
     $('#view').innerHTML = '<section class="page home">' +
       '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained plainly.</h1>' +
-      '<p class="lead2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>' +
+      '<p class="lead2">' + esc(HERO_LEAD) + '</p>' +
       '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn secondary big" data-nav="inventory">Start your inventory</button></div></div>' +
       '<i class="img hero-img" aria-hidden="true"></i></div>' +
       '<div class="box notice-box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
@@ -464,6 +482,16 @@
       '<li><b>Look at it together.</b><span>You and your partner see the same weeks, so neither of you has to be the one who remembers.</span></li></ol>' +
       '<div class="actions"><button type="button" class="btn cta big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
       '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></section></section>';
+  }
+
+  function renderVerdicts(){
+    var def = [['necessary', 'Most families use it, and there is no simple substitute. Legal and safety requirements always land here.'],
+      ['nice-to-have', 'It makes life easier for many parents, but you will be fine without it. Worth borrowing, or waiting to see if you want it.'],
+      ['skip-it', 'Something you already own does the job, or most parents stop using it quickly. If you already have one, that is fine. A few items are here because safety guidance advises against them. Those carry a clear safety note, and you should not use them.']];
+    $('#view').innerHTML = '<section class="page how-page"><div><h1 class="h1" tabindex="-1">How verdicts work</h1><p class="sub">Every item gets one verdict and one sentence explaining it. Here is what each one means.</p></div>' +
+      '<dl class="vdefs">' + def.map(function(d){ return '<div class="box"><dt>' + chip({verdict:d[0]}) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; }).join('') + '</dl>' +
+      '<section class="sec" aria-labelledby="vp-h"><h2 id="vp-h" class="sec-h">What we promise</h2><ul class="plain-list"><li>Nothing here is for sale, and nothing links to a store.</li><li>No one pays to be listed, and no one pays to change a verdict.</li><li>Safety and legal claims link to their source, such as the AAP, CPSC or CDC.</li></ul></section>' +
+      '<section class="sec" aria-labelledby="vr-h"><h2 id="vr-h" class="sec-h">Sources and review</h2><p class="box">' + esc(REVIEW_NOTE) + '</p></section></section>';
   }
 
   function renderDictionary(){
@@ -606,14 +634,12 @@
   function srcName(n){ return String(n).replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(); }
 
   function evDetail(ev){
-    var src = (ev.sources || []).map(function(s){
-      return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(srcName(s.name)) + '</a>' + (s.date ? ' · ' + esc(s.date) : '') + '</li>';
-    }).join('');
+    var src = srcList(ev.sources);
     return '<p>' + esc(ev.typical) + '</p>' +
       '<p><b>Varies:</b> ' + esc(ev.note) + ' Your doctor or midwife sets your actual date.</p>' +
       '<p class="sm">Who usually goes: ' + esc(WHO[ev.who] || ev.who) + '</p>' +
       (ev.verify ? '<p class="sm">This timing is still being checked against official sources.</p>' : '') +
-      (src ? '<p class="sm">Sources</p><ul class="srcs">' + src + '</ul>' : '');
+      src;
   }
   function gearDetail(g){
     var nec = ITEMS.filter(function(it){ return it.when === g.when && it.verdict === 'necessary'; });
@@ -737,7 +763,7 @@
 
   function render(focusHeading){
     renderHeader();
-    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else if (U.route === 'timeline') renderTimeline(); else renderDictionary();
+    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else if (U.route === 'timeline') renderTimeline(); else if (U.route === 'verdicts') renderVerdicts(); else renderDictionary();
     if (focusHeading) { var h = $('#view .h1'); if (h) h.focus({preventScroll:true}); }
   }
 
@@ -785,8 +811,8 @@
   }
 
   // ---------- routes (hash based, so Back, deep links and shared links work) ----------
-  var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly'};
-  function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline'].indexOf(h) >= 0 ? h : 'home'; }
+  var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly', verdicts:'How verdicts work · Plainly'};
+  function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline', 'verdicts'].indexOf(h) >= 0 ? h : 'home'; }
   function show(route, focus){
     U.route = route; U.acct = false; U.pinned = {};
     try { document.title = TITLES[route]; } catch (e) {}
