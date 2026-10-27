@@ -15,6 +15,9 @@ t = t.replace('__ITEMS__', () => items);
 const timeline = read('timeline.json').replace(/<\//g, '<\\/');
 if (!t.includes('__TIMELINE__')) throw new Error('template is missing the __TIMELINE__ placeholder');
 t = t.replace('__TIMELINE__', () => timeline);
+const tlWeeks = read('timeline-weeks.json').replace(/<\//g, '<\\/');
+if (!t.includes('__TLWEEKS__')) throw new Error('template is missing the __TLWEEKS__ placeholder');
+t = t.replace('__TLWEEKS__', () => tlWeeks);
 // A copy without the standalone extras, for previewing as a Claude artifact.
 fs.writeFileSync(path.join(root, 'artifact.html'), t);
 t = t.replace(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');

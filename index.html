@@ -225,6 +225,24 @@
   .srcs{margin:0; padding-left:18px; display:grid; gap:var(--s4); font-size:.875rem; line-height:1.25rem;}
   .srcs li{min-height:24px;}
   .srcs a{display:inline-block; padding:2px 0; color:inherit; overflow-wrap:anywhere;}
+  .weeks{display:grid; gap:var(--s24);}
+  .era-h{margin:var(--s24) 0 0;}
+  .wcard{background:var(--raised); border-radius:var(--r-surface); padding:var(--s16) var(--s20) var(--s24); display:grid; gap:var(--s12); min-width:0; scroll-margin-top:96px;}
+  .wcard.is-now{box-shadow:inset 0 0 0 2px var(--w-ink);}
+  .wcard:focus{outline:2px solid var(--w-ink); outline-offset:2px;}
+  .wrule{display:flex; align-items:center; gap:var(--s16);}
+  .wrule::before, .wrule::after{content:""; flex:1; border-top:1.5px solid var(--stroke);}
+  .wrule h2{margin:0; font-family:var(--font-display); font-weight:600; font-size:1.25rem; line-height:1.5rem; white-space:nowrap;}
+  .wdate{margin:0; text-align:center; display:flex; justify-content:center; align-items:center; gap:var(--s8); flex-wrap:wrap;}
+  .now-tag{font-size:.75rem; line-height:1rem; font-weight:700; padding:2px var(--s8); border-radius:var(--r-tag); background:var(--sel); color:var(--on-sel);}
+  .wparts{display:grid; gap:var(--s20);}
+  .wpart{display:grid; gap:var(--s8); align-content:start; min-width:0;}
+  .wpart > p{margin:0;}
+  .wlist{list-style:none; margin:0; padding:0; display:grid; gap:var(--s12);}
+  .wi{display:flex; gap:var(--s12); align-items:flex-start;}
+  .wi .ico{margin-top:4px;}
+  .wi-txt{display:grid; gap:var(--s2); min-width:0; flex:1;}
+  .wi-title{font-weight:600;}
   .wk-head{display:flex; align-items:center; gap:var(--s8);}
   .wk-head .btn{min-width:44px; padding:0;}
   .wk-title{flex:1; display:grid; gap:var(--s4); min-width:0;}
@@ -266,9 +284,13 @@
     .mini .img{aspect-ratio:1;}
     .how-steps{grid-template-columns:repeat(3, 1fr); gap:var(--s24);}
     .wk-cards{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--s24);}
-    .tlctl{grid-template-columns:auto 1fr; align-items:center; gap:var(--s16);}
+    .tlctl{grid-template-columns:1fr auto; align-items:center; gap:var(--s16);}
+    .wparts{grid-template-columns:1fr 1fr; gap:var(--s32);}
+    .wcard{padding:var(--s20) var(--s32) var(--s32);}
   }
   @container (min-width: 900px){
+    .wcard{width:70%; margin-left:calc(var(--step, 0) * 15%);}
+    .wcard-any{width:70%;}
     .cards{grid-template-columns:repeat(3, 1fr);}
     .card.is-open{grid-column:1 / -1;}
   }
@@ -374,6 +396,390 @@
 
   var ITEMS = [{"slug":"baby-bathtub","name":"Baby bathtub","category":"diapering-bath","verdict":"nice-to-have","reason":"It makes the first wobbly baths less awkward. A sink works too.","when":"first-weeks","desc":"A small plastic tub, often with a sloped insert that holds a newborn.","aliases":[],"advised":false,"safety":null,"more":"Until the umbilical cord stump falls off, usually within one to two weeks, a sponge bath with a warm washcloth is all your baby needs. After that, about three baths a week is plenty, since more can dry out their skin. Keep one hand on your baby the whole time, and never step away mid-bath.","sources":[{"name":"AAP: Bathing your newborn","url":"https://www.healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Bathing-Your-Newborn.aspx"}],"needsSource":true},{"slug":"baby-carrier","name":"Baby carrier or wrap","category":"travel","verdict":"nice-to-have","reason":"Being hands-free is a real relief, but fit is personal, so try one on before buying.","when":"first-weeks","desc":"Fabric that holds your baby against your chest. Wraps are a long piece of cloth you tie; structured carriers buckle.","aliases":["sling","wrap"],"advised":false,"safety":null,"more":"Parents use one for walks, chores, or settling a baby who only wants to be held. Wraps tend to suit the newborn months; buckled carriers are quicker to put on and often last into toddlerhood. Whichever you use, you should always be able to see your baby's face, with their chin up off their chest.","sources":[{"name":"CPSC: Safe babywearing","url":"https://www.cpsc.gov/Newsroom/News-Releases/2011/CPSC-Educates-New-Parents-on-Safe-BabywearingInfant-suffocation-deaths-in-slings-prompt-renewed-effort-to-warn-moms-and-dads"}],"needsSource":true},{"slug":"baby-gates","name":"Baby gates","category":"safety","verdict":"necessary","reason":"Only if you have stairs, and not until your baby starts moving, so it can wait.","when":"3-6-months","desc":"Gates that block stairs or doorways, either pressure-mounted or screwed into the wall.","aliases":["stair gate"],"advised":false,"safety":null,"more":"The usual spots are the top and the bottom of the stairs, plus any room you'd rather keep closed off, like the kitchen. At the top of the stairs, use a gate that screws into the wall, not one held by pressure. Pressure gates are fine between rooms, and easy to move when you need to.","sources":[{"name":"AAP: Home safety","url":"https://www.healthychildren.org/English/safety-prevention/at-home/Pages/home-safety-heres-how.aspx"},{"name":"CPSC: Childproofing your home","url":"https://www.cpsc.gov/safety-education/safety-guides/kids-and-babies/Childproofing-Your-Home"}],"needsSource":true},{"slug":"baby-monitor","name":"Baby monitor","category":"gadgets","verdict":"nice-to-have","reason":"Useful once your baby sleeps out of earshot. If they're in your room, you're the monitor.","when":"first-weeks","desc":"A camera or microphone in the nursery that sends sound or video to a parent unit or your phone.","aliases":[],"advised":false,"safety":null,"more":"Video lets you check on your baby without opening the door. Wherever the camera goes, keep it and its cord at least three feet from any part of the crib. If yours connects to Wi-Fi, change the default password when you set it up.","sources":[{"name":"CPSC: Monitor cords and cribs, 2011 recall","url":"https://www.cpsc.gov/Recalls/2011/two-strangulation-deaths-prompt-summer-infant-to-recall-video-baby-monitors-with-cords"}],"needsSource":true},{"slug":"baby-shoes","name":"Baby shoes","category":"clothes","verdict":"skip-it","reason":"Babies who can't walk don't need shoes. Socks keep feet warm.","when":"3-6-months","desc":"Small soft or hard-soled shoes sized for infants.","aliases":[],"advised":false,"safety":null,"more":"Before your baby walks, their feet develop best bare or in socks. Once they walk outside, a first pair should be comfortable, with a non-skid sole and a little room to grow. Feet grow fast at this age, so check the fit about once a month.","sources":[{"name":"AAP: Shoes for toddlers","url":"https://www.healthychildren.org/English/ages-stages/toddler/Pages/Shoes-for-Active-Toddlers.aspx"}],"needsSource":true},{"slug":"bassinet","name":"Bassinet","category":"furniture-sleep","verdict":"nice-to-have","reason":"A crib or play yard in your room does the same job.","when":"before-birth","desc":"A small bed on legs that fits next to yours for the first few months.","aliases":["moses basket"],"advised":false,"safety":null,"more":"The AAP recommends sharing a room with your baby for at least the first six months. A bassinet is meant for babies up to about five months, or until they can push up on their hands and knees, whichever comes first. Plan for the next bed to go in your room too. Check the label for its weight limit.","sources":[{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"},{"name":"CPSC: Bassinet safety standard","url":"https://www.cpsc.gov/content/cpsc-approves-new-federal-safety-standard-for-bassinets-and-cradles"}],"needsSource":true},{"slug":"bodysuits","name":"Bodysuits","category":"clothes","verdict":"necessary","reason":"The everyday base layer. Six to eight in each early size is plenty.","when":"before-birth","desc":"A one-piece top that snaps between the legs, so it stays tucked.","aliases":["onesie"],"advised":false,"safety":null,"more":"Short-sleeved ones go under everything; long-sleeved ones work on their own in cooler weather. After a messy diaper, the shoulder flaps let you pull the bodysuit off downward, over the legs instead of the head. Sizes are labeled by age, but the weight range on the tag is the better guide.","needsSource":false},{"slug":"bottle-sterilizer","name":"Bottle sterilizer","category":"feeding","verdict":"skip-it","reason":"Boiling water or a dishwasher's hot cycle does the same job.","when":"first-weeks","desc":"A countertop or microwave device that steams bottles and pump parts clean.","aliases":[],"advised":false,"safety":null,"more":"Wash bottles and nipples after every feed. For most babies, hot soapy water or a dishwasher with hot water and a heated-dry cycle is enough. The CDC suggests sanitizing at least once a day for babies under two months, born early, or with a weakened immune system. Boiling them for five minutes does it.","sources":[{"name":"CDC: Cleaning infant feeding items","url":"https://www.cdc.gov/hygiene/about/clean-sanitize-store-infant-feeding-items.html"}],"needsSource":true},{"slug":"bottle-warmer","name":"Bottle warmer","category":"feeding","verdict":"skip-it","reason":"A bowl of warm water does the same thing, and many babies take milk at room temperature.","when":"first-weeks","desc":"A small electric device that heats a bottle of milk.","aliases":[],"advised":false,"safety":null,"more":"However you warm milk, test a few drops on the inside of your wrist first: it should feel warm, not hot. Skip the microwave, which heats unevenly and can leave hot spots. Once breast milk has been warmed, use it within two hours.","sources":[{"name":"CDC: Handling breast milk","url":"https://www.cdc.gov/breastfeeding/breast-milk-preparation-and-storage/handling-breastmilk.html"}],"needsSource":true},{"slug":"bottles","name":"Bottles","category":"feeding","verdict":"necessary","reason":"You'll need them for formula or pumped milk, and even nursing parents use a few so someone else can feed.","when":"before-birth","desc":"Plastic or glass bottles with a soft nipple. Newborns use the slowest-flow nipple.","aliases":[],"advised":false,"safety":null,"more":"Start with two or three of one kind before buying a full set, since some babies are picky about nipple shape. Wash bottles and nipples after every feed, by hand in hot soapy water or in a dishwasher.","sources":[{"name":"CDC: Cleaning infant feeding items","url":"https://www.cdc.gov/hygiene/about/clean-sanitize-store-infant-feeding-items.html"}],"needsSource":true},{"slug":"bouncer","name":"Bouncer or rocker","category":"furniture-sleep","verdict":"nice-to-have","reason":"A safe spot to set your baby down awake for a few minutes. Not for sleep.","when":"first-weeks","desc":"A low, reclined seat on a springy frame that bounces or rocks as your baby moves.","aliases":[],"advised":false,"safety":null,"more":"Always buckle the harness, and set it on the floor, never on a table, counter, bed, or sofa. If your baby falls asleep in it, move them to their crib or bassinet, flat on their back. Stop using it once your baby can sit up on their own or reaches the weight limit on the label.","sources":[{"name":"CPSC: Bouncer seat safety standard","url":"https://www.cpsc.gov/Newsroom/News-Releases/2018/New-Federal-Standard-to-Improve-Safety-of-Infant-Bouncer-Seats-Takes-Effect"},{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"}],"needsSource":true},{"slug":"breast-pump","name":"Breast pump","category":"feeding","verdict":"nice-to-have","reason":"Most US health plans cover one, so check before buying.","when":"first-weeks","desc":"A hand or electric pump that draws breast milk into a bottle.","aliases":[],"advised":false,"safety":null,"more":"A double electric pump is quicker if you'll pump often, say after going back to work. A hand pump is fine for the occasional bottle. The part that touches the breast, the flange or shield, comes in sizes. The nipple should sit centered in it without pinching. Pumping shouldn't hurt; if it does, a lactation consultant can help.","sources":[{"name":"FDA: Choosing a breast pump","url":"https://www.fda.gov/medical-devices/breast-pumps/choosing-breast-pump"},{"name":"FDA: Breast pump injury and infection","url":"https://www.fda.gov/medical-devices/breast-pumps/injury-and-infection"}],"needsSource":true},{"slug":"burp-cloths","name":"Burp cloths","category":"feeding","verdict":"necessary","reason":"You'll go through several a day. Any soft cloth works.","when":"before-birth","desc":"Absorbent cloths you put over your shoulder when burping your baby.","aliases":[],"advised":false,"safety":null,"more":"Plain cotton cloth diapers, the flat or folded kind, are cheap, absorbent, and work as well as anything sold for burping. Keep one wherever you feed: by the bed, on the couch, in the bag. They also make a quick clean layer under your baby's head on someone else's sofa or shoulder.","needsSource":false},{"slug":"car-seat-mirror","name":"Car seat mirror","category":"travel","verdict":"skip-it","reason":"Add-ons aren't crash-tested with your seat, and you shouldn't be watching the back seat while driving.","when":"before-birth","desc":"A mirror that straps to the back-seat headrest so you can see a rear-facing baby from the driver's seat.","aliases":[],"advised":false,"safety":null,"more":"Not seeing your baby's face takes getting used to, but a rear-facing seat is the safest way for a young baby to ride. If you need to check on them, pull over somewhere safe. On longer drives, an adult in the back seat can keep an eye on things.","sources":[{"name":"AAP: Car safety seats","url":"https://www.healthychildren.org/English/safety-prevention/on-the-go/Pages/Car-Safety-Seats-Information-for-Families.aspx"}],"needsSource":true},{"slug":"car-seat-stroller-frame","name":"Car seat stroller frame","category":"travel","verdict":"nice-to-have","reason":"Handy for the first months, but it's outgrown when the infant car seat is.","when":"before-birth","desc":"A lightweight wheeled frame with no seat of its own. Your infant car seat clicks straight into it.","aliases":["snap-and-go"],"advised":false,"safety":null,"more":"It suits short errands: your baby goes from car to stroller and back without leaving the seat. Not every car seat fits every frame, so check that yours does. Car seats are made for travel, not sleep. If your baby falls asleep in one, move them to a firm, flat surface on their back as soon as you can.","sources":[{"name":"AAP: Car safety seats","url":"https://www.healthychildren.org/English/safety-prevention/on-the-go/Pages/Car-Safety-Seats-Information-for-Families.aspx"},{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"}],"needsSource":true},{"slug":"car-seat","name":"Car seat","category":"travel","verdict":"necessary","reason":"Every US state requires one, and many hospitals check before you drive home.","when":"before-birth","desc":"A padded seat with a harness that faces the back of the car. Infant versions have a carry handle and click into a base that stays in the car.","aliases":["infant car seat","baby capsule"],"advised":false,"safety":null,"more":"Install the base a few weeks before your due date, and have a certified car seat technician check it. Fire stations, hospitals and community programs often do this for free. Keep your baby rear-facing up to the seat's rear-facing height or weight limit. In cold weather, buckle them in thin layers, then lay a blanket or coat over the straps.","sources":[{"name":"NHTSA: Car seats and booster seats","url":"https://www.nhtsa.gov/equipment/car-seats-and-booster-seats"},{"name":"AAP: Car safety seats","url":"https://www.healthychildren.org/English/safety-prevention/on-the-go/Pages/Car-Safety-Seats-Information-for-Families.aspx"}],"needsSource":true},{"slug":"changing-pad","name":"Changing pad","category":"diapering-bath","verdict":"nice-to-have","reason":"A towel on the floor works in a pinch.","when":"before-birth","desc":"A contoured, wipeable pad you put on a dresser or the floor for diaper changes.","aliases":[],"advised":false,"safety":null,"more":"Set out everything you need before you start, so you never have to step away. Keep one hand on your baby the whole time, even if the pad has a strap. A towel on top saves washing the cover after every change.","sources":[{"name":"AAP: Make baby's room safe","url":"https://www.healthychildren.org/English/safety-prevention/at-home/Pages/Make-Babys-Room-Safe.aspx"},{"name":"AAP: Changing diapers","url":"https://www.healthychildren.org/English/ages-stages/baby/diapers-clothing/Pages/Changing-Diapers.aspx"}],"needsSource":true},{"slug":"changing-table","name":"Changing table","category":"furniture-sleep","verdict":"skip-it","reason":"A changing pad on a dresser does the same job, and you keep the dresser.","when":"before-birth","desc":"A waist-high table with a rail and shelves, used only for diaper changes.","aliases":[],"advised":false,"safety":null,"more":"Many changes happen wherever you are: on a bed, the couch, or a towel on the floor. Whatever surface you use, keep a hand on your baby. If you change on a dresser, anchor it to the wall.","sources":[{"name":"AAP: Make baby's room safe","url":"https://www.healthychildren.org/English/safety-prevention/at-home/Pages/Make-Babys-Room-Safe.aspx"},{"name":"CPSC: Anchor It furniture safety","url":"https://www.anchorit.gov/"}],"needsSource":true},{"slug":"crib-bumpers","name":"Crib bumpers","category":"furniture-sleep","verdict":"skip-it","reason":"Padded bumpers have been banned for sale in the US since 2022. A bare crib is the safe setup.","when":"before-birth","desc":"Padded strips tied around the inside of a crib's slats.","aliases":[],"advised":true,"safety":"Don't use bumpers, even ones you already have. Take them out of the crib.","more":"A crib with just a fitted sheet can look bare, but that's how a safe crib looks. The AAP advises against anything that attaches to the crib's slats or sides. Mesh liners attach that way too, even though the ban doesn't cover them.","sources":[{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"},{"name":"CPSC: Safe Sleep for Babies Act","url":"https://www.cpsc.gov/Business--Manufacturing/Business-Education/Business-Guidance/Safe-Sleep-for-Babies-Act-Business-Guidance"}],"needsSource":true},{"slug":"crib-mattress","name":"Crib mattress","category":"furniture-sleep","verdict":"necessary","reason":"Firm, flat, and snug to the crib frame. That's where safe-sleep guidance starts.","when":"before-birth","desc":"A thin, firm mattress sized to fit a standard crib with no gap at the edges.","aliases":[],"advised":false,"safety":null,"more":"To check the fit, push the mattress to one side. If more than two fingers fit in the gap, it's too small for the crib. Firm means it doesn't dip when your baby lies on it. Put only a fitted sheet on top, with no toppers or extra padding.","sources":[{"name":"CPSC: Mattress fit check, 2008","url":"https://www.cpsc.gov/Newsroom/News-Releases/2008/Building-Baby-Safety-From-the-Ground-Up"},{"name":"CPSC: Crib safety tips","url":"https://www.cpsc.gov/safety-education/safety-guides/cribs/crib-safety-tips"},{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"}],"needsSource":true},{"slug":"crib","name":"Crib","category":"furniture-sleep","verdict":"necessary","reason":"It's where your baby will sleep for the next two to three years.","when":"before-birth","desc":"A small bed with slatted sides. Most have a mattress height you lower as your baby learns to stand.","aliases":["cot"],"advised":false,"safety":null,"more":"If your crib is secondhand, check that it was made after June 2011. That's when the current federal safety standard took effect, and drop-side cribs don't meet it. Check that no slats are loose, cracked, or missing, and that a soda can doesn't fit between them. Many convert into a toddler bed later, so one lasts longer.","sources":[{"name":"CPSC: 2011 crib safety standard","url":"https://www.cpsc.gov/Newsroom/News-Releases/2011/CPSC-Approves-Strong-New-Crib-Safety-Standards-To-Ensure-a-Safe-Sleep-for-Babies-and-Toddlers"},{"name":"CPSC: Crib safety tips","url":"https://www.cpsc.gov/safety-education/safety-guides/cribs/crib-safety-tips"}],"needsSource":true},{"slug":"diaper-bag","name":"Diaper bag","category":"travel","verdict":"skip-it","reason":"Any backpack you already own does the same job.","when":"before-birth","desc":"A bag with lots of pockets for diapers, wipes, and a change of clothes.","aliases":[],"advised":false,"safety":null,"more":"What goes in it matters more than the bag. Pack a few diapers, wipes, a fold-up changing mat, a spare outfit for your baby, and a spare shirt for you. Restock it when you get home so it's ready next time. A small pouch with the basics is easy to move between bags, cars, and parents.","needsSource":false},{"slug":"diaper-pail","name":"Diaper pail","category":"diapering-bath","verdict":"nice-to-have","reason":"It contains the smell better. A lidded trash can you empty daily works fine.","when":"before-birth","desc":"A lidded bin that seals used diapers away.","aliases":[],"advised":false,"safety":null,"more":"Keep it next to where you change, and wipe it out once a week. Once your baby starts solids, tipping solid poop into the toilet first makes a big difference to the smell. Some pails only take their own refill bags, which adds a running cost; one that takes regular trash bags is cheaper over time.","needsSource":false},{"slug":"diapers","name":"Diapers","category":"diapering-bath","verdict":"necessary","reason":"Expect eight to twelve a day early on. Don't stockpile the newborn size, because babies outgrow it fast.","when":"before-birth","desc":"Disposable or cloth diapers, sized by your baby's weight.","aliases":["nappies"],"advised":false,"safety":null,"more":"Red marks on the thighs or leaks up the back usually mean it's time for the next size. Until the umbilical cord stump falls off, fold the front of the diaper down below it so the stump stays dry. Plenty of families use a mix of disposable and cloth.","sources":[{"name":"AAP: Umbilical cord care","url":"https://www.healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Umbilical-Cord-Care.aspx"}],"needsSource":true},{"slug":"digital-thermometer","name":"Digital thermometer","category":"diapering-bath","verdict":"necessary","reason":"It's the first thing your pediatrician will ask about when your baby seems unwell.","when":"before-birth","desc":"A small electronic thermometer that reads temperature in seconds.","aliases":[],"advised":false,"safety":null,"more":"If your baby is three months or younger and has a temperature of 100.4°F (38°C) or higher, call your pediatrician right away. A rectal reading is the most accurate for babies, and ear thermometers aren't reliable for young ones. Label one thermometer for rectal use only, so it never ends up in anyone's mouth.","sources":[{"name":"AAP: Fever and your baby","url":"https://www.healthychildren.org/English/health-issues/conditions/fever/Pages/Fever-and-Your-Baby.aspx"},{"name":"AAP: How to take a child's temperature","url":"https://www.healthychildren.org/English/health-issues/conditions/fever/Pages/How-to-Take-a-Childs-Temperature.aspx"}],"needsSource":true},{"slug":"fitted-crib-sheets","name":"Fitted crib sheets","category":"furniture-sleep","verdict":"necessary","reason":"Two or three are enough. You'll change them more often than you expect.","when":"before-birth","desc":"Sheets with elastic all the way around, sized for a crib mattress.","aliases":[],"advised":false,"safety":null,"more":"Use only fitted sheets made specifically for cribs. A good one stays put when you tug at a corner. For middle-of-the-night changes, keep a clean sheet folded by the crib so neither of you is searching in the dark.","sources":[{"name":"CPSC: Crib safety tips","url":"https://www.cpsc.gov/safety-education/safety-guides/cribs/crib-safety-tips"}],"needsSource":true},{"slug":"formula-prep-machine","name":"Formula prep machine","category":"feeding","verdict":"skip-it","reason":"An expensive shortcut for a two-minute task. A kettle and a scoop work.","when":"first-weeks","desc":"A countertop machine that mixes formula powder and warm water at the push of a button.","aliases":[],"advised":false,"safety":null,"more":"Measure the water exactly as the formula label says; too much or too little affects your baby's nutrition. Use a prepared bottle within two hours, or refrigerate it. Once your baby starts drinking from it, finish within an hour and throw out what's left. For night feeds, premeasured powder in a small container leaves only the water to add.","sources":[{"name":"CDC: Preparing and storing formula","url":"https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/preparation-and-storage.html"}],"needsSource":true},{"slug":"furniture-anchors","name":"Furniture anchors","category":"safety","verdict":"necessary","reason":"Cheap straps that keep dressers and shelves from tipping. Install them once and forget them.","when":"before-birth","desc":"Straps or brackets that fix tall furniture to the wall.","aliases":["anti-tip kit"],"advised":false,"safety":null,"more":"Anchor anything tall or top-heavy: dressers, bookshelves, and the TV. New dressers come with an anti-tip kit, so install it right away. Keep toys and remotes off the top of furniture, so there's nothing your child wants to climb for.","sources":[{"name":"CPSC: Anchor It furniture safety","url":"https://www.anchorit.gov/"}],"needsSource":true},{"slug":"glider","name":"Glider or nursing chair","category":"furniture-sleep","verdict":"nice-to-have","reason":"You'll spend hours sitting through feeds, and any comfortable chair with arms works.","when":"before-birth","desc":"A padded chair that rocks or glides smoothly, often with a matching footstool.","aliases":["rocking chair"],"advised":false,"safety":null,"more":"Whatever chair you feed in, your arms should rest on the armrests without hunching while you hold your baby. Your feet should reach the floor too. Wipeable or washable fabric helps, because spit-up happens. Many end up as the bedtime-story chair long after the feeding months.","needsSource":false},{"slug":"high-chair","name":"High chair","category":"feeding","verdict":"necessary","reason":"You won't need it until solids, around six months, so it can wait.","when":"3-6-months","desc":"A tall chair with a tray and a harness for meals.","aliases":[],"advised":false,"safety":null,"more":"Look for a wide, stable base, a harness with a strap between the legs, and a tray that's easy to take off and wash. Always buckle the harness; the tray isn't meant to hold your baby in. A chair that pulls right up to the table lets your baby eat with the rest of you.","sources":[{"name":"CPSC: High chair safety","url":"https://www.cpsc.gov/FAQ/High-Chairs"}],"needsSource":true},{"slug":"inclined-sleeper","name":"Inclined sleeper","category":"furniture-sleep","verdict":"skip-it","reason":"Banned for sale in the US since 2022. Babies should sleep flat.","when":"before-birth","desc":"A sleeper that holds a baby at an angle instead of flat.","aliases":[],"advised":true,"safety":"Don't use one for sleep, even one you already have. Inclined sleepers have been linked to infant deaths and were recalled.","more":"Babies with reflux should sleep flat on their backs too. If you have one, don't sell it or pass it on: federal law bans selling inclined sleepers, whenever they were made.","sources":[{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"},{"name":"CPSC: Safe Sleep for Babies Act","url":"https://www.cpsc.gov/Business--Manufacturing/Business-Education/Business-Guidance/Safe-Sleep-for-Babies-Act-Business-Guidance"}],"needsSource":true},{"slug":"nail-clippers","name":"Nail clippers or file","category":"diapering-bath","verdict":"necessary","reason":"Newborn nails are sharp and grow fast.","when":"first-weeks","desc":"Small clippers or an emery file sized for tiny nails.","aliases":[],"advised":false,"safety":null,"more":"Trim after a bath or while your baby sleeps, when nails are soft and hands are still. Press the fingertip pad away from the nail before you clip, and file off any sharp edges. Many parents file instead of clipping for the first weeks, then switch to clippers as nails get thicker.","needsSource":false},{"slug":"nursing-pillow","name":"Nursing pillow","category":"feeding","verdict":"nice-to-have","reason":"It takes strain off your arms and back during feeds. A regular pillow works for many parents.","when":"first-weeks","desc":"A firm, C-shaped pillow that wraps around your waist to raise your baby during feeds.","aliases":[],"advised":false,"safety":null,"more":"It works just as well for bottle-feeding, so either of you can use it. Use it only for feeding, while you're awake. If your baby falls asleep on it, or you start to feel drowsy, move your baby to their own sleep space. A removable, washable cover is worth having.","sources":[{"name":"CPSC: Nursing pillow safety standard","url":"https://www.cpsc.gov/Newsroom/News-Releases/2024/CPSC-Approves-New-Federal-Safety-Standard-for-Nursing-Pillows-to-Prevent-Infant-Deaths-and-Serious-Injuries"},{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"}],"needsSource":true},{"slug":"pacifiers","name":"Pacifiers","category":"feeding","verdict":"nice-to-have","reason":"Many babies like them, and they're cheap enough to try. Some won't take one at all.","when":"first-weeks","desc":"A soft nipple on a shield, for sucking between feeds.","aliases":["dummy","binky"],"advised":false,"safety":null,"more":"If you're breastfeeding, wait to offer one until feeding is going well, usually around three to four weeks. The AAP suggests offering one at naps and bedtime; if it falls out once your baby is asleep, you don't need to put it back. Don't attach one to a string around the neck, or to clothing during sleep.","sources":[{"name":"AAP: Pacifiers and thumb sucking","url":"https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Pacifiers-and-Thumb-Sucking.aspx"},{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"},{"name":"AAP: Pacifier safety","url":"https://www.healthychildren.org/English/safety-prevention/at-home/Pages/Pacifier-Safety.aspx"}],"needsSource":true},{"slug":"play-yard","name":"Play yard (travel crib)","category":"furniture-sleep","verdict":"nice-to-have","reason":"Useful for travel or a second floor, not needed if you have a crib.","when":"first-weeks","desc":"A foldable crib with mesh sides that packs into a bag.","aliases":["pack 'n play","travel cot"],"advised":false,"safety":null,"more":"Practice setting it up and folding it at home before a trip; every model has its own trick. Use only the mattress it came with, and don't add a second mattress or padding on top. Many have a raised bassinet level for the newborn months, which saves bending over.","sources":[{"name":"CPSC: Play yard safety","url":"https://www.cpsc.gov/FAQ/Play-Yards"}],"needsSource":true},{"slug":"sleep-positioner","name":"Sleep positioner or wedge","category":"furniture-sleep","verdict":"skip-it","reason":"The FDA and AAP advise against them. Flat and bare is the safe setup.","when":"before-birth","desc":"Foam wedges or bolsters meant to hold a sleeping baby in one position.","aliases":[],"advised":true,"safety":"Don't use one, even one you already have. Lay your baby on their back on a firm, flat mattress with nothing else in the crib.","more":"Positioners are sometimes sold for reflux or a flat spot on the head, but neither is a reason to use one. What helps with a flat spot is supervised tummy time while your baby is awake, and changing which way their head faces in the crib.","sources":[{"name":"CPSC and FDA: Sleep positioner warning, 2010","url":"https://www.cpsc.gov/Newsroom/News-Releases/2010/Deaths-prompt-CPSC-FDA-warning-on-infant-sleep-positioners"},{"name":"AAP: Flat spots and tummy time","url":"https://www.healthychildren.org/English/health-issues/conditions/Cleft-Craniofacial/Pages/Positional-Skull-Deformities-and-Torticollis.aspx"}],"needsSource":true},{"slug":"sleep-sack","name":"Sleep sack","category":"clothes","verdict":"necessary","reason":"Loose blankets aren't safe in the crib, and this is how you keep your baby warm instead.","when":"first-weeks","desc":"A wearable blanket with arm holes that zips over pajamas.","aliases":["wearable blanket","sleep bag"],"advised":false,"safety":null,"more":"Choose the size by your baby's weight, using the chart on the label. They come thicker and thinner for cool and warm rooms. As a guide, your baby should wear at most one layer more than you'd need to be comfortable. Once your baby is out of a swaddle, an arms-out sleep sack is the usual next step.","sources":[{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"}],"needsSource":true},{"slug":"smart-sock","name":"Smart sock or vitals monitor","category":"gadgets","verdict":"skip-it","reason":"The AAP doesn't recommend them for preventing SIDS, and false alarms add worry rather than remove it.","when":"first-weeks","desc":"A sock or clip that tracks your baby's heart rate and oxygen and alerts your phone.","aliases":[],"advised":false,"safety":null,"more":"If what you want is peace of mind, the steps with the strongest evidence cost nothing. Put your baby to sleep on their back, on a firm, flat surface with only a fitted sheet, in your room. If you use a monitor anyway, treat it as an extra, never as a replacement for those steps.","sources":[{"name":"AAP: Safe sleep for babies","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx"}],"needsSource":true},{"slug":"stroller","name":"Stroller","category":"travel","verdict":"necessary","reason":"You'll use it most days for the first few years.","when":"before-birth","desc":"A wheeled seat you push. Many fold down for the trunk, and some recline flat for newborns.","aliases":["pram","pushchair"],"advised":false,"safety":null,"more":"Before buying, try folding it with one hand and lifting it into your trunk, since you'll do both often. Bigger wheels handle curbs and rough sidewalks; smaller ones are lighter and fold smaller. Set the brake every time you stop, even on flat ground.","needsSource":false},{"slug":"swaddle","name":"Swaddle","category":"clothes","verdict":"nice-to-have","reason":"Many newborns settle better wrapped. You'll stop once your baby starts trying to roll.","when":"first-weeks","desc":"A blanket or zip-up wrap that holds a newborn's arms snugly at their sides.","aliases":[],"advised":false,"safety":null,"more":"Wrap the arms snugly but leave the hips loose, so your baby's legs can bend up and out. Legs wrapped straight and tight can harm the hips. A swaddled baby always sleeps on their back. Zip-up swaddles are easier than folding a blanket in the middle of the night, whoever is on night duty.","sources":[{"name":"AAP: Swaddling safety","url":"https://www.healthychildren.org/English/ages-stages/baby/diapers-clothing/Pages/Swaddling-Is-it-Safe.aspx"}],"needsSource":true},{"slug":"white-noise-machine","name":"White noise machine","category":"gadgets","verdict":"nice-to-have","reason":"It helps some babies sleep through household noise. A free phone app is a fine test first.","when":"first-weeks","desc":"A small speaker that plays steady background sound.","aliases":["sound machine"],"advised":false,"safety":null,"more":"Put it well away from the crib, never on or in it, and keep the volume low. You don't need lullabies or extra features. Some families keep using one for years and bring it along for naps away from home.","sources":[{"name":"Pediatrics study: Infant sleep machine noise, 2014","url":"https://doi.org/10.1542/peds.2013-3617"}],"needsSource":true},{"slug":"wipe-warmer","name":"Wipe warmer","category":"diapering-bath","verdict":"skip-it","reason":"Nice idea, but most parents stop using it within a few weeks. It's not a safety or comfort issue either way.","when":"before-birth","desc":"A plug-in box that keeps a pack of wipes warm.","aliases":[],"advised":false,"safety":null,"more":"If cold wipes bother your baby, holding one in your closed hand for a few seconds takes the chill off. In the first weeks, some parents use cotton pads and warm water instead. Either way, your baby gets used to whatever your routine is.","needsSource":false},{"slug":"wipes","name":"Wipes","category":"diapering-bath","verdict":"necessary","reason":"You'll use them for far more than diapers.","when":"before-birth","desc":"Soft, damp cloths in a resealable pack.","aliases":[],"advised":false,"safety":null,"more":"Keep a pack wherever you change diapers, plus one in the car and one in your bag. Close the lid after each use, or the top ones dry out. Before buying in bulk, try one pack and see how your baby's skin does with it.","needsSource":false},{"slug":"zip-up-sleepers","name":"Zip-up sleepers","category":"clothes","verdict":"necessary","reason":"You'll appreciate a zipper at 3 a.m. Snaps are slower.","when":"before-birth","desc":"Footed one-piece pajamas that zip from neck to ankle.","aliases":["footie pajamas"],"advised":false,"safety":null,"more":"Two-way zippers open from the bottom, so you can change a diaper without uncovering your baby's chest. Built-in feet mean no socks to go missing. Check the fit at the feet: once toes press against the end, it's time for the next size.","needsSource":false}];
   var TL = [{"id":"visit-first-prenatal","kind":"visit","era":"preg","title":"First prenatal visit","startW":8,"endW":8,"a0":null,"a1":null,"open":true,"typical":"Usually booked for after about week 8; the sources say to call as soon as you think you are pregnant.","who":"pregnant parent","note":"Providers usually do not book it before about week 8, but an earlier visit is common when there is a medical condition, a past pregnancy problem, or symptoms such as bleeding.","verify":true,"sources":[{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"}]},{"id":"visit-cadence-monthly","kind":"visit","era":"preg","title":"Prenatal visits about once a month","startW":8,"endW":28,"a0":null,"a1":null,"open":false,"typical":"About one visit a month until week 28 in a healthy pregnancy.","who":"pregnant parent","note":"People over 35 or with conditions like diabetes or high blood pressure may be seen more often, and each practice sets its own schedule.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"}]},{"id":"visit-cadence-biweekly","kind":"visit","era":"preg","title":"Prenatal visits every 2 weeks","startW":28,"endW":36,"a0":null,"a1":null,"open":false,"typical":"About every 2 weeks from week 28 to week 36 in a healthy pregnancy.","who":"pregnant parent","note":"Higher-risk pregnancies can mean more frequent visits and extra monitoring, and the exact rhythm depends on the practice.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your third trimester","url":"https://medlineplus.gov/ency/patientinstructions/000558.htm","date":"2026-05-29"}]},{"id":"visit-cadence-weekly","kind":"visit","era":"preg","title":"Weekly prenatal visits until birth","startW":36,"endW":40,"a0":null,"a1":null,"open":false,"typical":"About once a week from week 36 until the baby is born in a healthy pregnancy.","who":"pregnant parent","note":"The third-trimester page notes extra tests and fetal monitoring may be ordered for high-risk pregnancies or one that runs past 40 weeks.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Care","url":"https://medlineplus.gov/prenatalcare.html","date":"2025-06-17"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your third trimester","url":"https://medlineplus.gov/ency/patientinstructions/000558.htm","date":"2026-05-29"}]},{"id":"test-first-visit-labs","kind":"test","era":"preg","title":"First-visit blood and urine tests","startW":8,"endW":8,"a0":null,"a1":null,"open":true,"typical":"Done at the first prenatal visit: blood type and Rh, blood count, rubella immunity, hepatitis B, HIV, syphilis and a urine check.","who":"pregnant parent","note":"The list is consistent across the sources but the exact panel differs by practice, and extra tests may be offered based on age, history or family background.","verify":false,"sources":[{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"},{"name":"MedlinePlus: Prenatal Testing","url":"https://medlineplus.gov/prenataltesting.html","date":"2025-06-18"}]},{"id":"screening-cfdna","kind":"screening","era":"preg","title":"Cell-free DNA blood screening","startW":10,"endW":10,"a0":null,"a1":null,"open":true,"typical":"Can be done from about week 10; the sources give no upper limit.","who":"pregnant parent","note":"It is recommended for higher-risk pregnancies such as age 35 or older, and many providers also offer it to everyone.","verify":false,"sources":[{"name":"MedlinePlus: Prenatal Cell-Free DNA Screening","url":"https://medlineplus.gov/lab-tests/prenatal-cell-free-dna-screening/","date":"2024-03-19"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your first trimester","url":"https://medlineplus.gov/ency/patientinstructions/000544.htm","date":"2026-05-29"}]},{"id":"test-anatomy-ultrasound","kind":"test","era":"preg","title":"Mid-pregnancy anatomy ultrasound","startW":18,"endW":22,"a0":null,"a1":null,"open":false,"typical":"Usually between weeks 18 and 22.","who":"pregnant parent","note":"The range comes from an NIH-hosted reference plus an NHS cross-check (18 to 21), not from ACOG, and a higher-risk pregnancy may get extra or earlier scans.","verify":true,"sources":[{"name":"StatPearls on NCBI Bookshelf (NIH-hosted reference, not a guideline body): Sonography Fetal Assessment, Protocols, and Interpretation","url":"https://www.ncbi.nlm.nih.gov/sites/books/NBK576427/","date":"2026-04-15"},{"name":"NHS (UK) Screening tests in pregnancy [CROSS-CHECK ONLY, not a US source]","url":"https://www.nhs.uk/pregnancy/your-pregnancy-care/screening-tests/","date":"2026-03-16"}]},{"id":"test-glucose-screening","kind":"test","era":"preg","title":"Gestational diabetes glucose screening","startW":24,"endW":28,"a0":null,"a1":null,"open":false,"typical":"Usually between weeks 24 and 28.","who":"pregnant parent","note":"CDC says people at higher risk of gestational diabetes may be tested earlier.","verify":false,"sources":[{"name":"CDC: Diabetes Testing","url":"https://www.cdc.gov/diabetes/diabetes-testing/index.html","date":"2024-05-15"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"}]},{"id":"screening-gbs","kind":"screening","era":"preg","title":"Group B strep (GBS) swab","startW":36,"endW":37,"a0":null,"a1":null,"open":false,"typical":"During the 36th or 37th week of each pregnancy.","who":"pregnant parent","note":"CDC says screening still applies when a cesarean birth is planned, and the third-trimester page only says \"a few weeks before your due date\".","verify":false,"sources":[{"name":"CDC: Screening for Group B Strep Bacteria","url":"https://www.cdc.gov/group-b-strep/testing/index.html","date":"2025-05-01"},{"name":"MedlinePlus Encyclopedia: Prenatal care in your third trimester","url":"https://medlineplus.gov/ency/patientinstructions/000558.htm","date":"2026-05-29"}]},{"id":"vaccine-tdap-pregnancy","kind":"vaccine","era":"preg","title":"Tdap (whooping cough) vaccine in pregnancy","startW":27,"endW":36,"a0":null,"a1":null,"open":false,"typical":"One dose in every pregnancy, best given between weeks 27 and 36, earlier in that window if possible.","who":"pregnant parent","note":"It may be given at any point in pregnancy, and CDC says to give it right after birth if it was missed.","verify":false,"sources":[{"name":"CDC: Vaccine Recommendations Before, During, and After Pregnancy","url":"https://www.cdc.gov/vaccines-pregnancy/recommended-vaccines/index.html","date":"2026-10-07"},{"name":"CDC: Guidelines for Vaccinating Pregnant Women (clinician page)","url":"https://www.cdc.gov/vaccines-pregnancy/hcp/vaccination-guidelines/index.html","date":"2025-08-22"},{"name":"NICHD: What happens during prenatal visits? (page review date is 2017, so older than the others)","url":"https://www.nichd.nih.gov/health/topics/preconceptioncare/conditioninfo/prenatal-visits","date":"2017-01-31"}]},{"id":"vaccine-flu-pregnancy","kind":"vaccine","era":"preg","title":"Flu shot in pregnancy (season-based, not week-based)","startW":null,"endW":null,"a0":null,"a1":null,"open":false,"typical":"Any week of pregnancy during flu season; CDC says ideally by the end of October.","who":"pregnant parent","note":"Timing follows the season, not the week of pregnancy: September or October is preferred in the first two trimesters, and July or August can be considered in the third.","verify":false,"sources":[{"name":"CDC: Vaccine Recommendations Before, During, and After Pregnancy","url":"https://www.cdc.gov/vaccines-pregnancy/recommended-vaccines/index.html","date":"2026-10-07"},{"name":"CDC: Guidelines for Vaccinating Pregnant Women (clinician page)","url":"https://www.cdc.gov/vaccines-pregnancy/hcp/vaccination-guidelines/index.html","date":"2025-08-22"}]},{"id":"vaccine-rsv-pregnancy","kind":"vaccine","era":"preg","title":"RSV vaccine in pregnancy","startW":32,"endW":36,"a0":null,"a1":null,"open":false,"typical":"One dose between 32 weeks 0 days and 36 weeks 6 days, September through January in most of the continental US.","who":"pregnant parent","note":"If the window is missed or the pregnant parent is not vaccinated, the baby can get an RSV antibody instead, and regions outside the continental US follow local guidance.","verify":false,"sources":[{"name":"CDC: RSV Vaccine Guidance for Pregnant Women (page shows two unlabeled dates, 2024-08-30 and 2025-01-31)","url":"https://www.cdc.gov/rsv/hcp/vaccine-clinical-guidance/pregnant-people.html","date":"2025-01-31"},{"name":"CDC: Guidelines for Vaccinating Pregnant Women (clinician page)","url":"https://www.cdc.gov/vaccines-pregnancy/hcp/vaccination-guidelines/index.html","date":"2025-08-22"},{"name":"CDC: Vaccine Recommendations Before, During, and After Pregnancy","url":"https://www.cdc.gov/vaccines-pregnancy/recommended-vaccines/index.html","date":"2026-10-07"}]},{"id":"screening-newborn-bloodspot","kind":"screening","era":"baby","title":"Newborn screening heel-prick blood spot","startW":0,"endW":0,"a0":"1d","a1":"2d","open":false,"typical":"Done before the baby leaves the hospital, usually when the baby is 1 to 2 days old.","who":"baby","note":"The fetched pages say only \"before leaving the hospital\" or \"shortly after birth\", and the 1 to 2 day figure comes from search results of HRSA and CDC documents, which also say a test before 24 hours may need repeating.","verify":true,"sources":[{"name":"MedlinePlus: Newborn Screening","url":"https://medlineplus.gov/newbornscreening.html","date":"2018-07-13"},{"name":"CDC: About Newborn Screening (covers the blood spot test only)","url":"https://www.cdc.gov/newborn-screening/about/index.html","date":"2026-08-14"},{"name":"HRSA: Newborn Screening Process [SEEN IN SEARCH RESULTS ONLY, fetch returned 403]","url":"https://newbornscreening.hrsa.gov/newborn-screening-process","date":null},{"name":"CDC: Newborn Screening Contingency Plan v3 [SEEN IN SEARCH RESULTS ONLY, PDF not fetched]","url":"https://www.cdc.gov/newborn-screening/media/pdfs/2025/05/NBS-CONPLAN-V3.pdf","date":"2024-11-01"}]},{"id":"screening-newborn-hearing","kind":"screening","era":"baby","title":"Newborn hearing screen","startW":0,"endW":4,"a0":"0d","a1":"1m","open":false,"typical":"Ideally before leaving the hospital, and no later than 1 month old.","who":"baby","note":"CDC's 1-3-6 guideline adds a full hearing evaluation by 3 months and early intervention by 6 months for babies who do not pass, and the sources give no separate timing for babies with risk factors.","verify":false,"sources":[{"name":"CDC: Hearing screening for babies (1-3-6 guideline)","url":"https://www.cdc.gov/hearing-loss-children/screening/index.html","date":"2024-10-08"},{"name":"MedlinePlus: Newborn Screening","url":"https://medlineplus.gov/newbornscreening.html","date":"2018-07-13"}]},{"id":"visit-first-pediatric","kind":"visit","era":"baby","title":"First pediatric visit (first-week visit)","startW":0,"endW":0,"a0":"3d","a1":"5d","open":false,"typical":"AAP lists a first-week visit when the baby is 3 to 5 days old.","who":"either","note":"The AAP page gives the age only, and the sources reviewed describe no high-risk or practice-level variations.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-1m","kind":"visit","era":"baby","title":"1-month well-child visit","startW":4,"endW":4,"a0":"1m","a1":"1m","open":false,"typical":"AAP lists a well-child visit at 1 month.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-2m","kind":"visit","era":"baby","title":"2-month well-child visit","startW":9,"endW":9,"a0":"2m","a1":"2m","open":false,"typical":"AAP lists a well-child visit at 2 months; the first routine vaccine series is also given around this age.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-4m","kind":"visit","era":"baby","title":"4-month well-child visit","startW":17,"endW":17,"a0":"4m","a1":"4m","open":false,"typical":"AAP lists a well-child visit at 4 months.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"visit-wellchild-6m","kind":"visit","era":"baby","title":"6-month well-child visit","startW":26,"endW":26,"a0":"6m","a1":"6m","open":false,"typical":"AAP lists a well-child visit at 6 months.","who":"either","note":"The AAP page gives the age only, so exact booking and any extra visits are decided by the practice.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: AAP Schedule of Well-Child Care Visits","url":"https://www.healthychildren.org/English/family-life/health-management/Pages/Well-Child-Care-A-Check-Up-for-Success.aspx","date":"2026-03-17"}]},{"id":"postpartum-contact-3w","kind":"postpartum","era":"baby","title":"Early postpartum check-in (phone or in person)","startW":0,"endW":3,"a0":"0w","a1":"3w","open":false,"typical":"ACOG recommends contact with the care provider within the first 3 weeks after birth.","who":"pregnant parent","note":"This comes from search-result snippets of ACOG Committee Opinion 736 because the ACOG site returned 402, and the sources reviewed give no separate high-risk timing.","verify":true,"sources":[{"name":"ACOG Committee Opinion 736, Optimizing Postpartum Care (PubMed record) [SEEN IN SEARCH RESULTS ONLY: ACOG site returned 402, PubMed fetch blocked]","url":"https://pubmed.ncbi.nlm.nih.gov/29683911/","date":"2018-05-01"}]},{"id":"postpartum-comprehensive-visit","kind":"postpartum","era":"baby","title":"Comprehensive postpartum visit","startW":4,"endW":12,"a0":"4w","a1":"12w","open":false,"typical":"ACOG says no later than 12 weeks after birth, while older MedlinePlus text still says a single checkup at 4 to 6 weeks.","who":"pregnant parent","note":"The sources disagree on a single 4 to 6 week visit versus a 3-week contact plus a visit by 12 weeks, and both were seen only in search results, so confirm with ACOG.","verify":true,"sources":[{"name":"ACOG Committee Opinion 736, Optimizing Postpartum Care (PubMed record) [SEEN IN SEARCH RESULTS ONLY: ACOG site returned 402, PubMed fetch blocked]","url":"https://pubmed.ncbi.nlm.nih.gov/29683911/","date":"2018-05-01"},{"name":"MedlinePlus Encyclopedia: Vaginal delivery - discharge (says 4 to 6 weeks) [SEEN IN SEARCH RESULTS ONLY, page not fetched]","url":"https://medlineplus.gov/ency/patientinstructions/000628.htm","date":null}]},{"id":"gear-safe-sleep-room-share","kind":"gear","era":"baby","title":"Safe sleep space: firm flat crib or bassinet in your room","startW":0,"endW":26,"a0":"0d","a1":"6m","open":false,"typical":"AAP says to share a room, not a bed, for at least the first 6 months, with the baby on their back on a firm, flat surface.","who":"both","note":"AAP gives no deadline for setting up the sleep space before the baby comes home, and most of the advice applies to babies up to 1 year old.","verify":false,"sources":[{"name":"AAP via HealthyChildren.org: A Parent's Guide to Safe Sleep","url":"https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx","date":"2026-09-11"}]}];
+  var TLW = {
+  "intro": "These are typical patterns from public health sources, not targets and not medical advice. Every pregnancy and baby is different, and your doctor or midwife sets your actual dates. Baby weeks count from the due date: for a baby born early, that matches the corrected age used for development, while checkups and vaccines follow the birth date. Some timings are still being checked.",
+  "weeks": {
+    "preg6": {
+      "baby": "Arms, legs and ears are starting to form, and the brain and liver are developing. The baby is about 6 mm long, roughly a quarter inch.",
+      "you": "Tiredness and nausea are common now, and the nausea can come at any time of day.",
+      "sources": [{"name": "NHS: Pregnancy week 6", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-6/"}]
+    },
+    "preg7": {
+      "baby": "The brain is growing faster than the rest of the body, so the forehead looks large. Small arm buds are lengthening and will soon become hands.",
+      "you": "Feeling thirstier than usual is common, since there is more blood circulating now.",
+      "sources": [{"name": "NHS: Pregnancy week 7", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-7/"}]
+    },
+    "preg8": {
+      "baby": "The head has started to uncurl a little as the body keeps growing quickly.",
+      "you": "Bloating, tiredness and needing to pee more often are all common around now.",
+      "sources": [{"name": "NHS: Pregnancy week 8", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-8/"}]
+    },
+    "preg9": {
+      "baby": "The face is becoming clearer, with eyelids and a tongue with tiny taste buds. The heart, brain, lungs and kidneys keep developing, and the skeleton is taking shape.",
+      "you": "Mood swings are common as hormone levels rise; rest and help from the people around you can make these weeks easier.",
+      "sources": [{"name": "NHS: Pregnancy week 9", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-9/"}]
+    },
+    "preg10": {
+      "baby": "The baby is making small, jerky movements, far too small to feel. The heart beats about three times as fast as an adult's.",
+      "you": "Bloating and heartburn are common, because pregnancy hormones relax the muscles of the digestive system.",
+      "sources": [{"name": "NHS: Pregnancy week 10", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-10/"}]
+    },
+    "preg11": {
+      "baby": "Fingers and toes are separating, and tiny nails and ears are forming. The baby moves a lot, though it will be weeks before anyone feels it.",
+      "you": "Feeling hot, tired or a little dizzy is common as blood volume rises.",
+      "sources": [{"name": "NHS: Pregnancy week 11", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-11/"}]
+    },
+    "preg12": {
+      "baby": "Organs and muscles have grown, and soft tissue is starting to harden into bone. The baby is about 5.4 cm long, roughly 2 inches.",
+      "you": "As nausea eases for many people, appetite often comes back.",
+      "sources": [{"name": "NHS: Pregnancy week 12", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-12/"}]
+    },
+    "preg13": {
+      "baby": "The ovaries or testes are fully formed inside. Movements are getting more deliberate, though they usually can't be felt for a few more weeks.",
+      "you": "A small bump may start to show as the womb grows up and out of the pelvis.",
+      "sources": [{"name": "NHS: Pregnancy week 13", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-13/"}]
+    },
+    "preg14": {
+      "baby": "The head is getting rounder and more in proportion with the body. The baby moves often, though it is usually too early to feel.",
+      "you": "Energy and appetite often return now; brief aches at the sides of the bump are common as the womb stretches.",
+      "sources": [{"name": "NHS: Pregnancy week 14", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-14/"}]
+    },
+    "preg15": {
+      "baby": "Fine, soft hair called lanugo covers the body, and eyebrows and eyelashes are starting to grow.",
+      "you": "If you like, either of you can talk to the bump from now; the baby is starting to hear.",
+      "sources": [{"name": "NHS: Pregnancy week 15", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-15/"}]
+    },
+    "preg16": {
+      "baby": "Hands can form fists, and the face makes expressions the baby can't control yet. The baby is about 11.6 cm long, roughly 4.5 inches.",
+      "you": "",
+      "sources": [{"name": "NHS: Pregnancy week 16", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-16/"}]
+    },
+    "preg17": {
+      "baby": "The eyes can move under closed lids, and the baby reacts to loud noises. Fingerprints are forming, unique to each baby, even identical twins.",
+      "you": "First movements may be felt from around now, but many people first notice them between 18 and 24 weeks.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 17", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-17/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"}
+      ]
+    },
+    "preg18": {
+      "baby": "Hearing, swallowing and sucking reflexes are developing. The baby wriggles a lot, moving arms and legs.",
+      "you": "Standing up slowly can help with dizziness, as blood pressure often runs a little lower now.",
+      "sources": [{"name": "NHS: Pregnancy week 18", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-18/"}]
+    },
+    "preg19": {
+      "baby": "Adult teeth are already forming, lined up behind the first set in the gums. The baby is steadily gaining weight.",
+      "you": "A bubbling feeling that seems like wind may actually be the baby moving.",
+      "sources": [{"name": "NHS: Pregnancy week 19", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-19/"}]
+    },
+    "preg20": {
+      "baby": "From now, length is measured head to heel: about 25.6 cm, roughly 10 inches. A white, waxy coating called vernix protects the skin.",
+      "you": "This is roughly halfway through the usual 40 weeks.",
+      "sources": [{"name": "NHS: Pregnancy week 20", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-20/"}]
+    },
+    "preg21": {
+      "baby": "The baby now weighs more than the placenta. They can hear sounds and voices from outside the womb.",
+      "you": "Joints loosen during pregnancy, so balance can feel a little less steady as the bump grows.",
+      "sources": [{"name": "NHS: Pregnancy week 21", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-21/"}]
+    },
+    "preg22": {
+      "baby": "The lungs are developing, and the baby makes breathing movements for practice. Taste buds are developing too.",
+      "you": "Stretch marks may start to appear, most often on the belly, thighs or chest.",
+      "sources": [{"name": "NHS: Pregnancy week 22", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-22/"}]
+    },
+    "preg23": {
+      "baby": "Arms and legs are now in proportion with the body. The baby is practicing breathing and settling into patterns of sleeping and waking.",
+      "you": "Kicks often get stronger, and movements may soon be visible from the outside, for both of you to see.",
+      "sources": [{"name": "NHS: Pregnancy week 23", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-23/"}]
+    },
+    "preg24": {
+      "baby": "The baby is about 30 cm long, roughly 12 inches. Everything is in proportion; the baby just has a lot of growing still to do.",
+      "you": "Hunger often picks up, and bump size varies a lot from one person to the next.",
+      "sources": [{"name": "NHS: Pregnancy week 24", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-24/"}]
+    },
+    "preg25": {
+      "baby": "This is an active stretch: a loud noise can make the baby jump and kick, and some people feel the occasional hiccup.",
+      "you": "",
+      "sources": [{"name": "NHS: Pregnancy week 25", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-25/"}]
+    },
+    "preg26": {
+      "baby": "The eyes are opening for the first time, and blinking comes next. Movement inside the bump often feels busier now.",
+      "you": "Leg cramps, especially at night, and feeling a bit clumsier are both common now.",
+      "sources": [{"name": "NHS: Pregnancy week 26", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-26/"}]
+    },
+    "preg27": {
+      "baby": "The baby is adding fat that fills out the skin, and all the organs are maturing for life outside the womb.",
+      "you": "Tiredness, bloating and constipation are common, and many people find short naps help.",
+      "sources": [{"name": "NHS: Pregnancy week 27", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-27/"}]
+    },
+    "preg28": {
+      "baby": "The third trimester begins. The baby's heartbeat has slowed to about 140 beats a minute, and length is about 37.6 cm, roughly 15 inches.",
+      "you": "A good week for you both to talk about where the baby will sleep and how the first weeks might work.",
+      "sources": [{"name": "NHS: Pregnancy week 28", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-28/"}]
+    },
+    "preg29": {
+      "baby": "The baby is fully formed and will spend the coming weeks maturing and building fat. The waxy vernix coating starts to thin.",
+      "you": "If the baby's usual pattern of movement slows down, stops or changes, call your doctor or midwife straight away, even at night.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 29", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-29/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"},
+        {"name": "MedlinePlus Encyclopedia: Prenatal care in your third trimester", "url": "https://medlineplus.gov/ency/patientinstructions/000558.htm"}
+      ]
+    },
+    "preg30": {
+      "baby": "The baby's eyes can now focus, and vision keeps developing before and after birth.",
+      "you": "Sleep often gets harder around now, and vivid dreams are common.",
+      "sources": [{"name": "NHS: Pregnancy week 30", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-30/"}]
+    },
+    "preg31": {
+      "baby": "The baby is very active, sucking fingers and turning the odd somersault. Day by day, they look plumper and less wrinkled.",
+      "you": "Some people notice practice contractions: the bump tightens for 20 to 30 seconds, then relaxes.",
+      "sources": [{"name": "NHS: Pregnancy week 31", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-31/"}]
+    },
+    "preg32": {
+      "baby": "Many babies are head down by now, and some turn later. The baby is about 42.4 cm long, roughly 16.5 inches, and putting on weight.",
+      "you": "If either of you plans to take leave, this is a practical week to check how it works at work.",
+      "sources": [{"name": "NHS: Pregnancy week 32", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-32/"}]
+    },
+    "preg33": {
+      "baby": "The brain and nervous system are fully developed. The bones are hardening, apart from the skull bones.",
+      "you": "If the baby's usual pattern of movement slows down, stops or changes, call your doctor or midwife straight away, even at night.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 33", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-33/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"},
+        {"name": "MedlinePlus Encyclopedia: Prenatal care in your third trimester", "url": "https://medlineplus.gov/ency/patientinstructions/000558.htm"}
+      ]
+    },
+    "preg34": {
+      "baby": "The baby is curled up with legs drawn toward the chest. Space is tighter, so movements may feel more cramped, though they continue.",
+      "you": "If the baby settles lower, breathing and heartburn may ease while bathroom trips increase.",
+      "sources": [{"name": "NHS: Pregnancy week 34", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-34/"}]
+    },
+    "preg35": {
+      "baby": "The baby is building fat stores that help them stay warm after birth. The womb is crowded, but movements usually stay as strong and regular.",
+      "you": "Painless tightenings called Braxton Hicks are common, along with backache and broken sleep.",
+      "sources": [{"name": "NHS: Pregnancy week 35", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-35/"}]
+    },
+    "preg36": {
+      "baby": "The lungs are probably mature enough to breathe without help. The baby is about 47.4 cm long, roughly 18.5 inches.",
+      "you": "A practical week to pack a bag and agree how you'll reach each other when labor starts.",
+      "sources": [{"name": "NHS: Pregnancy week 36", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-36/"}]
+    },
+    "preg37": {
+      "baby": "The baby tries out facial expressions like frowning and smiling, which aren't linked to feelings yet.",
+      "you": "If the baby's usual pattern of movement slows down, stops or changes, call your doctor or midwife straight away, even at night.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 37", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-37/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"},
+        {"name": "MedlinePlus Encyclopedia: Prenatal care in your third trimester", "url": "https://medlineplus.gov/ency/patientinstructions/000558.htm"}
+      ]
+    },
+    "preg38": {
+      "baby": "The baby is storing meconium, a sticky dark-green substance that usually becomes their first poop after birth.",
+      "you": "Feeling restless or impatient this late is common; waiting can start to feel long.",
+      "sources": [{"name": "NHS: Pregnancy week 38", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-38/"}]
+    },
+    "preg39": {
+      "baby": "A tougher outer layer of skin is forming, still protected by the waxy vernix. The baby is close to birth size.",
+      "you": "Some people get a sudden urge to tidy and get things ready, often called nesting.",
+      "sources": [{"name": "NHS: Pregnancy week 39", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-39/"}]
+    },
+    "preg40": {
+      "baby": "The baby is about 51 cm long, roughly 20 inches. Space is tight, but movements continue in the baby's usual pattern.",
+      "you": "If the due date passes, your doctor or midwife will talk you both through what happens next.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 40", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-40/"},
+        {"name": "NHS: Inducing labour", "url": "https://www.nhs.uk/pregnancy/labour-and-birth/signs-of-labour/inducing-labour/"}
+      ]
+    },
+    "baby0": {
+      "baby": "Newborns sleep around 16 to 18 hours a day, often 1 to 2 hours at a time. Many feed 8 to 12 times in 24 hours.",
+      "you": "The first days are mostly feeding, changing and sleeping in pieces; take turns where you can.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Getting your baby to sleep", "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/getting-your-baby-to-sleep.aspx"},
+        {"name": "AAP HealthyChildren: How often and how much should your baby eat", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/How-Often-and-How-Much-Should-Your-Baby-Eat.aspx"},
+        {"name": "NHS: Helping your baby to sleep", "url": "https://www.nhs.uk/conditions/baby/caring-for-a-newborn/helping-your-baby-to-sleep/"}
+      ]
+    },
+    "baby1": {
+      "baby": "Movements are jerky and hands often stay in fists. Babies focus best about 8 to 12 inches away, and like faces and high-contrast patterns.",
+      "you": "Feeling tearful or anxious in the first week or two is common, and it usually passes within two weeks.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Developmental milestones at 1 month", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Developmental-Milestones-1-Month.aspx"},
+        {"name": "NHS: Early days after the birth", "url": "https://www.nhs.uk/pregnancy/labour-and-birth/early-days/"}
+      ]
+    },
+    "baby2": {
+      "baby": "The umbilical cord stump usually dries and falls off by about 3 weeks.",
+      "you": "Bleeding after birth usually stops after 6 to 8 weeks, though it can last longer.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Umbilical cord care", "url": "https://healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Umbilical-Cord-Care.aspx"},
+        {"name": "NHS: Early days after the birth", "url": "https://www.nhs.uk/pregnancy/labour-and-birth/early-days/"}
+      ]
+    },
+    "baby3": {
+      "baby": "Crying often increases from around 2 weeks and gradually eases around 3 months. Babies are becoming more alert and watch faces while being held.",
+      "you": "If crying gets too much, it's OK to lay the baby on their back in the crib and step out for a few minutes.",
+      "sources": [
+        {"name": "NHS: Soothing a crying baby", "url": "https://www.nhs.uk/baby/caring-for-a-newborn/soothing-a-crying-baby/"},
+        {"name": "AAP HealthyChildren: Developmental milestones at 1 month", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Developmental-Milestones-1-Month.aspx"},
+        {"name": "AAP HealthyChildren: Colic", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Colic.aspx"}
+      ]
+    },
+    "baby4": {
+      "baby": "Many babies can turn their head side to side when on their tummy and react to loud sounds. Heads still need support when held.",
+      "you": "Low mood that lasts beyond the first two weeks is worth mentioning to a doctor, and it can affect either parent.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Developmental milestones at 1 month", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Developmental-Milestones-1-Month.aspx"},
+        {"name": "NHS: Postnatal depression", "url": "https://www.nhs.uk/mental-health/conditions/post-natal-depression/overview/"}
+      ]
+    },
+    "baby5": {
+      "baby": "Many babies start watching their own hands and, after many tries, bring them toward their mouth. Sucking on hands can become a way to settle.",
+      "you": "You can't spoil a young baby with attention; answering cries tends to mean less crying overall.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "AAP HealthyChildren: Responding to your baby's cries", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Responding-to-Your-Babys-Cries.aspx"}
+      ]
+    },
+    "baby6": {
+      "baby": "Fussy crying often peaks around 6 weeks. It usually eases by 3 to 4 months, though for some babies it lasts longer.",
+      "you": "Long crying spells aren't a sign you're doing something wrong; taking turns gives each of you a break.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Colic", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Colic.aspx"},
+        {"name": "AAP HealthyChildren: Responding to your baby's cries", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Responding-to-Your-Babys-Cries.aspx"}
+      ]
+    },
+    "baby7": {
+      "baby": "Tummy time builds up gradually, in short sessions of a few minutes, 2 to 3 times a day, while the baby is awake and someone is watching.",
+      "you": "After pregnancy, the gap between the stomach muscles usually closes by about 8 weeks.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Back to sleep, tummy to play", "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/back-to-sleep-tummy-to-play.aspx"},
+        {"name": "NHS: Your post-pregnancy body", "url": "https://www.nhs.uk/conditions/baby/support-and-services/your-post-pregnancy-body/"}
+      ]
+    },
+    "baby8": {
+      "baby": "Early grins turn into real social smiles for many babies in the second month, often in reply to your face and voice.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Emotional and social development, birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Emotional-and-Social-Development-Birth-to-3-Months.aspx"},
+        {"name": "CDC: Milestones by 2 months", "url": "https://www.cdc.gov/act-early/milestones/2-months.html"}
+      ]
+    },
+    "baby9": {
+      "baby": "Around 2 months, many babies hold their head up on their tummy, make sounds other than crying and watch you as you move.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 2 months", "url": "https://www.cdc.gov/act-early/milestones/2-months.html"}]
+    },
+    "baby10": {
+      "baby": "Hands are balled into fists less often, and feeds may slowly start to space out.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "AAP HealthyChildren: How often and how much should your baby eat", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/How-Often-and-How-Much-Should-Your-Baby-Eat.aspx"}
+      ]
+    },
+    "baby11": {
+      "baby": "Many babies begin cooing, with soft 'oooo' and 'aahh' sounds, and may coo back when you talk to them.",
+      "you": "If either of you goes back to work in the coming months, it's a calm time to talk through care and logistics.",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby12": {
+      "baby": "Around 3 to 4 months, many babies become intrigued by other children.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Emotional and social development, birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Emotional-and-Social-Development-Birth-to-3-Months.aspx"}]
+    },
+    "baby13": {
+      "baby": "By the end of 3 months, many babies hold and shake a toy placed in their hand, and some push up on their forearms.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}
+      ]
+    },
+    "baby14": {
+      "baby": "Some babies start rolling from tummy to back, often by kicking. Many don't roll for a while yet, and that's common.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"}
+      ]
+    },
+    "baby15": {
+      "baby": "Babies don't usually have regular sleep cycles until about 4 months. Between 3 and 6 months some sleep 5 hours or more at night, but not all do.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Getting your baby to sleep", "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/getting-your-baby-to-sleep.aspx"},
+        {"name": "NHS: Helping your baby to sleep", "url": "https://www.nhs.uk/conditions/baby/caring-for-a-newborn/helping-your-baby-to-sleep/"}
+      ]
+    },
+    "baby16": {
+      "baby": "Many babies chuckle when you try to make them laugh, and smile on their own to get your attention.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby17": {
+      "baby": "Around 4 months, many babies hold their head steady when held, bring their hands to their mouth and swing at toys.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby18": {
+      "baby": "Hand control improves, and many babies grab with a mitten-like or raking grip. Most things that get grabbed head straight for the mouth.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"},
+        {"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"}
+      ]
+    },
+    "baby19": {
+      "baby": "Many babies turn their head toward your voice and make sounds back when you talk.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby20": {
+      "baby": "Babies may rock on their tummies and make swimming motions with their arms, skills that often come before rolling.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"}]
+    },
+    "baby21": {
+      "baby": "When you respond, many babies smile, laugh, babble and copy you for minutes at a stretch.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Emotional and social development, 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Emotional-and-Social-Development-4-7-Months.aspx"}]
+    },
+    "baby22": {
+      "baby": "Sitting usually starts with support, the baby leaning forward on their hands for balance.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"},
+        {"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"}
+      ]
+    },
+    "baby23": {
+      "baby": "Some babies show interest in food, watching you eat or reaching for it. It's one of several signs the AAP links to being ready for solids.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Starting solid foods", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/Starting-Solid-Foods.aspx"}]
+    },
+    "baby24": {
+      "baby": "Teething often starts between 4 and 7 months, usually with the two front teeth, top or bottom. Timing varies a lot, and a later start doesn't mean anything is wrong.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Teething, 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/teething-tooth-care/Pages/Teething-4-to-7-Months.aspx"}]
+    },
+    "baby25": {
+      "baby": "Many babies blow raspberries, squeal and take turns making sounds with you.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"}]
+    },
+    "baby26": {
+      "baby": "Around 6 months, many babies roll from tummy to back, push up on straight arms, laugh and know familiar people. Solid foods are often introduced around now, depending on each baby's readiness.",
+      "you": "",
+      "sources": [
+        {"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"},
+        {"name": "AAP HealthyChildren: Starting solid foods", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/Starting-Solid-Foods.aspx"}
+      ]
+    }
+  }
+}
+;   // per-week copy: what happens with the baby, and for you (docs/timeline-weeks-*.json)
 
   // The third verdict label lives here. Change the string to rename it everywhere.
   var VERD = {
@@ -796,6 +1202,36 @@
 
   function isWide(){ return $('#proto').clientWidth >= 900; }
 
+  // ---------- week cards: one long card per week, stepping across the page ----------
+  function weekItem(ev){
+    var c = catOf(ev), id = ev.id, open = U.tlOpen === id;
+    var title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title;
+    return '<li class="wi">' + ICONS[c] + '<div class="wi-txt"><span class="wi-title">' + esc(title) + '</span>' +
+      '<span class="sm">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + (ev.verify ? ' · being checked' : '') + '</span>' +
+      '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" data-title="' + esc(title) + '" aria-label="' + (open ? 'Hide details: ' : 'See details: ') + esc(title) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
+      '<div class="tc-detail"' + (open ? '' : ' hidden') + '>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) + '</div></div></li>';
+  }
+  function weekCard(w, now, due, step){
+    var key = wkKey(w), copy = (TLW.weeks || {})[key] || {}, evs = eventsFor(w, 'start'), isNow = sameWeek(w, now);
+    var you = (evs.length ? '<ul class="wlist">' + evs.map(weekItem).join('') + '</ul>' : '') +
+      (copy.you ? '<p>' + esc(copy.you) + '</p>' : '') +
+      (!evs.length && !copy.you ? '<p class="sm">Nothing new to book this week.</p>' : '');
+    var baby = copy.baby ? '<div class="wpart"><h3 class="cap">Your baby</h3><p>' + esc(copy.baby) + '</p>' + srcList(copy.sources) + '</div>' : '';
+    return '<section class="wcard' + (isNow ? ' is-now' : '') + '" id="wk-' + key + '" style="--step:' + step + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
+      '<header class="wrule"><h2>Week ' + w.n + '</h2></header>' +
+      ((due || isNow) ? '<p class="wdate sm">' + (due ? 'about ' + weekRange(w, due) : '') + (isNow ? '<span class="now-tag">This week</span>' : '') + '</p>' : '') +
+      '<div class="wparts"><div class="wpart"><h3 class="cap">For you</h3>' + you + '</div>' + baby + '</div></section>';
+  }
+  function weeksBody(now, due){
+    var any = anyWeekEvents(), html = '', step = 0, era = null;
+    if (any.length) html += '<section class="wcard wcard-any"><header class="wrule"><h2>Any week</h2></header><div class="wparts"><div class="wpart"><h3 class="cap">For you</h3><ul class="wlist">' + any.map(weekItem).join('') + '</ul></div></div></section>';
+    WEEKS.forEach(function(w){
+      if (w.era !== era) { era = w.era; step = 0; html += '<h2 class="era-h sec-h">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>'; }
+      html += weekCard(w, now, due, step % 3); step++;
+    });
+    return '<div class="weeks">' + html + '</div>';
+  }
+
   function timelineBody(now, due){
     var any = anyWeekEvents(), anyHTML = any.length ? '<section class="tcol tcol-any"><header class="tcol-h"><span class="cap">Pregnancy</span><h2 class="wk">Not tied to a week</h2></header>' + any.map(card).join('') + '</section>' : '';
     if (!isWide()) return anyHTML + narrowHTML(now, due);
@@ -829,7 +1265,7 @@
   function dueNote(due, now){ return due && !now ? 'This date is outside the weeks covered here (pregnancy week 6 to baby week 26), so no week is marked as this week.' : ''; }
   function refreshTimelineBody(){
     var due = dueDate(), now = currentWeek(), body = $('#tlbody'); if (!body) return;
-    body.innerHTML = U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due);
+    body.innerHTML = weeksBody(now, due);
     var row = $('.daterow'), clr = row && row.querySelector('[data-action="tl-clear"]');
     if (row && S.due && !clr) row.insertAdjacentHTML('beforeend', '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>');
     else if (clr && !S.due) clr.remove();
@@ -842,13 +1278,13 @@
     var views = chip('data-tlv', 'all', 'Timeline', U.tlView === 'all') + chip('data-tlv', 'week', 'This week', U.tlView === 'week');
     var cats = [['all', 'All'], ['visit', 'Visits'], ['test', 'Tests'], ['gear', 'Gear decisions']].map(function(c){ return chip('data-tlc', c[0], c[1], U.tlCat === c[0]); }).join('');
     $('#view').innerHTML = '<section class="page tlpage"><div><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
-      '<p class="sub">The usual appointments, tests and gear decisions, laid out by week. Weeks with nothing new stay empty.</p></div>' +
-      '<p class="notice">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates. Some timings are still being checked against official sources.</p>' +
+      '<p class="sub">Week by week: what is usually on for you, and what is happening with your baby.</p></div>' +
+      '<p class="notice">' + esc(TLW.intro || 'Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.') + '</p>' +
       '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
       (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
       '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p><p class="sm" id="due-note" aria-live="polite">' + dueNote(due, now) + '</p></div>' +
-      '<div class="controls tlctl"><div class="chips" role="group" aria-label="View">' + views + '</div><div class="chips" role="group" aria-label="Show">' + cats + '</div></div>' +
-      '<div id="tlbody">' + (U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due)) + '</div></section>';
+      '<div class="controls tlctl"><div class="chips" role="group" aria-label="Show">' + cats + '</div>' + (now ? '<button type="button" class="btn secondary" data-action="tl-now">Jump to this week</button>' : '') + '</div>' +
+      '<div id="tlbody">' + weeksBody(now, due) + '</div></section>';
   }
 
   function focusSel(sel, alt){ var el = $(sel); if (el && !el.disabled) { el.focus(); return; } var a = alt && $(alt); if (a && !a.disabled) a.focus(); }
@@ -952,7 +1388,7 @@
       var cw = fromKey(U.tlWeek) || currentWeek() || {era:'preg', n:20}, ni = Math.max(0, Math.min(WEEKS.length - 1, wkIndex(cw) + parseInt(t.dataset.dir, 10)));
       U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]', '[data-action="tl-step"][data-dir="' + (-parseInt(t.dataset.dir, 10)) + '"]');
     }
-    else if (a === 'tl-now') { var nw = currentWeek(); if (nw) { U.tlWeek = wkKey(nw); U.tlPage = null; renderTimeline(); focusSel('#tl-week'); } }
+    else if (a === 'tl-now') { var nw = currentWeek(), wc = nw && document.getElementById('wk-' + wkKey(nw)); if (wc) { wc.setAttribute('tabindex', '-1'); wc.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); wc.focus({preventScroll:true}); } }
     else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
     else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
     else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; rememberOpener(); $('#sheet').showModal(); }

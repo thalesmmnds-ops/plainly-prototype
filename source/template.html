@@ -218,6 +218,24 @@
   .srcs{margin:0; padding-left:18px; display:grid; gap:var(--s4); font-size:.875rem; line-height:1.25rem;}
   .srcs li{min-height:24px;}
   .srcs a{display:inline-block; padding:2px 0; color:inherit; overflow-wrap:anywhere;}
+  .weeks{display:grid; gap:var(--s24);}
+  .era-h{margin:var(--s24) 0 0;}
+  .wcard{background:var(--raised); border-radius:var(--r-surface); padding:var(--s16) var(--s20) var(--s24); display:grid; gap:var(--s12); min-width:0; scroll-margin-top:96px;}
+  .wcard.is-now{box-shadow:inset 0 0 0 2px var(--w-ink);}
+  .wcard:focus{outline:2px solid var(--w-ink); outline-offset:2px;}
+  .wrule{display:flex; align-items:center; gap:var(--s16);}
+  .wrule::before, .wrule::after{content:""; flex:1; border-top:1.5px solid var(--stroke);}
+  .wrule h2{margin:0; font-family:var(--font-display); font-weight:600; font-size:1.25rem; line-height:1.5rem; white-space:nowrap;}
+  .wdate{margin:0; text-align:center; display:flex; justify-content:center; align-items:center; gap:var(--s8); flex-wrap:wrap;}
+  .now-tag{font-size:.75rem; line-height:1rem; font-weight:700; padding:2px var(--s8); border-radius:var(--r-tag); background:var(--sel); color:var(--on-sel);}
+  .wparts{display:grid; gap:var(--s20);}
+  .wpart{display:grid; gap:var(--s8); align-content:start; min-width:0;}
+  .wpart > p{margin:0;}
+  .wlist{list-style:none; margin:0; padding:0; display:grid; gap:var(--s12);}
+  .wi{display:flex; gap:var(--s12); align-items:flex-start;}
+  .wi .ico{margin-top:4px;}
+  .wi-txt{display:grid; gap:var(--s2); min-width:0; flex:1;}
+  .wi-title{font-weight:600;}
   .wk-head{display:flex; align-items:center; gap:var(--s8);}
   .wk-head .btn{min-width:44px; padding:0;}
   .wk-title{flex:1; display:grid; gap:var(--s4); min-width:0;}
@@ -259,9 +277,13 @@
     .mini .img{aspect-ratio:1;}
     .how-steps{grid-template-columns:repeat(3, 1fr); gap:var(--s24);}
     .wk-cards{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--s24);}
-    .tlctl{grid-template-columns:auto 1fr; align-items:center; gap:var(--s16);}
+    .tlctl{grid-template-columns:1fr auto; align-items:center; gap:var(--s16);}
+    .wparts{grid-template-columns:1fr 1fr; gap:var(--s32);}
+    .wcard{padding:var(--s20) var(--s32) var(--s32);}
   }
   @container (min-width: 900px){
+    .wcard{width:70%; margin-left:calc(var(--step, 0) * 15%);}
+    .wcard-any{width:70%;}
     .cards{grid-template-columns:repeat(3, 1fr);}
     .card.is-open{grid-column:1 / -1;}
   }
@@ -301,6 +323,7 @@
 
   var ITEMS = __ITEMS__;
   var TL = __TIMELINE__;
+  var TLW = __TLWEEKS__;   // per-week copy: what happens with the baby, and for you (docs/timeline-weeks-*.json)
 
   // The third verdict label lives here. Change the string to rename it everywhere.
   var VERD = {
@@ -723,6 +746,36 @@
 
   function isWide(){ return $('#proto').clientWidth >= 900; }
 
+  // ---------- week cards: one long card per week, stepping across the page ----------
+  function weekItem(ev){
+    var c = catOf(ev), id = ev.id, open = U.tlOpen === id;
+    var title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title;
+    return '<li class="wi">' + ICONS[c] + '<div class="wi-txt"><span class="wi-title">' + esc(title) + '</span>' +
+      '<span class="sm">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + (ev.verify ? ' · being checked' : '') + '</span>' +
+      '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" data-title="' + esc(title) + '" aria-label="' + (open ? 'Hide details: ' : 'See details: ') + esc(title) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
+      '<div class="tc-detail"' + (open ? '' : ' hidden') + '>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) + '</div></div></li>';
+  }
+  function weekCard(w, now, due, step){
+    var key = wkKey(w), copy = (TLW.weeks || {})[key] || {}, evs = eventsFor(w, 'start'), isNow = sameWeek(w, now);
+    var you = (evs.length ? '<ul class="wlist">' + evs.map(weekItem).join('') + '</ul>' : '') +
+      (copy.you ? '<p>' + esc(copy.you) + '</p>' : '') +
+      (!evs.length && !copy.you ? '<p class="sm">Nothing new to book this week.</p>' : '');
+    var baby = copy.baby ? '<div class="wpart"><h3 class="cap">Your baby</h3><p>' + esc(copy.baby) + '</p>' + srcList(copy.sources) + '</div>' : '';
+    return '<section class="wcard' + (isNow ? ' is-now' : '') + '" id="wk-' + key + '" style="--step:' + step + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
+      '<header class="wrule"><h2>Week ' + w.n + '</h2></header>' +
+      ((due || isNow) ? '<p class="wdate sm">' + (due ? 'about ' + weekRange(w, due) : '') + (isNow ? '<span class="now-tag">This week</span>' : '') + '</p>' : '') +
+      '<div class="wparts"><div class="wpart"><h3 class="cap">For you</h3>' + you + '</div>' + baby + '</div></section>';
+  }
+  function weeksBody(now, due){
+    var any = anyWeekEvents(), html = '', step = 0, era = null;
+    if (any.length) html += '<section class="wcard wcard-any"><header class="wrule"><h2>Any week</h2></header><div class="wparts"><div class="wpart"><h3 class="cap">For you</h3><ul class="wlist">' + any.map(weekItem).join('') + '</ul></div></div></section>';
+    WEEKS.forEach(function(w){
+      if (w.era !== era) { era = w.era; step = 0; html += '<h2 class="era-h sec-h">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>'; }
+      html += weekCard(w, now, due, step % 3); step++;
+    });
+    return '<div class="weeks">' + html + '</div>';
+  }
+
   function timelineBody(now, due){
     var any = anyWeekEvents(), anyHTML = any.length ? '<section class="tcol tcol-any"><header class="tcol-h"><span class="cap">Pregnancy</span><h2 class="wk">Not tied to a week</h2></header>' + any.map(card).join('') + '</section>' : '';
     if (!isWide()) return anyHTML + narrowHTML(now, due);
@@ -756,7 +809,7 @@
   function dueNote(due, now){ return due && !now ? 'This date is outside the weeks covered here (pregnancy week 6 to baby week 26), so no week is marked as this week.' : ''; }
   function refreshTimelineBody(){
     var due = dueDate(), now = currentWeek(), body = $('#tlbody'); if (!body) return;
-    body.innerHTML = U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due);
+    body.innerHTML = weeksBody(now, due);
     var row = $('.daterow'), clr = row && row.querySelector('[data-action="tl-clear"]');
     if (row && S.due && !clr) row.insertAdjacentHTML('beforeend', '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>');
     else if (clr && !S.due) clr.remove();
@@ -769,13 +822,13 @@
     var views = chip('data-tlv', 'all', 'Timeline', U.tlView === 'all') + chip('data-tlv', 'week', 'This week', U.tlView === 'week');
     var cats = [['all', 'All'], ['visit', 'Visits'], ['test', 'Tests'], ['gear', 'Gear decisions']].map(function(c){ return chip('data-tlc', c[0], c[1], U.tlCat === c[0]); }).join('');
     $('#view').innerHTML = '<section class="page tlpage"><div><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
-      '<p class="sub">The usual appointments, tests and gear decisions, laid out by week. Weeks with nothing new stay empty.</p></div>' +
-      '<p class="notice">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates. Some timings are still being checked against official sources.</p>' +
+      '<p class="sub">Week by week: what is usually on for you, and what is happening with your baby.</p></div>' +
+      '<p class="notice">' + esc(TLW.intro || 'Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.') + '</p>' +
       '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
       (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
       '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p><p class="sm" id="due-note" aria-live="polite">' + dueNote(due, now) + '</p></div>' +
-      '<div class="controls tlctl"><div class="chips" role="group" aria-label="View">' + views + '</div><div class="chips" role="group" aria-label="Show">' + cats + '</div></div>' +
-      '<div id="tlbody">' + (U.tlView === 'week' ? weekBody(now, due) : timelineBody(now, due)) + '</div></section>';
+      '<div class="controls tlctl"><div class="chips" role="group" aria-label="Show">' + cats + '</div>' + (now ? '<button type="button" class="btn secondary" data-action="tl-now">Jump to this week</button>' : '') + '</div>' +
+      '<div id="tlbody">' + weeksBody(now, due) + '</div></section>';
   }
 
   function focusSel(sel, alt){ var el = $(sel); if (el && !el.disabled) { el.focus(); return; } var a = alt && $(alt); if (a && !a.disabled) a.focus(); }
@@ -879,7 +932,7 @@
       var cw = fromKey(U.tlWeek) || currentWeek() || {era:'preg', n:20}, ni = Math.max(0, Math.min(WEEKS.length - 1, wkIndex(cw) + parseInt(t.dataset.dir, 10)));
       U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]', '[data-action="tl-step"][data-dir="' + (-parseInt(t.dataset.dir, 10)) + '"]');
     }
-    else if (a === 'tl-now') { var nw = currentWeek(); if (nw) { U.tlWeek = wkKey(nw); U.tlPage = null; renderTimeline(); focusSel('#tl-week'); } }
+    else if (a === 'tl-now') { var nw = currentWeek(), wc = nw && document.getElementById('wk-' + wkKey(nw)); if (wc) { wc.setAttribute('tabindex', '-1'); wc.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); wc.focus({preventScroll:true}); } }
     else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
     else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
     else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; rememberOpener(); $('#sheet').showModal(); }

@@ -1,0 +1,383 @@
+{
+  "intro": "These are typical patterns from public health sources, not targets and not medical advice. Every pregnancy and baby is different, and your doctor or midwife sets your actual dates. Baby weeks count from the due date: for a baby born early, that matches the corrected age used for development, while checkups and vaccines follow the birth date. Some timings are still being checked.",
+  "weeks": {
+    "preg6": {
+      "baby": "Arms, legs and ears are starting to form, and the brain and liver are developing. The baby is about 6 mm long, roughly a quarter inch.",
+      "you": "Tiredness and nausea are common now, and the nausea can come at any time of day.",
+      "sources": [{"name": "NHS: Pregnancy week 6", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-6/"}]
+    },
+    "preg7": {
+      "baby": "The brain is growing faster than the rest of the body, so the forehead looks large. Small arm buds are lengthening and will soon become hands.",
+      "you": "Feeling thirstier than usual is common, since there is more blood circulating now.",
+      "sources": [{"name": "NHS: Pregnancy week 7", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-7/"}]
+    },
+    "preg8": {
+      "baby": "The head has started to uncurl a little as the body keeps growing quickly.",
+      "you": "Bloating, tiredness and needing to pee more often are all common around now.",
+      "sources": [{"name": "NHS: Pregnancy week 8", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-8/"}]
+    },
+    "preg9": {
+      "baby": "The face is becoming clearer, with eyelids and a tongue with tiny taste buds. The heart, brain, lungs and kidneys keep developing, and the skeleton is taking shape.",
+      "you": "Mood swings are common as hormone levels rise; rest and help from the people around you can make these weeks easier.",
+      "sources": [{"name": "NHS: Pregnancy week 9", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-9/"}]
+    },
+    "preg10": {
+      "baby": "The baby is making small, jerky movements, far too small to feel. The heart beats about three times as fast as an adult's.",
+      "you": "Bloating and heartburn are common, because pregnancy hormones relax the muscles of the digestive system.",
+      "sources": [{"name": "NHS: Pregnancy week 10", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-10/"}]
+    },
+    "preg11": {
+      "baby": "Fingers and toes are separating, and tiny nails and ears are forming. The baby moves a lot, though it will be weeks before anyone feels it.",
+      "you": "Feeling hot, tired or a little dizzy is common as blood volume rises.",
+      "sources": [{"name": "NHS: Pregnancy week 11", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-11/"}]
+    },
+    "preg12": {
+      "baby": "Organs and muscles have grown, and soft tissue is starting to harden into bone. The baby is about 5.4 cm long, roughly 2 inches.",
+      "you": "As nausea eases for many people, appetite often comes back.",
+      "sources": [{"name": "NHS: Pregnancy week 12", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/1st-trimester/week-12/"}]
+    },
+    "preg13": {
+      "baby": "The ovaries or testes are fully formed inside. Movements are getting more deliberate, though they usually can't be felt for a few more weeks.",
+      "you": "A small bump may start to show as the womb grows up and out of the pelvis.",
+      "sources": [{"name": "NHS: Pregnancy week 13", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-13/"}]
+    },
+    "preg14": {
+      "baby": "The head is getting rounder and more in proportion with the body. The baby moves often, though it is usually too early to feel.",
+      "you": "Energy and appetite often return now; brief aches at the sides of the bump are common as the womb stretches.",
+      "sources": [{"name": "NHS: Pregnancy week 14", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-14/"}]
+    },
+    "preg15": {
+      "baby": "Fine, soft hair called lanugo covers the body, and eyebrows and eyelashes are starting to grow.",
+      "you": "If you like, either of you can talk to the bump from now; the baby is starting to hear.",
+      "sources": [{"name": "NHS: Pregnancy week 15", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-15/"}]
+    },
+    "preg16": {
+      "baby": "Hands can form fists, and the face makes expressions the baby can't control yet. The baby is about 11.6 cm long, roughly 4.5 inches.",
+      "you": "",
+      "sources": [{"name": "NHS: Pregnancy week 16", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-16/"}]
+    },
+    "preg17": {
+      "baby": "The eyes can move under closed lids, and the baby reacts to loud noises. Fingerprints are forming, unique to each baby, even identical twins.",
+      "you": "First movements may be felt from around now, but many people first notice them between 18 and 24 weeks.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 17", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-17/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"}
+      ]
+    },
+    "preg18": {
+      "baby": "Hearing, swallowing and sucking reflexes are developing. The baby wriggles a lot, moving arms and legs.",
+      "you": "Standing up slowly can help with dizziness, as blood pressure often runs a little lower now.",
+      "sources": [{"name": "NHS: Pregnancy week 18", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-18/"}]
+    },
+    "preg19": {
+      "baby": "Adult teeth are already forming, lined up behind the first set in the gums. The baby is steadily gaining weight.",
+      "you": "A bubbling feeling that seems like wind may actually be the baby moving.",
+      "sources": [{"name": "NHS: Pregnancy week 19", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-19/"}]
+    },
+    "preg20": {
+      "baby": "From now, length is measured head to heel: about 25.6 cm, roughly 10 inches. A white, waxy coating called vernix protects the skin.",
+      "you": "This is roughly halfway through the usual 40 weeks.",
+      "sources": [{"name": "NHS: Pregnancy week 20", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-20/"}]
+    },
+    "preg21": {
+      "baby": "The baby now weighs more than the placenta. They can hear sounds and voices from outside the womb.",
+      "you": "Joints loosen during pregnancy, so balance can feel a little less steady as the bump grows.",
+      "sources": [{"name": "NHS: Pregnancy week 21", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-21/"}]
+    },
+    "preg22": {
+      "baby": "The lungs are developing, and the baby makes breathing movements for practice. Taste buds are developing too.",
+      "you": "Stretch marks may start to appear, most often on the belly, thighs or chest.",
+      "sources": [{"name": "NHS: Pregnancy week 22", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-22/"}]
+    },
+    "preg23": {
+      "baby": "Arms and legs are now in proportion with the body. The baby is practicing breathing and settling into patterns of sleeping and waking.",
+      "you": "Kicks often get stronger, and movements may soon be visible from the outside, for both of you to see.",
+      "sources": [{"name": "NHS: Pregnancy week 23", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-23/"}]
+    },
+    "preg24": {
+      "baby": "The baby is about 30 cm long, roughly 12 inches. Everything is in proportion; the baby just has a lot of growing still to do.",
+      "you": "Hunger often picks up, and bump size varies a lot from one person to the next.",
+      "sources": [{"name": "NHS: Pregnancy week 24", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-24/"}]
+    },
+    "preg25": {
+      "baby": "This is an active stretch: a loud noise can make the baby jump and kick, and some people feel the occasional hiccup.",
+      "you": "",
+      "sources": [{"name": "NHS: Pregnancy week 25", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-25/"}]
+    },
+    "preg26": {
+      "baby": "The eyes are opening for the first time, and blinking comes next. Movement inside the bump often feels busier now.",
+      "you": "Leg cramps, especially at night, and feeling a bit clumsier are both common now.",
+      "sources": [{"name": "NHS: Pregnancy week 26", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-26/"}]
+    },
+    "preg27": {
+      "baby": "The baby is adding fat that fills out the skin, and all the organs are maturing for life outside the womb.",
+      "you": "Tiredness, bloating and constipation are common, and many people find short naps help.",
+      "sources": [{"name": "NHS: Pregnancy week 27", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/2nd-trimester/week-27/"}]
+    },
+    "preg28": {
+      "baby": "The third trimester begins. The baby's heartbeat has slowed to about 140 beats a minute, and length is about 37.6 cm, roughly 15 inches.",
+      "you": "A good week for you both to talk about where the baby will sleep and how the first weeks might work.",
+      "sources": [{"name": "NHS: Pregnancy week 28", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-28/"}]
+    },
+    "preg29": {
+      "baby": "The baby is fully formed and will spend the coming weeks maturing and building fat. The waxy vernix coating starts to thin.",
+      "you": "If the baby's usual pattern of movement slows down, stops or changes, call your doctor or midwife straight away, even at night.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 29", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-29/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"},
+        {"name": "MedlinePlus Encyclopedia: Prenatal care in your third trimester", "url": "https://medlineplus.gov/ency/patientinstructions/000558.htm"}
+      ]
+    },
+    "preg30": {
+      "baby": "The baby's eyes can now focus, and vision keeps developing before and after birth.",
+      "you": "Sleep often gets harder around now, and vivid dreams are common.",
+      "sources": [{"name": "NHS: Pregnancy week 30", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-30/"}]
+    },
+    "preg31": {
+      "baby": "The baby is very active, sucking fingers and turning the odd somersault. Day by day, they look plumper and less wrinkled.",
+      "you": "Some people notice practice contractions: the bump tightens for 20 to 30 seconds, then relaxes.",
+      "sources": [{"name": "NHS: Pregnancy week 31", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-31/"}]
+    },
+    "preg32": {
+      "baby": "Many babies are head down by now, and some turn later. The baby is about 42.4 cm long, roughly 16.5 inches, and putting on weight.",
+      "you": "If either of you plans to take leave, this is a practical week to check how it works at work.",
+      "sources": [{"name": "NHS: Pregnancy week 32", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-32/"}]
+    },
+    "preg33": {
+      "baby": "The brain and nervous system are fully developed. The bones are hardening, apart from the skull bones.",
+      "you": "If the baby's usual pattern of movement slows down, stops or changes, call your doctor or midwife straight away, even at night.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 33", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-33/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"},
+        {"name": "MedlinePlus Encyclopedia: Prenatal care in your third trimester", "url": "https://medlineplus.gov/ency/patientinstructions/000558.htm"}
+      ]
+    },
+    "preg34": {
+      "baby": "The baby is curled up with legs drawn toward the chest. Space is tighter, so movements may feel more cramped, though they continue.",
+      "you": "If the baby settles lower, breathing and heartburn may ease while bathroom trips increase.",
+      "sources": [{"name": "NHS: Pregnancy week 34", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-34/"}]
+    },
+    "preg35": {
+      "baby": "The baby is building fat stores that help them stay warm after birth. The womb is crowded, but movements usually stay as strong and regular.",
+      "you": "Painless tightenings called Braxton Hicks are common, along with backache and broken sleep.",
+      "sources": [{"name": "NHS: Pregnancy week 35", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-35/"}]
+    },
+    "preg36": {
+      "baby": "The lungs are probably mature enough to breathe without help. The baby is about 47.4 cm long, roughly 18.5 inches.",
+      "you": "A practical week to pack a bag and agree how you'll reach each other when labor starts.",
+      "sources": [{"name": "NHS: Pregnancy week 36", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-36/"}]
+    },
+    "preg37": {
+      "baby": "The baby tries out facial expressions like frowning and smiling, which aren't linked to feelings yet.",
+      "you": "If the baby's usual pattern of movement slows down, stops or changes, call your doctor or midwife straight away, even at night.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 37", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-37/"},
+        {"name": "NHS: Your baby's movements", "url": "https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/"},
+        {"name": "MedlinePlus Encyclopedia: Prenatal care in your third trimester", "url": "https://medlineplus.gov/ency/patientinstructions/000558.htm"}
+      ]
+    },
+    "preg38": {
+      "baby": "The baby is storing meconium, a sticky dark-green substance that usually becomes their first poop after birth.",
+      "you": "Feeling restless or impatient this late is common; waiting can start to feel long.",
+      "sources": [{"name": "NHS: Pregnancy week 38", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-38/"}]
+    },
+    "preg39": {
+      "baby": "A tougher outer layer of skin is forming, still protected by the waxy vernix. The baby is close to birth size.",
+      "you": "Some people get a sudden urge to tidy and get things ready, often called nesting.",
+      "sources": [{"name": "NHS: Pregnancy week 39", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-39/"}]
+    },
+    "preg40": {
+      "baby": "The baby is about 51 cm long, roughly 20 inches. Space is tight, but movements continue in the baby's usual pattern.",
+      "you": "If the due date passes, your doctor or midwife will talk you both through what happens next.",
+      "sources": [
+        {"name": "NHS: Pregnancy week 40", "url": "https://www.nhs.uk/best-start-in-life/pregnancy/week-by-week-guide-to-pregnancy/3rd-trimester/week-40/"},
+        {"name": "NHS: Inducing labour", "url": "https://www.nhs.uk/pregnancy/labour-and-birth/signs-of-labour/inducing-labour/"}
+      ]
+    },
+    "baby0": {
+      "baby": "Newborns sleep around 16 to 18 hours a day, often 1 to 2 hours at a time. Many feed 8 to 12 times in 24 hours.",
+      "you": "The first days are mostly feeding, changing and sleeping in pieces; take turns where you can.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Getting your baby to sleep", "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/getting-your-baby-to-sleep.aspx"},
+        {"name": "AAP HealthyChildren: How often and how much should your baby eat", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/How-Often-and-How-Much-Should-Your-Baby-Eat.aspx"},
+        {"name": "NHS: Helping your baby to sleep", "url": "https://www.nhs.uk/conditions/baby/caring-for-a-newborn/helping-your-baby-to-sleep/"}
+      ]
+    },
+    "baby1": {
+      "baby": "Movements are jerky and hands often stay in fists. Babies focus best about 8 to 12 inches away, and like faces and high-contrast patterns.",
+      "you": "Feeling tearful or anxious in the first week or two is common, and it usually passes within two weeks.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Developmental milestones at 1 month", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Developmental-Milestones-1-Month.aspx"},
+        {"name": "NHS: Early days after the birth", "url": "https://www.nhs.uk/pregnancy/labour-and-birth/early-days/"}
+      ]
+    },
+    "baby2": {
+      "baby": "The umbilical cord stump usually dries and falls off by about 3 weeks.",
+      "you": "Bleeding after birth usually stops after 6 to 8 weeks, though it can last longer.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Umbilical cord care", "url": "https://healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Umbilical-Cord-Care.aspx"},
+        {"name": "NHS: Early days after the birth", "url": "https://www.nhs.uk/pregnancy/labour-and-birth/early-days/"}
+      ]
+    },
+    "baby3": {
+      "baby": "Crying often increases from around 2 weeks and gradually eases around 3 months. Babies are becoming more alert and watch faces while being held.",
+      "you": "If crying gets too much, it's OK to lay the baby on their back in the crib and step out for a few minutes.",
+      "sources": [
+        {"name": "NHS: Soothing a crying baby", "url": "https://www.nhs.uk/baby/caring-for-a-newborn/soothing-a-crying-baby/"},
+        {"name": "AAP HealthyChildren: Developmental milestones at 1 month", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Developmental-Milestones-1-Month.aspx"},
+        {"name": "AAP HealthyChildren: Colic", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Colic.aspx"}
+      ]
+    },
+    "baby4": {
+      "baby": "Many babies can turn their head side to side when on their tummy and react to loud sounds. Heads still need support when held.",
+      "you": "Low mood that lasts beyond the first two weeks is worth mentioning to a doctor, and it can affect either parent.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Developmental milestones at 1 month", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Developmental-Milestones-1-Month.aspx"},
+        {"name": "NHS: Postnatal depression", "url": "https://www.nhs.uk/mental-health/conditions/post-natal-depression/overview/"}
+      ]
+    },
+    "baby5": {
+      "baby": "Many babies start watching their own hands and, after many tries, bring them toward their mouth. Sucking on hands can become a way to settle.",
+      "you": "You can't spoil a young baby with attention; answering cries tends to mean less crying overall.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "AAP HealthyChildren: Responding to your baby's cries", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Responding-to-Your-Babys-Cries.aspx"}
+      ]
+    },
+    "baby6": {
+      "baby": "Fussy crying often peaks around 6 weeks. It usually eases by 3 to 4 months, though for some babies it lasts longer.",
+      "you": "Long crying spells aren't a sign you're doing something wrong; taking turns gives each of you a break.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Colic", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Colic.aspx"},
+        {"name": "AAP HealthyChildren: Responding to your baby's cries", "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Responding-to-Your-Babys-Cries.aspx"}
+      ]
+    },
+    "baby7": {
+      "baby": "Tummy time builds up gradually, in short sessions of a few minutes, 2 to 3 times a day, while the baby is awake and someone is watching.",
+      "you": "After pregnancy, the gap between the stomach muscles usually closes by about 8 weeks.",
+      "sources": [
+        {"name": "AAP HealthyChildren: Back to sleep, tummy to play", "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/back-to-sleep-tummy-to-play.aspx"},
+        {"name": "NHS: Your post-pregnancy body", "url": "https://www.nhs.uk/conditions/baby/support-and-services/your-post-pregnancy-body/"}
+      ]
+    },
+    "baby8": {
+      "baby": "Early grins turn into real social smiles for many babies in the second month, often in reply to your face and voice.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Emotional and social development, birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Emotional-and-Social-Development-Birth-to-3-Months.aspx"},
+        {"name": "CDC: Milestones by 2 months", "url": "https://www.cdc.gov/act-early/milestones/2-months.html"}
+      ]
+    },
+    "baby9": {
+      "baby": "Around 2 months, many babies hold their head up on their tummy, make sounds other than crying and watch you as you move.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 2 months", "url": "https://www.cdc.gov/act-early/milestones/2-months.html"}]
+    },
+    "baby10": {
+      "baby": "Hands are balled into fists less often, and feeds may slowly start to space out.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "AAP HealthyChildren: How often and how much should your baby eat", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/How-Often-and-How-Much-Should-Your-Baby-Eat.aspx"}
+      ]
+    },
+    "baby11": {
+      "baby": "Many babies begin cooing, with soft 'oooo' and 'aahh' sounds, and may coo back when you talk to them.",
+      "you": "If either of you goes back to work in the coming months, it's a calm time to talk through care and logistics.",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby12": {
+      "baby": "Around 3 to 4 months, many babies become intrigued by other children.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Emotional and social development, birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Emotional-and-Social-Development-Birth-to-3-Months.aspx"}]
+    },
+    "baby13": {
+      "baby": "By the end of 3 months, many babies hold and shake a toy placed in their hand, and some push up on their forearms.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}
+      ]
+    },
+    "baby14": {
+      "baby": "Some babies start rolling from tummy to back, often by kicking. Many don't roll for a while yet, and that's common.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from birth to 3 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-Birth-to-Three-Months.aspx"},
+        {"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"}
+      ]
+    },
+    "baby15": {
+      "baby": "Babies don't usually have regular sleep cycles until about 4 months. Between 3 and 6 months some sleep 5 hours or more at night, but not all do.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Getting your baby to sleep", "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/getting-your-baby-to-sleep.aspx"},
+        {"name": "NHS: Helping your baby to sleep", "url": "https://www.nhs.uk/conditions/baby/caring-for-a-newborn/helping-your-baby-to-sleep/"}
+      ]
+    },
+    "baby16": {
+      "baby": "Many babies chuckle when you try to make them laugh, and smile on their own to get your attention.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby17": {
+      "baby": "Around 4 months, many babies hold their head steady when held, bring their hands to their mouth and swing at toys.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby18": {
+      "baby": "Hand control improves, and many babies grab with a mitten-like or raking grip. Most things that get grabbed head straight for the mouth.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"},
+        {"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"}
+      ]
+    },
+    "baby19": {
+      "baby": "Many babies turn their head toward your voice and make sounds back when you talk.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 4 months", "url": "https://www.cdc.gov/act-early/milestones/4-months.html"}]
+    },
+    "baby20": {
+      "baby": "Babies may rock on their tummies and make swimming motions with their arms, skills that often come before rolling.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"}]
+    },
+    "baby21": {
+      "baby": "When you respond, many babies smile, laugh, babble and copy you for minutes at a stretch.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Emotional and social development, 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Emotional-and-Social-Development-4-7-Months.aspx"}]
+    },
+    "baby22": {
+      "baby": "Sitting usually starts with support, the baby leaning forward on their hands for balance.",
+      "you": "",
+      "sources": [
+        {"name": "AAP HealthyChildren: Movement from 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx"},
+        {"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"}
+      ]
+    },
+    "baby23": {
+      "baby": "Some babies show interest in food, watching you eat or reaching for it. It's one of several signs the AAP links to being ready for solids.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Starting solid foods", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/Starting-Solid-Foods.aspx"}]
+    },
+    "baby24": {
+      "baby": "Teething often starts between 4 and 7 months, usually with the two front teeth, top or bottom. Timing varies a lot, and a later start doesn't mean anything is wrong.",
+      "you": "",
+      "sources": [{"name": "AAP HealthyChildren: Teething, 4 to 7 months", "url": "https://www.healthychildren.org/English/ages-stages/baby/teething-tooth-care/Pages/Teething-4-to-7-Months.aspx"}]
+    },
+    "baby25": {
+      "baby": "Many babies blow raspberries, squeal and take turns making sounds with you.",
+      "you": "",
+      "sources": [{"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"}]
+    },
+    "baby26": {
+      "baby": "Around 6 months, many babies roll from tummy to back, push up on straight arms, laugh and know familiar people. Solid foods are often introduced around now, depending on each baby's readiness.",
+      "you": "",
+      "sources": [
+        {"name": "CDC: Milestones by 6 months", "url": "https://www.cdc.gov/act-early/milestones/6-months.html"},
+        {"name": "AAP HealthyChildren: Starting solid foods", "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/Starting-Solid-Foods.aspx"}
+      ]
+    }
+  }
+}
