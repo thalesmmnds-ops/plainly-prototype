@@ -160,7 +160,7 @@
   .mark button{height:44px; border:0; background:var(--raised); color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:600; cursor:pointer;}
   .mark button + button{border-left:1.5px solid var(--control);}
   .mark button[aria-pressed="true"]{background:var(--sel); color:var(--on-sel);}
-  .mark button[aria-pressed="true"]::before{content:"¹3 a0";}
+  .mark button[aria-pressed="true"]::before{content:"\2713\00a0";}
   .stepper button:focus-visible, .stepper .qty-in:focus-visible, .mark button:focus-visible{outline-offset:-4px;}
   .skip{position:absolute; left:-9999px; top:var(--s8); z-index:20; min-height:44px; padding:0 var(--s16); border:1.5px solid var(--w-ink); border-radius:var(--r-pill); background:var(--w-ink); color:var(--paper); font:600 .875rem/1.25rem var(--font-body); cursor:pointer;}
   .skip:focus{left:var(--s8);}
@@ -173,6 +173,19 @@
 
   dialog{border:1.5px solid var(--stroke); border-radius:var(--r-dialog); background:var(--raised); color:var(--w-ink); padding:var(--s24); width:min(92vw, 360px); font-family:var(--font-body); font-size:1rem; line-height:1.5rem;}
   dialog::backdrop{background:rgba(0,0,0,.5);}
+  /* Inventory item panel: right side on desktop, bottom sheet on phones */
+  .ipanel{position:fixed; inset:0 0 0 auto; margin:0; width:min(480px, 100vw); max-width:none; height:100dvh; max-height:none; padding:0; border:0; border-radius:var(--r-dialog) 0 0 var(--r-dialog); background:var(--raised); color:var(--w-ink); box-shadow:-12px 0 40px rgba(42,36,32,.18); overflow:auto; font-family:var(--font-body);}
+  .ipanel::backdrop{background:rgba(42,36,32,.32);}
+  .ipanel.is-phone{inset:auto 0 0 0; width:100vw; height:92dvh; border-radius:var(--r-dialog) var(--r-dialog) 0 0; box-shadow:0 -12px 40px rgba(42,36,32,.2);}
+  .ip-inner{min-height:100%;}
+  .ip{position:relative; display:grid; gap:var(--s16); padding:var(--s24) var(--s24) var(--s32);}
+  .ip .ph-big{aspect-ratio:4/3;}
+  .ip-x{position:absolute; top:var(--s12); right:var(--s12); z-index:1; width:44px; height:44px; border:0; border-radius:var(--r-pill); background:color-mix(in srgb, var(--raised) 88%, transparent); color:inherit; font-size:1.1rem; cursor:pointer;}
+  .ip-head{display:grid; gap:var(--s8);}
+  .ip-title{margin:0; font-family:var(--font-display); font-weight:400; font-size:1.75rem; line-height:2rem;}
+  .ip .dtext{gap:var(--s12);}
+  .card.is-panel{box-shadow:0 0 0 2px var(--w-ink);}
+  .card-head .chev{font-size:1.1rem;}
   dialog .stack{display:grid; gap:var(--s12);}
   dialog h2{margin:0; font-size:1rem; line-height:1.5rem; font-weight:700;}
   dialog button, dialog input{font-family:inherit;}
@@ -393,6 +406,7 @@
   <button type="button" class="skip" data-action="skip">Skip to content</button>
   <header class="hdr" id="hdr"></header>
   <main id="view"></main>
+  <dialog id="ipanel" class="ipanel" aria-labelledby="ipanel-title"><div class="ip-inner" id="ipanel-body"></div></dialog>
   <footer class="ftr">
     <span class="flogo" aria-hidden="true">plainly<span class="dot">.</span></span>
     <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
@@ -1011,7 +1025,10 @@
     var alias = it.aliases && it.aliases.length ? '<p class="sm">Also called ' + esc(it.aliases.join(', ')) + '</p>' : '';
     var safety = (it.advised && it.safety)
       ? '<p class="safety"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L19 6 L19 11 Q19 17.5 12 21 Q5 17.5 5 11 L5 6 Z"/></svg><span>' + esc(it.safety) + '</span></p>' : '';
-    return itemPhoto(it, 'big') + '<div class="dtext">' + alias +
+    return itemPhoto(it, 'big') + detailText(it, alias, safety);
+  }
+  function detailText(it, alias, safety){
+    return '<div class="dtext">' + alias +
       '<p class="lead">' + esc(it.desc) + '</p>' +
       '<p><b>Why this verdict:</b> ' + esc(it.reason) + '</p>' + safety +
       '<dl class="facts' + (it.verdict === 'skip-it' ? ' one' : '') + '">' + (it.verdict === 'skip-it' ? '' : '<div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div>') + '<div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
@@ -1052,7 +1069,7 @@
     return '<span class="readout">' + (parts.length ? esc(parts.join(' · ')) : 'None yet') + '</span>';
   }
 
-  function cardHTML(it, open){
+  function controlsHTML(it){
     var t = tier(it), h = have(it), nfu = !!S.nfu[it.slug], nm = esc(it.name), body = '';
     var nfuLink = !h ? '<button type="button" class="linkbtn" data-action="nfu" aria-pressed="' + (nfu ? 'true' : 'false') + '">' + (nfu ? 'Not for us ✓' : 'Not for us') + '</button>' : '';
     if (t === 'mark') {
@@ -1068,11 +1085,14 @@
         '<input class="qty-in" type="number" min="0" max="99" step="1" inputmode="numeric" value="' + n + '" aria-label="' + nm + ', ' + esc(cap) + '">' +
         '<button type="button" data-action="inc" aria-label="One more, ' + nm + '">+</button></div></div>' + nfuLink + '</div>' + breakdown(it);
     }
-    return '<article class="card' + (h ? ' is-have' : '') + (nfu ? ' is-nfu' : '') + (open ? ' is-open' : '') + '" data-slug="' + it.slug + '">' +
-      '<h3 class="ch"><button type="button" class="card-head" data-action="toggle" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="det-i-' + it.slug + '">' +
-      itemPhoto(it, 'thumb') + '<span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span></span><span class="chev" aria-hidden="true">▾</span></button></h3>' +
-      body +
-      '<div class="detail" id="det-i-' + it.slug + '"' + (open ? '' : ' hidden') + '>' + (open ? detailHTML(it, 'inv') : '') + '</div></article>';
+    return body;
+  }
+  function cardHTML(it){
+    var h = have(it), nfu = !!S.nfu[it.slug], nm = esc(it.name), body = controlsHTML(it), open = U.panelSlug === it.slug;
+    return '<article class="card' + (h ? ' is-have' : '') + (nfu ? ' is-nfu' : '') + (open ? ' is-panel' : '') + '" data-slug="' + it.slug + '">' +
+      '<h3 class="ch"><button type="button" class="card-head" data-action="toggle" aria-haspopup="dialog" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="ipanel">' +
+      itemPhoto(it, 'thumb') + '<span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span></span><span class="chev" aria-hidden="true">›</span></button></h3>' +
+      body + '</article>';
   }
 
   // ---------- views ----------
@@ -1199,16 +1219,24 @@
     var html = '';
     order.forEach(function(g){
       if (!groups[g].length) return;
-      html += '<div class="grp"><h2>' + esc(titles[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it, U.open.inv === it.slug); }).join('') + '</div></div>';
+      html += '<div class="grp"><h2>' + esc(titles[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it); }).join('') + '</div></div>';
     });
     if (!list.length) html = '<p class="sub" style="padding:16px 0">' + (U.iv === 'have' ? 'Nothing here yet. Tap Have it, or + on a card, to add something.' : (U.iv === 'left' ? 'Nothing left to decide.' : 'Nothing matches that search.')) + '</p>';
     $('#ilist').innerHTML = html;
   }
 
   function refreshCard(slug, focusSel){
+    var panelOpen = U.panelSlug === slug && $('#ipanel').open;
+    var fromPanel = panelOpen && $('#ipanel').contains(document.activeElement);
+    if (panelOpen) {
+      $('#ipanel .ip-ctl').innerHTML = controlsHTML(BY[slug]);
+      if (fromPanel) { var pf = focusSel && $('#ipanel ' + focusSel); if (pf && !pf.disabled) pf.focus(); else { var pg = $('#ipanel [data-action="inc"]') || $('#ipanel .ip-x'); if (pg) pg.focus(); } }
+    }
     var old = $('#ilist [data-slug="' + slug + '"]'); if (!old) return;
-    var tmp = document.createElement('div'); tmp.innerHTML = cardHTML(BY[slug], U.open.inv === slug);
+    var tmp = document.createElement('div'); tmp.innerHTML = cardHTML(BY[slug]);
     old.replaceWith(tmp.firstElementChild);
+    if (panelOpen) { var nt = cardThumb(slug); if (nt) nt.style.visibility = 'hidden'; }   // its picture is in the panel
+    if (fromPanel) return;
     if (focusSel) { var f = $('#ilist [data-slug="' + slug + '"] ' + focusSel); if (f && !f.disabled) f.focus(); else { var g = $('#ilist [data-slug="' + slug + '"] [data-action="inc"]'); if (g) g.focus(); } }
   }
 
@@ -1476,8 +1504,77 @@
     return result;
   }
 
+  // ---------- Inventory: item details in a side panel (bottom sheet on phones); the grid never moves ----------
+  function isPhone(){ return window.innerWidth < 640; }
+  function panelHTML(it){
+    return '<div class="ip" data-slug="' + it.slug + '">' +
+      '<button type="button" class="ip-x" data-action="ip-close" aria-label="Close details">✕</button>' +
+      itemPhoto(it, 'big') +
+      '<div class="ip-head"><h2 id="ipanel-title" class="ip-title">' + esc(it.name) + '</h2>' + chip(it) + '</div>' +
+      '<div class="ip-ctl">' + controlsHTML(it) + '</div>' +
+      detailText(it, it.aliases && it.aliases.length ? '<p class="sm">Also called ' + esc(it.aliases.join(', ')) + '</p>' : '',
+        (it.advised && it.safety) ? '<p class="safety"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L19 6 L19 11 Q19 17.5 12 21 Q5 17.5 5 11 L5 6 Z"/></svg><span>' + esc(it.safety) + '</span></p>' : '') +
+      '</div>';
+  }
+  function cardThumb(slug){ return $('#ilist [data-slug="' + slug + '"] .ph-thumb'); }
+  function openPanel(slug, btn){
+    var dlg = $('#ipanel'); if (dlg.open || dlg.dataset.anim) return;
+    var thumb = btn.querySelector('.ph-thumb'), from = thumb ? thumb.getBoundingClientRect() : null;
+    U.panelSlug = slug; U.panelOpener = btn;
+    $('#ipanel-body').innerHTML = panelHTML(BY[slug]);
+    dlg.classList.toggle('is-phone', isPhone());
+    dlg.showModal();
+    btn.setAttribute('aria-expanded', 'true'); btn.closest('article').classList.add('is-panel');
+    var big = dlg.querySelector('.ph-big');
+    if (REDUCE || !dlg.animate) { if (thumb) thumb.style.visibility = 'hidden'; return; }
+    // the panel slides in; the picture starts on the thumbnail (allowing for the panel's own starting offset)
+    var phone = isPhone(), D = 260, EASE = 'cubic-bezier(.2,.75,.2,1)';
+    var to = big ? big.getBoundingClientRect() : null;
+    var offX = phone ? 0 : 32, offY = phone ? dlg.offsetHeight : 0;
+    dlg.animate([{transform:'translate(' + offX + 'px,' + offY + 'px)', opacity:phone ? 1 : 0}, {transform:'none', opacity:1}], {duration:D, easing:EASE});
+    if (from && to && big) {
+      if (thumb) thumb.style.visibility = 'hidden';
+      big.animate([
+        {transformOrigin:'0 0', transform:'translate(' + (from.left - to.left - offX) + 'px,' + (from.top - to.top - offY) + 'px) scale(' + (from.width / to.width) + ',' + (from.height / to.height) + ')'},
+        {transformOrigin:'0 0', transform:'none'}
+      ], {duration:D, easing:EASE});
+    }
+    var rest = dlg.querySelectorAll('.ip-head, .ip-ctl, .dtext');
+    [].forEach.call(rest, function(el){ el.animate([{opacity:0, transform:'translateY(6px)'}, {opacity:1, transform:'none'}], {duration:200, delay:90, easing:'ease-out', fill:'backwards'}); });
+  }
+  function closePanel(){
+    var dlg = $('#ipanel'); if (!dlg.open || dlg.dataset.anim) return;
+    var slug = U.panelSlug, thumb = cardThumb(slug), big = dlg.querySelector('.ph-big');
+    var finish = function(){
+      if (!dlg.open) return;
+      if (dlg.getAnimations) dlg.getAnimations({subtree:true}).forEach(function(an){ an.cancel(); });
+      dlg.close(); delete dlg.dataset.anim; $('#ipanel-body').innerHTML = '';
+      U.panelSlug = null;
+      var t = cardThumb(slug); if (t) t.style.visibility = '';
+      var card = $('#ilist [data-slug="' + slug + '"]');
+      if (card) { card.classList.remove('is-panel'); var b = card.querySelector('[data-action="toggle"]'); if (b) { b.setAttribute('aria-expanded', 'false'); b.focus(); } }
+      U.panelOpener = null;
+    };
+    if (REDUCE || !dlg.animate) { finish(); return; }
+    dlg.dataset.anim = '1';
+    var phone = isPhone(), D = 220, EASE = 'cubic-bezier(.4,0,.2,1)';
+    var offX = phone ? 0 : 32, offY = phone ? dlg.offsetHeight : 0;
+    [].forEach.call(dlg.querySelectorAll('.ip-head, .ip-ctl, .dtext, .ip-x'), function(el){ el.animate([{opacity:1}, {opacity:0}], {duration:110, fill:'forwards'}); });
+    dlg.animate([{transform:'none', opacity:1}, {transform:'translate(' + offX + 'px,' + offY + 'px)', opacity:phone ? 1 : 0}], {duration:D, easing:EASE, fill:'forwards'});
+    if (big && thumb) {
+      var from = big.getBoundingClientRect(), to = thumb.getBoundingClientRect();
+      // the picture shrinks back onto the card's thumbnail while the panel slides away (so allow for that end offset)
+      big.animate([
+        {transformOrigin:'0 0', transform:'none'},
+        {transformOrigin:'0 0', transform:'translate(' + (to.left - from.left - offX) + 'px,' + (to.top - from.top - offY) + 'px) scale(' + (to.width / from.width) + ',' + (to.height / from.height) + ')'}
+      ], {duration:D, easing:EASE, fill:'forwards'}).onfinish = finish;
+    }
+    setTimeout(finish, D + 150);   // never leave the panel half-closed if the animation doesn't run (hidden tab)
+  }
+
   function toggleDetail(btn){
     var art = btn.closest('article'), slug = art.dataset.slug, ctx = art.classList.contains('card') ? 'inv' : 'dict';
+    if (ctx === 'inv') { openPanel(slug, btn); return; }
     var open = btn.getAttribute('aria-expanded') === 'true';
     var root = art.closest(ctx === 'inv' ? '#ilist' : '#dlist');
     if (!open) {
@@ -1547,6 +1644,12 @@
     if (dtext) dtext.animate([{opacity:0, transform:'translateY(6px)'}, {opacity:1, transform:'none'}], {duration:200, delay:80, easing:'ease-out', fill:'backwards'});
   }
 
+  (function(){
+    var dlg = document.getElementById('ipanel');
+    dlg.addEventListener('cancel', function(e){ e.preventDefault(); closePanel(); });              // Escape
+    dlg.addEventListener('click', function(e){ if (e.target === dlg) closePanel(); });            // the dimmed page
+  })();
+
   // ---------- routes (hash based, so Back, deep links and shared links work) ----------
   var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly', verdicts:'How verdicts work · Plainly'};
   function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline', 'verdicts'].indexOf(h) >= 0 ? h : 'home'; }
@@ -1600,6 +1703,7 @@
     else if (a === 'tl-now') { var nw = currentWeek(), wc = nw && document.getElementById('wk-' + wkKey(nw)); if (wc) { wc.setAttribute('tabindex', '-1'); wc.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); wc.focus({preventScroll:true}); } }
     else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
     else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
+    else if (a === 'ip-close') closePanel();
     else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; rememberOpener(); $('#sheet').showModal(); }
     else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); focusSel('[data-action="signin-open"]'); }
     else if (a === 'acct') { U.acct = !U.acct; renderHeader(); focusSel('[data-action="acct"]'); }
