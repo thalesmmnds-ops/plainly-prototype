@@ -9,7 +9,7 @@
 <title>Plainly: Baby gear, explained plainly</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2333473A'/%3E%3Ctext x='29' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='44' fill='%23F1EADC'%3Ep%3C/text%3E%3Ccircle cx='48' cy='41' r='5' fill='%23B85A38'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..600,0..100&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
   /* Sizing follows docs/ux-review-wireframe-sizing-01.md: 44px targets, 8 type sizes (12 14 16 20 28 36 40 56), 4px spacing scale. */
   :root{
@@ -183,7 +183,27 @@
   .hero-copy{display:grid; gap:var(--s24); align-content:center;}
   .lead2{text-wrap:pretty; margin:0; font-size:1rem; line-height:1.5rem; color:var(--w-soft); max-width:46ch;}
   .hero-img{aspect-ratio:4/3; width:100%; background-color:var(--apricot); border-color:transparent;}
-  .hl{color:var(--clay);}   /* one emphasised word in a large headline (clay is 3.85:1 on oat: large text only) */
+  .hl{color:var(--clay);}
+  /* ---- variant B: lighter, larger serif; warm brown text; story headings; illustration instead of a box ---- */
+  .vb{--w-ink:#3D2F28; --w-soft:#5A453B;}
+  .vb .h1, .vb .sec-h, .vb .band-h, .vb .era-h{font-weight:360; font-variation-settings:'SOFT' 50; letter-spacing:-0.02em;}
+  .vb .h1.display{font-size:3rem; line-height:3.25rem;}
+  .vb .sec-h.story{font-size:2rem; line-height:2.375rem;}
+  .vb .story-sub{margin:0; max-width:56ch; color:var(--w-soft); font-size:1.125rem; line-height:1.75rem;}
+  .vb .hero-art{width:100%; height:auto;}
+  .vb .img.tint{background:var(--apricot-100); background-image:none; border-color:transparent;}
+  .vb .closer{text-align:center; padding-block:var(--s24); justify-items:center;}
+  .vb .closer-art{width:min(280px, 70%); height:auto;}
+  .ph{display:block; overflow:hidden; border-radius:var(--r-surface); background:var(--apricot-100);}
+  .ph img{display:block; width:100%; height:100%; object-fit:cover;}
+  .ph-card{aspect-ratio:4/3; border-radius:var(--r-inner);}
+  .hero-photo{position:relative; padding:0 0 var(--s24) var(--s24);}
+  .hero-photo::before{content:""; position:absolute; inset:var(--s24) 0 0 0; background:var(--apricot); border-radius:var(--r-surface);}
+  .ph-hero{position:relative; aspect-ratio:4/5; margin:0 var(--s24) 0 0;}
+  .ph-weeks{aspect-ratio:4/3;}
+  .vb .split{display:grid; gap:var(--s32); align-items:center;}
+  .vb .split-copy{display:grid; gap:var(--s24); align-content:start;}
+  .vb .closer-line{margin:0; font-family:var(--font-display); font-weight:360; font-size:2rem; line-height:2.5rem; letter-spacing:-0.02em; text-wrap:balance;}   /* one emphasised word in a large headline (clay is 3.85:1 on oat: large text only) */
   .logo .dot{color:var(--clay);}
   /* full-width colour bands: break out of the page column to the frame edges */
   .band{margin-inline:calc(50% - 50cqw); padding:var(--s48) max(var(--gutter), calc(50cqw - 560px + var(--gutter))); display:grid; gap:var(--s12); justify-items:center; text-align:center;}
@@ -276,6 +296,10 @@
   .btn.primary:hover{background:var(--clay-hover); border-color:var(--clay-hover);}
 
   @container (min-width: 640px){
+    .vb .h1.display{font-size:4.5rem; line-height:4.75rem;}
+    .vb .sec-h.story{font-size:2.75rem; line-height:3.125rem;}
+    .vb .closer-line{font-size:3rem; line-height:3.5rem;}
+    .vb .split{grid-template-columns:1fr 1fr; gap:var(--s64);}
     .hdr, .ftr, .page{--gutter:32px;}
     .hdr{flex-wrap:nowrap;}
     .logo{order:0; margin-right:0;}
@@ -984,22 +1008,52 @@
   }
 
   // ---------- views ----------
-  function renderHome(){
+  // Homepage (redesign, Oct 28): lighter, larger type, story-style headings, warm brown text, an illustration in place of the grey box.
+  document.getElementById('proto').classList.add('vb');   // the homepage redesign (lighter serif, warm text) applies site-wide
+  // Placeholder sketch of the illustration style (two-tone line drawing with stippled shading), to be replaced by Thales's drawings.
+  var HERO_ART = '<svg class="hero-art" viewBox="0 0 400 300" role="img" aria-label="Sketch: a small stack of folded baby clothes and a short checklist">' +
+    '<defs><pattern id="stip" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#33473A" opacity=".35"/></pattern></defs>' +
+    '<path d="M48 228C30 150 86 62 196 54c112-8 176 58 158 152-12 64-246 78-306 22Z" fill="#F5BC8F"/>' +
+    '<path d="M48 228C30 150 86 62 196 54c112-8 176 58 158 152-12 64-246 78-306 22Z" fill="url(#stip)" opacity=".5"/>' +
+    '<g stroke="#33473A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
+    '<rect x="112" y="196" width="176" height="34" rx="11" fill="#FBF8F2"/><path d="M128 213h40" fill="none"/>' +
+    '<rect x="122" y="162" width="156" height="34" rx="11" fill="#FBE3CF"/><path d="M138 179h32" fill="none"/>' +
+    '<rect x="132" y="128" width="136" height="34" rx="11" fill="#FBF8F2"/>' +
+    '<path d="M168 128v-20l-16 7-9-13 22-13h10c4 7 16 7 20 0h10l22 13-9 13-16-7v20" fill="#FBF8F2"/>' +
+    '<path d="M190 92c0 5-4 8-8 8" fill="none"/>' +
+    '<g transform="translate(292 74) rotate(9)"><rect width="66" height="84" rx="9" fill="#FBF8F2"/><path d="M14 22l6 6 11-12M14 46h38M14 62h24" fill="none"/></g>' +
+    '</g><circle cx="349" cy="164" r="4" fill="#B85A38"/></svg>';
+
+  function renderHome(){ renderHomeB(); }
+
+
+  // Mock photos for variant B (Unsplash, free licence), to judge the look with images. Not final imagery.
+  var UNS = function(id, w){ return 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=' + w + '&q=75'; };
+  var MOCK = {
+    hero: {src:UNS('photo-1768693602418-260d828b878d', 1100), alt:'Baby clothes folded in a woven basket'},
+    'car-seat': {src:UNS('photo-1619719287848-883c8f26efbc', 700), alt:'An infant car seat'},
+    'baby-monitor': {src:UNS('photo-1770059706518-ece8f7264055', 700), alt:'A newborn asleep in a crib'},
+    'wipe-warmer': {src:UNS('photo-1776278515631-caba01f30f9b', 700), alt:'Close-up of soft white wipes'},
+    weeks: {src:UNS('photo-1745636624761-8173b91e8334', 1100), alt:'A calm nursery corner with folded clothes on shelves'}
+  };
+  function photo(m, cls){ return '<span class="ph ' + (cls || '') + '"><img src="' + esc(m.src) + '" alt="' + esc(m.alt) + '" loading="' + (cls === 'ph-hero' ? 'eager' : 'lazy') + '"></span>'; }
+
+  function renderHomeB(){
     var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
     $('#view').innerHTML = '<section class="page home">' +
       '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained <span class="hl">plainly.</span></h1>' +
       '<p class="lead2">' + esc(HERO_LEAD) + '</p>' +
       '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn secondary big" data-nav="inventory">Start your inventory</button></div></div>' +
-      '<i class="img hero-img" aria-hidden="true"></i></div>' +
+      '<div class="hero-photo">' + photo(MOCK.hero, 'ph-hero') + '</div></div>' +
       '<section class="band band-forest" aria-labelledby="nr-h"><h2 id="nr-h" class="band-h">Not a registry.</h2><p>Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</p></section>' +
-      '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h">One plain verdict for every item.</h2>' +
-      '<div class="cards3">' + picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
-      '<section class="sec how" aria-labelledby="how-h"><h2 id="how-h" class="sec-h">What\'s coming, and when.</h2>' +
-      '<ol class="how-steps"><li><b>Enter your due date.</b><span>We lay out the weeks from there.</span></li>' +
-      '<li><b>See what\'s in each week.</b><span>The usual appointments and tests, and the gear decisions worth making around then. Quiet weeks stay quiet.</span></li>' +
-      '<li><b>Look at it together.</b><span>You and your partner see the same weeks, so neither of you has to be the one who remembers.</span></li></ol>' +
+      '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h story">It starts with a straight answer&hellip;</h2>' +
+      '<p class="story-sub">Every item gets one verdict and one sentence why. No hedging, no &ldquo;it depends.&rdquo;</p>' +
+      '<div class="cards3">' + picks.map(function(it){ return '<div class="mini">' + (MOCK[it.slug] ? photo(MOCK[it.slug], 'ph-card') : '<i class="img tint" aria-hidden="true"></i>') + '<span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
+      '<section class="sec how split" aria-labelledby="how-h"><div class="split-copy"><h2 id="how-h" class="sec-h story">&hellip;then the weeks ahead, one at a time.</h2>' +
+      '<p class="story-sub">Enter your due date and we lay out the usual appointments, tests and gear decisions week by week, with what is happening with your baby. You and your partner see the same weeks.</p>' +
       '<div class="actions"><button type="button" class="btn cta big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
-      '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></section></section>';
+      '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></div>' + photo(MOCK.weeks, 'ph-weeks') + '</section>' +
+      '<section class="sec closer">' + HERO_ART.replace('class="hero-art"', 'class="closer-art"') + '<p class="closer-line">You don\'t need everything on the list. <span class="hl">Most parents don\'t.</span></p></section></section>';
   }
 
   function renderVerdicts(){
