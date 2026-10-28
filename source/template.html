@@ -1,4 +1,5 @@
 <title>Plainly Prototype</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2333473A'/%3E%3Ctext x='29' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='44' fill='%23F1EADC'%3Ep%3C/text%3E%3Ccircle cx='48' cy='41' r='5' fill='%23B85A38'/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;500;600;700&display=swap">
@@ -7,6 +8,9 @@
   :root{
     /* Brand palette from docs/brand/brand-core.md section 8: oat base, forest secondary, clay accent, mustard CTA, verdict colors. */
     --paper:#F1EADC; --raised:#FBF8F2; --w-ink:#2A2420; --w-soft:#6B5F52; --stroke:#C9BCA3; --control:#8C7F6E; --off:#9A8E7E; --fill:#E9DFCB; --fill-2:#DCD0B8;
+    --forest:#33473A; --on-forest:#FBF8F2; --on-forest-soft:#E9DFCB;   /* dark anchor: bands, footer, summary. Never under a clay button (2.2:1) */
+    --apricot:#F5BC8F; --apricot-100:#FBE3CF;   /* warm light: hero block, Pregnancy era */
+    --mustard:#D9A23A;   /* highlights only, never buttons (brand-core 8) */
     --clay:#B85A38; --clay-hover:#9E4B2E; --on-clay:#FFFFFF;   /* terracotta: priority-1 actions and the logo only */
     --sel:#2A2420; --on-sel:#FBF8F2;   /* selected/pressed states: ink, never brand or verdict colors */
     --r-tag:6px; --r-inner:8px; --r-field:10px; --r-surface:12px; --r-dialog:16px; --r-pill:999px;   /* buttons and chips are pills */
@@ -37,7 +41,7 @@
   /* header: two rows on narrow frames, one row from 640px */
   .hdr, .ftr{--edge:max(var(--gutter), calc((100% - 1120px) / 2 + var(--gutter)));}
   .hdr{position:sticky; top:0; z-index:6; display:flex; flex-wrap:wrap; align-items:center; gap:var(--s4) var(--s8); padding:var(--s8) var(--edge); padding-top:max(var(--s8), env(safe-area-inset-top, 0px)); background:var(--paper); border-bottom:1.5px solid var(--stroke);}
-  .logo{order:1; margin-right:auto; display:inline-flex; align-items:center; min-height:44px; padding:0 var(--s8) 0 0; border:0; background:none; color:var(--clay); cursor:pointer; font-family:var(--font-display); font-weight:600; font-size:1.25rem; line-height:1.5rem;}
+  .logo{order:1; margin-right:auto; display:inline-flex; align-items:center; min-height:44px; padding:0 var(--s8) 0 0; border:0; background:none; color:var(--forest); cursor:pointer; font-family:var(--font-display); font-weight:600; font-size:1.375rem; letter-spacing:-0.01em; line-height:1.5rem;}
   .hdr nav{order:3; flex:1 1 100%; display:flex; gap:var(--s8);}
   .navbtn{display:inline-flex; align-items:center; justify-content:center; flex:1 1 0; min-height:44px; padding:0 var(--s8); border:0; background:none; color:inherit; border-radius:var(--r-inner); font-size:.875rem; line-height:1.25rem; font-weight:500; cursor:pointer;}
   .navbtn[aria-current="page"]{font-weight:700; text-decoration:underline; text-underline-offset:5px;}
@@ -125,8 +129,9 @@
   .btn:disabled{border-color:var(--stroke); color:var(--off); cursor:default;}
   .linkbtn{min-height:44px; min-width:88px; margin-inline:calc(var(--s12) * -1); padding:0 var(--s12); border:0; background:none; color:var(--w-soft); font-size:.875rem; line-height:1.25rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer;}
 
-  .sum{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s20); display:grid; gap:var(--s8);}
-  .sum strong{font-size:1rem; line-height:1.5rem;}
+  .sum{background:var(--forest); color:var(--on-forest); border:0; border-radius:var(--r-surface); padding:var(--s20); display:grid; gap:var(--s8);}
+  .sum strong{font-size:1.125rem; line-height:1.5rem;}
+  .sum .sm{color:var(--on-forest-soft);}
   .ctl-label{display:block; margin-bottom:var(--s8);}
   #ilist{display:grid; gap:var(--s40);}
   .grp{display:grid; gap:var(--s16); align-content:start;}
@@ -154,7 +159,10 @@
   .skip:focus{left:var(--s8);}
 
   .box{background:var(--raised); border:0; border-radius:var(--r-field); padding:var(--s16) var(--s20);}
-  .ftr{display:grid; gap:var(--s4); padding:var(--s16) var(--edge); border-top:1.5px solid var(--stroke); font-size:.875rem; line-height:1.25rem; color:var(--w-soft);}
+  .ftr{display:grid; gap:var(--s8); padding:var(--s32) var(--edge) var(--s48); background:var(--forest); color:var(--on-forest-soft); font-size:.875rem; line-height:1.25rem;}
+  .ftr .flogo{font-family:var(--font-display); font-weight:600; font-size:1.375rem; line-height:1.75rem; color:var(--on-forest);}
+  .ftr .flogo .dot{color:var(--clay);}
+  .ftr .flink:focus-visible{outline-color:var(--on-forest);}
 
   dialog{border:1.5px solid var(--stroke); border-radius:var(--r-dialog); background:var(--raised); color:var(--w-ink); padding:var(--s24); width:min(92vw, 360px); font-family:var(--font-body); font-size:1rem; line-height:1.5rem;}
   dialog::backdrop{background:rgba(0,0,0,.5);}
@@ -167,9 +175,18 @@
   .hero-grid{display:grid; gap:var(--s24); align-items:center;}
   .hero-copy{display:grid; gap:var(--s24); align-content:center;}
   .lead2{text-wrap:pretty; margin:0; font-size:1rem; line-height:1.5rem; color:var(--w-soft); max-width:46ch;}
-  .hero-img{aspect-ratio:4/3; width:100%;}
+  .hero-img{aspect-ratio:4/3; width:100%; background-color:var(--apricot); border-color:transparent;}
+  .hl{color:var(--clay);}   /* one emphasised word in a large headline (clay is 3.85:1 on oat: large text only) */
+  .logo .dot{color:var(--clay);}
+  /* full-width colour bands: break out of the page column to the frame edges */
+  .band{margin-inline:calc(50% - 50cqw); padding:var(--s48) max(var(--gutter), calc(50cqw - 560px + var(--gutter))); display:grid; gap:var(--s12); justify-items:center; text-align:center;}
+  .band p{margin:0; max-width:60ch;}
+  .band-h{margin:0; font-family:var(--font-display); font-weight:600; font-size:1.75rem; line-height:2rem; text-wrap:balance;}
+  .band-forest{background:var(--forest); color:var(--on-forest);}
+  .band-left{justify-items:start; text-align:left;}
+  .vdef{border-top:4px solid var(--stroke);}
+  .vdef-nec{border-top-color:var(--necessary);} .vdef-nice{border-top-color:var(--nice);} .vdef-dep{border-top-color:var(--skip);}
   .sec{display:grid; gap:var(--s24);}
-  .notice-box{font-size:.875rem; line-height:1.25rem;}
   .cards3{display:grid; grid-template-columns:1fr; gap:var(--s16);}
   .mini{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s20); display:grid; gap:var(--s12); align-content:start;}
   .mini .img{aspect-ratio:16/9;}
@@ -219,7 +236,9 @@
   .srcs li{min-height:24px;}
   .srcs a{display:inline-block; padding:2px 0; color:inherit; overflow-wrap:anywhere;}
   .weeks{display:grid; gap:var(--s24);}
-  .era-h{margin:var(--s24) 0 0;}
+  .era-h{margin:var(--s24) 0 0; font-family:var(--font-display); font-weight:600; font-size:1.5rem; line-height:1.75rem; padding:var(--s24) var(--s24); border-radius:var(--r-surface);}
+  .era-preg{background:var(--apricot-100); color:var(--w-ink);}
+  .era-baby{background:var(--forest); color:var(--on-forest);}
   .wcard{background:var(--raised); border-radius:var(--r-surface); padding:var(--s16) var(--s20) var(--s24); display:grid; gap:var(--s12); min-width:0; scroll-margin-top:96px;}
   .wcard.is-now{box-shadow:inset 0 0 0 2px var(--w-ink);}
   .wcard:focus{outline:2px solid var(--w-ink); outline-offset:2px;}
@@ -300,6 +319,7 @@
   <header class="hdr" id="hdr"></header>
   <main id="view"></main>
   <footer class="ftr">
+    <span class="flogo" aria-hidden="true">plainly<span class="dot">.</span></span>
     <span>Not a registry. Nothing here is for sale, no brands are named, and no one pays to be listed.</span>
     <span><button type="button" class="flink" data-nav="verdicts">How verdicts work</button> · Privacy · Contact</span>
   </footer>
@@ -436,7 +456,7 @@
       : '<button type="button" class="authbtn" data-action="signin-open">Sign in</button>';
     var menu = (S.signedIn && U.acct)
       ? '<div class="acct-menu"><span class="sm">name@example.com</span><button type="button" class="btn" data-action="signout">Sign out</button></div>' : '';
-    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home">Plainly</button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + cta + '</nav>' + auth + menu;
+    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home" aria-label="Plainly, home">plainly<span class="dot">.</span></button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + cta + '</nav>' + auth + menu;
   }
 
   function detailHTML(it, ctx){
@@ -511,11 +531,11 @@
   function renderHome(){
     var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
     $('#view').innerHTML = '<section class="page home">' +
-      '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained plainly.</h1>' +
+      '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained <span class="hl">plainly.</span></h1>' +
       '<p class="lead2">' + esc(HERO_LEAD) + '</p>' +
       '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn secondary big" data-nav="inventory">Start your inventory</button></div></div>' +
       '<i class="img hero-img" aria-hidden="true"></i></div>' +
-      '<div class="box notice-box">Not a registry. Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</div>' +
+      '<section class="band band-forest" aria-labelledby="nr-h"><h2 id="nr-h" class="band-h">Not a registry.</h2><p>Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</p></section>' +
       '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h">One plain verdict for every item.</h2>' +
       '<div class="cards3">' + picks.map(function(it){ return '<div class="mini"><i class="img" aria-hidden="true"></i><span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
       '<section class="sec how" aria-labelledby="how-h"><h2 id="how-h" class="sec-h">What\'s coming, and when.</h2>' +
@@ -531,8 +551,8 @@
       ['nice-to-have', 'It makes life easier for many parents, but you will be fine without it. Worth borrowing, or waiting to see if you want it.'],
       ['skip-it', 'Something you already own does the job, or most parents stop using it quickly. If you already have one, that is fine. A few items are here because safety guidance advises against them. Those carry a clear safety note, and you should not use them.']];
     $('#view').innerHTML = '<section class="page how-page"><div><h1 class="h1" tabindex="-1">How verdicts work</h1><p class="sub">Every item gets one verdict and one sentence explaining it. Here is what each one means.</p></div>' +
-      '<dl class="vdefs">' + def.map(function(d){ return '<div class="box"><dt>' + chip({verdict:d[0]}) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; }).join('') + '</dl>' +
-      '<section class="sec" aria-labelledby="vp-h"><h2 id="vp-h" class="sec-h">What we promise</h2><ul class="plain-list"><li>Nothing here is for sale, and nothing links to a store.</li><li>No one pays to be listed, and no one pays to change a verdict.</li><li>Safety and legal claims link to their source, such as the AAP, CPSC or CDC.</li></ul></section>' +
+      '<dl class="vdefs">' + def.map(function(d){ return '<div class="box vdef vdef-' + VERD[d[0]].cls + '"><dt>' + chip({verdict:d[0]}) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; }).join('') + '</dl>' +
+      '<section class="band band-forest band-left" aria-labelledby="vp-h"><h2 id="vp-h" class="band-h">What we promise</h2><ul class="plain-list"><li>Nothing here is for sale, and nothing links to a store.</li><li>No one pays to be listed, and no one pays to change a verdict.</li><li>Safety and legal claims link to their source, such as the AAP, CPSC or CDC.</li></ul></section>' +
       '<section class="sec" aria-labelledby="vr-h"><h2 id="vr-h" class="sec-h">Sources and review</h2><p class="box">' + esc(REVIEW_NOTE) + '</p></section></section>';
   }
 
@@ -770,7 +790,7 @@
     var any = anyWeekEvents(), html = '', step = 0, era = null;
     if (any.length) html += '<section class="wcard wcard-any"><header class="wrule"><h2>Any week</h2></header><div class="wparts"><div class="wpart"><h3 class="cap">For you</h3><ul class="wlist">' + any.map(weekItem).join('') + '</ul></div></div></section>';
     WEEKS.forEach(function(w){
-      if (w.era !== era) { era = w.era; step = 0; html += '<h2 class="era-h sec-h">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>'; }
+      if (w.era !== era) { era = w.era; step = 0; html += '<h2 class="era-h ' + (era === 'preg' ? 'era-preg' : 'era-baby') + '">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>'; }
       html += weekCard(w, now, due, step % 3); step++;
     });
     return '<div class="weeks">' + html + '</div>';
