@@ -1,0 +1,41 @@
+{
+  "_note": "Stand-in photos from Unsplash (free licence), loaded from Unsplash's servers. To be replaced by final, unbranded images (checklist task t72). Advised-against items deliberately show a bare crib, the safe setup, not the product.",
+  "items": {
+    "crib": "photo-1581702539705-3f78dfff135f",
+    "bassinet": "photo-1458731909820-5850bdcaee0b",
+    "glider": "photo-1721739225034-a6732d0fd819",
+    "changing-table": "photo-1645542444755-bc554393084a",
+    "changing-pad": "photo-1645542444755-bc554393084a",
+    "high-chair": "photo-1637183611372-13f666acaa81",
+    "pacifiers": "photo-1707006049284-14916dc80160",
+    "digital-thermometer": "photo-1609725236589-d987ffc8133a",
+    "stroller": "photo-1714392512700-4cab9e51710b",
+    "car-seat": "photo-1619719287848-883c8f26efbc",
+    "bottles": "photo-1623707430616-d9f956bcac2b",
+    "burp-cloths": "photo-1545042746-ec9e5a59b359",
+    "baby-shoes": "photo-1783524810691-06673a415621",
+    "baby-gates": "photo-1769696547981-0521e3ebed2e",
+    "diapers": "photo-1695998575483-b215c8b2f619",
+    "wipes": "photo-1776278515631-caba01f30f9b",
+    "wipe-warmer": "photo-1776278515631-caba01f30f9b",
+    "baby-monitor": "photo-1761497723235-568a796506cf",
+    "bodysuits": "photo-1552511762-898bfd9fb837",
+    "crib-bumpers": "photo-1588854337127-a7cdcabfd7ac",
+    "sleep-positioner": "photo-1588854337127-a7cdcabfd7ac",
+    "inclined-sleeper": "photo-1588854337127-a7cdcabfd7ac"
+  },
+  "categories": {
+    "furniture-sleep": "photo-1721739225034-a6732d0fd819",
+    "feeding": "photo-1623707430616-d9f956bcac2b",
+    "clothes": "photo-1552511762-898bfd9fb837",
+    "diapering-bath": "photo-1645542444755-bc554393084a",
+    "travel": "photo-1714392512700-4cab9e51710b",
+    "gadgets": "photo-1761497723235-568a796506cf",
+    "safety": "photo-1769696547981-0521e3ebed2e"
+  },
+  "pages": {
+    "eraPreg": {"id": "photo-1528218635780-5952720c9729", "alt": "A couple close together, one holding an ultrasound photo"},
+    "eraBaby": {"id": "photo-1637184572364-a231e8b4c716", "alt": "Two parents holding their newborn"},
+    "verdicts": {"id": "photo-1645542444755-bc554393084a", "alt": "A simple white dresser with a basket on top"}
+  }
+}

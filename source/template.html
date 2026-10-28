@@ -190,6 +190,13 @@
   .ph{display:block; overflow:hidden; border-radius:var(--r-surface); background:var(--apricot-100);}
   .ph img{display:block; width:100%; height:100%; object-fit:cover;}
   .ph-card{aspect-ratio:4/3; border-radius:var(--r-inner);}
+  .ph-thumb{width:48px; height:48px; flex:none; border-radius:var(--r-inner);}
+  .ph-big{aspect-ratio:4/3; width:100%; border-radius:var(--r-inner);}
+  .era{display:grid; gap:var(--s16); align-items:center; border-radius:var(--r-surface); padding:var(--s24); margin:var(--s24) 0 0;}
+  .era .era-h{margin:0; padding:0; background:none; border-radius:0; color:inherit;}
+  .ph-era{aspect-ratio:16/9; border-radius:var(--r-inner);}
+  .how-intro{display:grid; gap:var(--s24); align-items:center;}
+  .ph-how{aspect-ratio:4/3;}
   .hero-photo{position:relative; padding:0 0 var(--s24) var(--s24);}
   .hero-photo::before{content:""; position:absolute; inset:var(--s24) 0 0 0; background:var(--apricot); border-radius:var(--r-surface);}
   .ph-hero{position:relative; aspect-ratio:4/5; margin:0 var(--s24) 0 0;}
@@ -293,6 +300,9 @@
     .vb .sec-h.story{font-size:2.75rem; line-height:3.125rem;}
     .vb .closer-line{font-size:3rem; line-height:3.5rem;}
     .vb .split{grid-template-columns:1fr 1fr; gap:var(--s64);}
+    .era{grid-template-columns:1fr 1.2fr; padding:var(--s32);}
+    .how-intro{grid-template-columns:1.2fr 1fr; gap:var(--s48);}
+    .card .ph-thumb, .item .ph-thumb{width:64px; height:64px;}
     .hdr, .ftr, .page{--gutter:32px;}
     .hdr{flex-wrap:nowrap;}
     .logo{order:0; margin-right:0;}
@@ -367,7 +377,20 @@
 
   var ITEMS = __ITEMS__;
   var TL = __TIMELINE__;
-  var TLW = __TLWEEKS__;   // per-week copy: what happens with the baby, and for you (docs/timeline-weeks-*.json)
+  var TLW = __TLWEEKS__;
+  var MOCKIMG = __MOCKIMG__;   // stand-in photos (source/mock-images.json), to be replaced by final images
+  function itemPhotoId(it){ return (MOCKIMG.items || {})[it.slug] || (MOCKIMG.categories || {})[it.category] || ''; }
+  function itemPhoto(it, kind){
+    var id = itemPhotoId(it), w = kind === 'big' ? 800 : 160;
+    if (!id) return '<i class="img ' + kind + '" aria-hidden="true"></i>';
+    var src = 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=' + w + '&q=70';
+    // thumbnails sit next to the item name, so they are decorative; the large one gets a short description
+    return '<span class="ph ph-' + kind + '"><img src="' + esc(src) + '" alt="' + (kind === 'big' ? esc('Stand-in photo: ' + it.name) : '') + '" loading="' + (kind === 'big' ? 'eager' : 'lazy') + '"></span>';
+  }
+  function pagePhoto(key, cls){
+    var m = (MOCKIMG.pages || {})[key]; if (!m) return '';
+    return '<span class="ph ' + cls + '"><img src="' + esc('https://images.unsplash.com/' + m.id + '?auto=format&fit=crop&w=1200&q=70') + '" alt="' + esc(m.alt) + '" loading="lazy"></span>';
+  }   // per-week copy: what happens with the baby, and for you (docs/timeline-weeks-*.json)
 
   // The third verdict label lives here. Change the string to rename it everywhere.
   var VERD = {
@@ -487,7 +510,7 @@
     var alias = it.aliases && it.aliases.length ? '<p class="sm">Also called ' + esc(it.aliases.join(', ')) + '</p>' : '';
     var safety = (it.advised && it.safety)
       ? '<p class="safety"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L19 6 L19 11 Q19 17.5 12 21 Q5 17.5 5 11 L5 6 Z"/></svg><span>' + esc(it.safety) + '</span></p>' : '';
-    return '<i class="img big" aria-hidden="true"></i><div class="dtext">' + alias +
+    return itemPhoto(it, 'big') + '<div class="dtext">' + alias +
       '<p class="lead">' + esc(it.desc) + '</p>' +
       '<p><b>Why this verdict:</b> ' + esc(it.reason) + '</p>' + safety +
       '<dl class="facts' + (it.verdict === 'skip-it' ? ' one' : '') + '">' + (it.verdict === 'skip-it' ? '' : '<div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div>') + '<div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
@@ -509,7 +532,7 @@
     var n = total(it);
     return '<article class="item' + (open ? ' is-open' : '') + '" data-slug="' + it.slug + '">' +
       '<h3 class="item-h"><button type="button" class="item-head" data-action="toggle" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="det-d-' + it.slug + '">' +
-      '<i class="img thumb" aria-hidden="true"></i>' +
+      itemPhoto(it, 'thumb') +
       '<span class="txt"><span class="line1"><span class="name">' + esc(it.name) + '</span>' + chip(it) + (n ? '<span class="have-tag">✓ In inventory</span>' : '') + '</span>' +
       '<span class="desc">' + esc(it.desc) + '</span></span><span class="chev" aria-hidden="true">▾</span></button></h3>' +
       '<div class="detail" id="det-d-' + it.slug + '"' + (open ? '' : ' hidden') + '>' + (open ? detailHTML(it, 'dict') : '') + '</div></article>';
@@ -546,7 +569,7 @@
     }
     return '<article class="card' + (h ? ' is-have' : '') + (nfu ? ' is-nfu' : '') + (open ? ' is-open' : '') + '" data-slug="' + it.slug + '">' +
       '<h3 class="ch"><button type="button" class="card-head" data-action="toggle" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="det-i-' + it.slug + '">' +
-      '<i class="img thumb" aria-hidden="true"></i><span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span></span><span class="chev" aria-hidden="true">▾</span></button></h3>' +
+      itemPhoto(it, 'thumb') + '<span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span></span><span class="chev" aria-hidden="true">▾</span></button></h3>' +
       body +
       '<div class="detail" id="det-i-' + it.slug + '"' + (open ? '' : ' hidden') + '>' + (open ? detailHTML(it, 'inv') : '') + '</div></article>';
   }
@@ -604,7 +627,7 @@
     var def = [['necessary', 'Most families use it, and there is no simple substitute. Legal and safety requirements always land here.'],
       ['nice-to-have', 'It makes life easier for many parents, but you will be fine without it. Worth borrowing, or waiting to see if you want it.'],
       ['skip-it', 'Something you already own does the job, or most parents stop using it quickly. If you already have one, that is fine. A few items are here because safety guidance advises against them. Those carry a clear safety note, and you should not use them.']];
-    $('#view').innerHTML = '<section class="page how-page"><div><h1 class="h1" tabindex="-1">How verdicts work</h1><p class="sub">Every item gets one verdict and one sentence explaining it. Here is what each one means.</p></div>' +
+    $('#view').innerHTML = '<section class="page how-page"><div class="how-intro"><div><h1 class="h1" tabindex="-1">How verdicts work</h1><p class="sub">Every item gets one verdict and one sentence explaining it. Here is what each one means.</p></div>' + pagePhoto('verdicts', 'ph-how') + '</div>' +
       '<dl class="vdefs">' + def.map(function(d){ return '<div class="box vdef vdef-' + VERD[d[0]].cls + '"><dt>' + chip({verdict:d[0]}) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; }).join('') + '</dl>' +
       '<section class="band band-forest band-left" aria-labelledby="vp-h"><h2 id="vp-h" class="band-h">What we promise</h2><ul class="plain-list"><li>Nothing here is for sale, and nothing links to a store.</li><li>No one pays to be listed, and no one pays to change a verdict.</li><li>Safety and legal claims link to their source, such as the AAP, CPSC or CDC.</li></ul></section>' +
       '<section class="sec" aria-labelledby="vr-h"><h2 id="vr-h" class="sec-h">Sources and review</h2><p class="box">' + esc(REVIEW_NOTE) + '</p></section></section>';
@@ -844,7 +867,7 @@
     var any = anyWeekEvents(), html = '', step = 0, era = null;
     if (any.length) html += '<section class="wcard wcard-any"><header class="wrule"><h2>Any week</h2></header><div class="wparts"><div class="wpart"><h3 class="cap">For you</h3><ul class="wlist">' + any.map(weekItem).join('') + '</ul></div></div></section>';
     WEEKS.forEach(function(w){
-      if (w.era !== era) { era = w.era; step = 0; html += '<h2 class="era-h ' + (era === 'preg' ? 'era-preg' : 'era-baby') + '">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>'; }
+      if (w.era !== era) { era = w.era; step = 0; html += '<div class="era ' + (era === 'preg' ? 'era-preg' : 'era-baby') + '"><h2 class="era-h">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>' + pagePhoto(era === 'preg' ? 'eraPreg' : 'eraBaby', 'ph-era') + '</div>'; }
       html += weekCard(w, now, due, step % 3); step++;
     });
     return '<div class="weeks">' + html + '</div>';
