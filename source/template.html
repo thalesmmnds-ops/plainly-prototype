@@ -192,7 +192,8 @@
   .ph-card{aspect-ratio:4/3; border-radius:var(--r-inner);}
   .ph-thumb{width:48px; height:48px; flex:none; border-radius:var(--r-inner); transition:width .28s ease, margin .28s ease, opacity .18s ease;}
   /* when an item is open its picture is shown large below, so the thumbnail steps aside (header height stays the same) */
-  .item.is-open .ph-thumb, .card.is-open .ph-thumb{width:0; margin-right:calc(-1 * var(--s12)); opacity:0;}
+  .item.is-open:not(.is-closing) .ph-thumb, .card.is-open:not(.is-closing) .ph-thumb{width:0; margin-right:calc(-1 * var(--s12)); opacity:0;}
+  .is-closing .ph-thumb{opacity:0; transition:width .22s ease, margin .22s ease;}   /* slot reopens while the big picture flies back into it */
   @media (prefers-reduced-motion: reduce){ .ph-thumb{transition:none;} }
   .ph-big{aspect-ratio:4/3; width:100%; border-radius:var(--r-inner);}
   .era{display:grid; gap:var(--s16); align-items:center; border-radius:var(--r-surface); padding:var(--s24); margin:var(--s24) 0 0;}
@@ -966,6 +967,18 @@
     }, function(){ refreshCard(slug); });
   }
 
+  // Inventory cards sit in a grid and an open card spans the full row, so opening or closing one moves its
+  // neighbours. Record where every card is, apply the change, then slide each card from its old spot (FLIP).
+  function flipCards(root, change){
+    var cards = [].slice.call(root.querySelectorAll('article.card')), before = cards.map(function(c){ return c.getBoundingClientRect(); });
+    var result = change();
+    if (!REDUCE) cards.forEach(function(c, i){
+      var a = before[i], b = c.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
+      if ((Math.abs(dx) > 1 || Math.abs(dy) > 1) && c.animate) c.animate([{transform:'translate(' + dx + 'px,' + dy + 'px)'}, {transform:'none'}], {duration:240, easing:'cubic-bezier(.2,.75,.2,1)'});
+    });
+    return result;
+  }
+
   function toggleDetail(btn){
     var art = btn.closest('article'), slug = art.dataset.slug, ctx = art.classList.contains('card') ? 'inv' : 'dict';
     var open = btn.getAttribute('aria-expanded') === 'true';
@@ -973,7 +986,9 @@
     if (!open) {
       root.querySelectorAll('[data-action="toggle"][aria-expanded="true"]').forEach(function(b){
         var a = b.closest('article'); b.setAttribute('aria-expanded', 'false'); a.classList.remove('is-open');
-        var d = a.querySelector('.detail'); d.hidden = true; d.innerHTML = '';
+        var d = a.querySelector('.detail');
+        if (d.getAnimations) d.getAnimations({subtree:true}).forEach(function(an){ an.cancel(); });
+        d.hidden = true; d.innerHTML = ''; a.classList.remove('is-closing'); delete a.dataset.anim;
       });
     }
     var det = art.querySelector('.detail'), thumb = art.querySelector('.ph-thumb');
@@ -982,41 +997,57 @@
       btn.setAttribute('aria-expanded', 'false'); U.open[ctx] = null;
       var finishClose = function(){
         if (!art.classList.contains('is-open') || btn.getAttribute('aria-expanded') === 'true') { delete art.dataset.anim; return; }
-        det.hidden = true; det.innerHTML = '';
-        if (thumb) thumb.style.transition = 'none';
-        art.classList.remove('is-open');
-        if (thumb) { void thumb.offsetWidth; thumb.style.transition = ''; }
+        var collapse = function(){
+          if (det.getAnimations) det.getAnimations({subtree:true}).forEach(function(an){ an.cancel(); });
+          det.hidden = true; det.innerHTML = '';
+          if (thumb) thumb.style.transition = 'none';
+          art.classList.remove('is-open', 'is-closing');
+          if (thumb) { void thumb.offsetWidth; thumb.style.transition = ''; }
+        };
+        if (ctx === 'inv') flipCards(root, collapse); else collapse();
         delete art.dataset.anim;
       };
       var bigC = det.querySelector('.ph-big');
       if (!bigC || !thumb || REDUCE || !bigC.animate) { finishClose(); return; }
-      // the big picture shrinks back into where the thumbnail will sit once the card is closed
-      var fromC = bigC.getBoundingClientRect();
-      thumb.style.transition = 'none'; art.classList.remove('is-open');
-      var toC = thumb.getBoundingClientRect();
-      art.classList.add('is-open'); void thumb.offsetWidth; thumb.style.transition = '';
       art.dataset.anim = '1';
-      var txt = det.querySelector('.dtext'); if (txt && txt.animate) txt.animate([{opacity:1}, {opacity:0}], {duration:150, fill:'forwards'});
+      // 1) the thumbnail's slot opens again (name slides back), still invisible
+      var fromC = bigC.getBoundingClientRect(), size = thumb.offsetHeight;
+      art.classList.add('is-closing');
+      var slot = thumb.getBoundingClientRect();   // its left/top don't move while its width grows back
+      var D = 220, EASE = 'cubic-bezier(.4,0,.2,1)';
+      // 2) the text fades and the panel's height closes at the same time, so nothing jumps at the end
+      var txt = det.querySelector('.dtext'); if (txt) txt.animate([{opacity:1}, {opacity:0}], {duration:110, fill:'forwards'});
+      var cs = getComputedStyle(det);
+      det.animate([
+        {height:det.offsetHeight + 'px', paddingBottom:cs.paddingBottom},
+        {height:'0px', paddingBottom:'0px'}
+      ], {duration:D, easing:EASE, fill:'forwards'});
+      // 3) the big picture shrinks into the thumbnail's slot on this same card
       bigC.animate([
         {transformOrigin:'0 0', transform:'none'},
-        {transformOrigin:'0 0', transform:'translate(' + (toC.left - fromC.left) + 'px,' + (toC.top - fromC.top) + 'px) scale(' + (toC.width / fromC.width) + ',' + (toC.height / fromC.height) + ')'}
-      ], {duration:300, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'}).onfinish = finishClose;
-      setTimeout(finishClose, 450);   // never leave a card half-closed if the animation doesn't run (hidden tab)
+        {transformOrigin:'0 0', transform:'translate(' + (slot.left - fromC.left) + 'px,' + (slot.top - fromC.top) + 'px) scale(' + (size / fromC.width) + ',' + (size / fromC.height) + ')'}
+      ], {duration:D, easing:EASE, fill:'forwards'}).onfinish = finishClose;
+      setTimeout(finishClose, D + 150);   // never leave a card half-closed if the animation doesn't run (hidden tab)
       return;
     }
     // opening: the thumbnail grows into the big picture's place, then the thumbnail hides
-    var from = thumb ? thumb.getBoundingClientRect() : null;
-    det.innerHTML = detailHTML(BY[slug], ctx); det.hidden = false; U.open[ctx] = slug;
-    btn.setAttribute('aria-expanded', 'true'); art.classList.add('is-open');
+    var from = thumb ? thumb.getBoundingClientRect() : null, to = null, cardBefore = art.getBoundingClientRect(), cardDx = 0, cardDy = 0;
+    var expand = function(){
+      det.innerHTML = detailHTML(BY[slug], ctx); det.hidden = false; U.open[ctx] = slug;
+      btn.setAttribute('aria-expanded', 'true'); art.classList.add('is-open');
+      var b = det.querySelector('.ph-big'); if (b) to = b.getBoundingClientRect();   // measured before any card starts sliding
+      var cardAfter = art.getBoundingClientRect(); cardDx = cardBefore.left - cardAfter.left; cardDy = cardBefore.top - cardAfter.top;
+    };
+    if (ctx === 'inv') flipCards(root, expand); else expand();
     var big = det.querySelector('.ph-big');
-    if (!from || !big || REDUCE || !big.animate) return;
-    var to = big.getBoundingClientRect();
+    if (!from || !big || !to || REDUCE || !big.animate) return;
     big.animate([
-      {transformOrigin:'0 0', transform:'translate(' + (from.left - to.left) + 'px,' + (from.top - to.top) + 'px) scale(' + (from.width / to.width) + ',' + (from.height / to.height) + ')'},
+      // the card itself may be sliding (Inventory grid), so start the picture relative to the card's moving frame
+      {transformOrigin:'0 0', transform:'translate(' + (from.left - to.left - (ctx === 'inv' ? cardDx : 0)) + 'px,' + (from.top - to.top - (ctx === 'inv' ? cardDy : 0)) + 'px) scale(' + (from.width / to.width) + ',' + (from.height / to.height) + ')'},
       {transformOrigin:'0 0', transform:'none'}
-    ], {duration:380, easing:'cubic-bezier(.2,.75,.2,1)'});
+    ], {duration:260, easing:'cubic-bezier(.2,.75,.2,1)'});
     var dtext = det.querySelector('.dtext');
-    if (dtext) dtext.animate([{opacity:0, transform:'translateY(6px)'}, {opacity:1, transform:'none'}], {duration:260, delay:140, easing:'ease-out', fill:'backwards'});
+    if (dtext) dtext.animate([{opacity:0, transform:'translateY(6px)'}, {opacity:1, transform:'none'}], {duration:200, delay:80, easing:'ease-out', fill:'backwards'});
   }
 
   // ---------- routes (hash based, so Back, deep links and shared links work) ----------
