@@ -197,7 +197,10 @@
   .ph{display:block; overflow:hidden; border-radius:var(--r-surface); background:var(--apricot-100);}
   .ph img{display:block; width:100%; height:100%; object-fit:cover;}
   .ph-card{aspect-ratio:4/3; border-radius:var(--r-inner);}
-  .ph-thumb{width:48px; height:48px; flex:none; border-radius:var(--r-inner);}
+  .ph-thumb{width:48px; height:48px; flex:none; border-radius:var(--r-inner); transition:width .28s ease, margin .28s ease, opacity .18s ease;}
+  /* when an item is open its picture is shown large below, so the thumbnail steps aside (header height stays the same) */
+  .item.is-open .ph-thumb, .card.is-open .ph-thumb{width:0; margin-right:calc(-1 * var(--s12)); opacity:0;}
+  @media (prefers-reduced-motion: reduce){ .ph-thumb{transition:none;} }
   .ph-big{aspect-ratio:4/3; width:100%; border-radius:var(--r-inner);}
   .era{display:grid; gap:var(--s16); align-items:center; border-radius:var(--r-surface); padding:var(--s24); margin:var(--s24) 0 0;}
   .era .era-h{margin:0; padding:0; background:none; border-radius:0; color:inherit;}
@@ -1470,10 +1473,47 @@
         var d = a.querySelector('.detail'); d.hidden = true; d.innerHTML = '';
       });
     }
-    var det = art.querySelector('.detail');
-    if (open) { det.hidden = true; det.innerHTML = ''; U.open[ctx] = null; }
-    else { det.innerHTML = detailHTML(BY[slug], ctx); det.hidden = false; U.open[ctx] = slug; }
-    btn.setAttribute('aria-expanded', open ? 'false' : 'true'); art.classList.toggle('is-open', !open);
+    var det = art.querySelector('.detail'), thumb = art.querySelector('.ph-thumb');
+    if (art.dataset.anim) return;
+    if (open) {
+      btn.setAttribute('aria-expanded', 'false'); U.open[ctx] = null;
+      var finishClose = function(){
+        if (!art.classList.contains('is-open') || btn.getAttribute('aria-expanded') === 'true') { delete art.dataset.anim; return; }
+        det.hidden = true; det.innerHTML = '';
+        if (thumb) thumb.style.transition = 'none';
+        art.classList.remove('is-open');
+        if (thumb) { void thumb.offsetWidth; thumb.style.transition = ''; }
+        delete art.dataset.anim;
+      };
+      var bigC = det.querySelector('.ph-big');
+      if (!bigC || !thumb || REDUCE || !bigC.animate) { finishClose(); return; }
+      // the big picture shrinks back into where the thumbnail will sit once the card is closed
+      var fromC = bigC.getBoundingClientRect();
+      thumb.style.transition = 'none'; art.classList.remove('is-open');
+      var toC = thumb.getBoundingClientRect();
+      art.classList.add('is-open'); void thumb.offsetWidth; thumb.style.transition = '';
+      art.dataset.anim = '1';
+      var txt = det.querySelector('.dtext'); if (txt && txt.animate) txt.animate([{opacity:1}, {opacity:0}], {duration:150, fill:'forwards'});
+      bigC.animate([
+        {transformOrigin:'0 0', transform:'none'},
+        {transformOrigin:'0 0', transform:'translate(' + (toC.left - fromC.left) + 'px,' + (toC.top - fromC.top) + 'px) scale(' + (toC.width / fromC.width) + ',' + (toC.height / fromC.height) + ')'}
+      ], {duration:300, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'}).onfinish = finishClose;
+      setTimeout(finishClose, 450);   // never leave a card half-closed if the animation doesn't run (hidden tab)
+      return;
+    }
+    // opening: the thumbnail grows into the big picture's place, then the thumbnail hides
+    var from = thumb ? thumb.getBoundingClientRect() : null;
+    det.innerHTML = detailHTML(BY[slug], ctx); det.hidden = false; U.open[ctx] = slug;
+    btn.setAttribute('aria-expanded', 'true'); art.classList.add('is-open');
+    var big = det.querySelector('.ph-big');
+    if (!from || !big || REDUCE || !big.animate) return;
+    var to = big.getBoundingClientRect();
+    big.animate([
+      {transformOrigin:'0 0', transform:'translate(' + (from.left - to.left) + 'px,' + (from.top - to.top) + 'px) scale(' + (from.width / to.width) + ',' + (from.height / to.height) + ')'},
+      {transformOrigin:'0 0', transform:'none'}
+    ], {duration:380, easing:'cubic-bezier(.2,.75,.2,1)'});
+    var dtext = det.querySelector('.dtext');
+    if (dtext) dtext.animate([{opacity:0, transform:'translateY(6px)'}, {opacity:1, transform:'none'}], {duration:260, delay:140, easing:'ease-out', fill:'backwards'});
   }
 
   // ---------- routes (hash based, so Back, deep links and shared links work) ----------
