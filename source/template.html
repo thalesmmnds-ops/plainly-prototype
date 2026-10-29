@@ -153,6 +153,8 @@
   .qty-in::-webkit-inner-spin-button, .qty-in::-webkit-outer-spin-button{-webkit-appearance:none; margin:0;}
   .brk{padding-top:var(--s4);}
   .readout{font-weight:600;}
+  .sizes{display:grid; gap:var(--s12);}
+  .span-l{font-size:.875rem; line-height:1.25rem; font-weight:400; color:var(--w-soft);}
   .mark{display:grid; grid-template-columns:1fr 1fr; border:1.5px solid var(--control); border-radius:var(--r-pill); overflow:hidden; margin-top:var(--s4);}
   .mark button{height:44px; border:0; background:var(--raised); color:inherit; font-size:.875rem; line-height:1.25rem; font-weight:600; cursor:pointer;}
   .mark button + button{border-left:1.5px solid var(--control);}
@@ -449,9 +451,14 @@
   };
   var CAT = {'furniture-sleep':'Furniture & sleep', feeding:'Feeding', clothes:'Clothes', travel:'Travel', gadgets:'Gadgets', safety:'Safety', 'diapering-bath':'Diapering & bath'};
   var CAT_ORDER = ['furniture-sleep','feeding','clothes','travel','gadgets','safety','diapering-bath'];
-  var WHEN = {'before-birth':'Before birth', 'first-weeks':'First weeks', '3-6-months':'Can wait (3–6 months)'};
-  var WHEN_ORDER = ['before-birth','first-weeks','3-6-months'];
-  var AGES = [['nb','Newborn'],['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6 months and up']];
+  // Baby's age stages (Thales, 2026-10-28). Newborn is a clothing size, not a stage.
+  var AGES = [['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6 months and up']];
+  var SIZES = [['nb','Newborn'],['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6\u201312 months']];
+  var STAGE_SIZES = {'0-3':['nb','0-3'], '3-6':['3-6'], '6+':['6+']};
+  var STAGE_MONTH = {'0-3':0, '3-6':3, '6+':6};
+  var STAGE_HELP = {'0-3':'Have these by the time your baby comes home.', '3-6':'What your baby still uses at this age. Clothes switch to size 3\u20136 months.', '6+':'What your baby uses from about 6 months, with clothes in size 6\u201312 months.'};
+  function inUse(it, age){ var m = STAGE_MONTH[age]; return it.from <= m && (!it.until || it.until > m); }
+  function sizeLabel(k){ for (var i = 0; i < SIZES.length; i++) if (SIZES[i][0] === k) return SIZES[i][1]; return k; }
   // Page copy. Item copy (desc, reason, more, sources) comes from plainly/content/guide via `npm run prototype:export`.
   var MORE_LABEL = 'Good to know';
   var HERO_LEAD = "Too many products, too much advice. For new and expecting parents: what each item is, whether you need it, and what's left to decide.";
@@ -467,7 +474,7 @@
 
   // ---------- state ----------
   var KEY = 'plainly-proto-v2';
-  function defaults(){ return {signedIn:false, age:'all', qty:{}, nfu:{}, device:'phone', due:''}; }
+  function defaults(){ return {signedIn:false, age:'0-3', qty:{}, nfu:{}, device:'phone', due:''}; }
   // Saved data is untrusted: keep only values of the right shape, so one odd value can never stop the page from drawing.
   var DAY_MS = 86400000;
   function validDue(s){
@@ -479,7 +486,7 @@
     return days >= -190 && days <= 290;   // from about six months ago to nine months ahead
   }
   function cleanQty(q){
-    var out = {}, keys = ['all'].concat(AGES.map(function(a){ return a[0]; }));
+    var out = {}, keys = ['all'].concat(SIZES.map(function(a){ return a[0]; }));
     if (!q || typeof q !== 'object') return out;
     Object.keys(q).forEach(function(slug){
       if (!BY[slug] || !q[slug] || typeof q[slug] !== 'object') return;
@@ -500,7 +507,7 @@
         var o = JSON.parse(r);
         if (o && typeof o === 'object') {
           if (o.signedIn === true) d.signedIn = true;
-          if (o.age === 'all' || AGES.some(function(a){ return a[0] === o.age; })) d.age = o.age;
+          if (AGES.some(function(a){ return a[0] === o.age; })) d.age = o.age;   // old 'all' and 'nb' fall back to 0–3
           d.qty = cleanQty(o.qty); d.nfu = cleanNfu(o.nfu);
           if (validDue(o.due)) d.due = o.due;
         }
@@ -510,13 +517,11 @@
   }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
   var S = load();
-  var U = {route:routeFromHash(), tlView:'all', tlCat:'all', tlWeek:null, tlPage:null, tlOpen:null, dq:'', dv:'all', iq:'', iv:'left', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
+  var U = {route:routeFromHash(), tlView:'all', tlCat:'all', tlWeek:null, tlPage:null, tlOpen:null, dq:'', dv:'all', iq:'', iv:'left', ic:'all', pinned:{}, acct:false, pending:null, open:{dict:null, inv:null}};
 
-  // Tiers: sized = one count per age, counted = one count, mark = Have it / Not for us only.
-  // A third-verdict entry never carries a number.
-  var SIZED = {'bodysuits':1, 'zip-up-sleepers':1, 'sleep-sack':1};
-  var COUNTED = {'fitted-crib-sheets':1, 'burp-cloths':1, 'bottles':1, 'pacifiers':1, 'swaddle':1, 'baby-gates':1, 'furniture-anchors':1};
-  function tier(it){ if (it.verdict === 'skip-it') return 'mark'; if (SIZED[it.slug]) return 'sized'; if (COUNTED[it.slug]) return 'counted'; return 'mark'; }
+  // Tiers come from each item's track in content/guide: sized = one count per clothing size, counted = one count,
+  // mark = Have it / Not for us only. A third-verdict entry never carries a number.
+  function tier(it){ return it.verdict === 'skip-it' ? 'mark' : (it.track || 'mark'); }
   // Baby's-age filter: one color and one line icon per age. Placeholder icons until an icon set is chosen.
   var AGE_KEY = {'all':'all', 'nb':'nb', '0-3':'m03', '3-6':'m36', '6+':'m6'};
   var AGE_ICON = {
@@ -527,16 +532,19 @@
     '6+': '<path d="M12 21v-8M12 13c0-4.4 3.1-7 7.5-7 0 4.4-3.1 7-7.5 7ZM12 15.5c0-3.6-2.6-6-6.5-6 0 3.6 2.6 6 6.5 6Z"/>'
   };
   function ageIcon(id){ return '<svg class="age-ico" viewBox="0 0 24 24" aria-hidden="true">' + (AGE_ICON[id] || '') + '</svg>'; }
-  function ageLabel(id){ if (id === 'all') return 'All'; for (var i = 0; i < AGES.length; i++) if (AGES[i][0] === id) return AGES[i][1]; return id; }
-  function getQ(it, age){ var q = S.qty[it.slug]; if (!q) return 0; return tier(it) === 'sized' ? (q[age] || 0) : (q.all || 0); }
-  function setQ(it, age, n){
+  function getQ(it, size){ var q = S.qty[it.slug]; if (!q) return 0; return tier(it) === 'sized' ? (q[size] || 0) : (q.all || 0); }
+  function setQ(it, size, n){
     n = Math.max(0, Math.min(99, Math.floor(Number(n) || 0)));
     var q = S.qty[it.slug] || (S.qty[it.slug] = {});
-    if (tier(it) === 'sized') q[age] = n; else q.all = n;
+    if (tier(it) === 'sized') q[size] = n; else q.all = n;
     if (n > 0) delete S.nfu[it.slug];
     save();
   }
-  function total(it){ var q = S.qty[it.slug]; if (!q) return 0; var t = 0; for (var k in q) t += q[k] || 0; return t; }
+  function total(it){
+    var q = S.qty[it.slug], t = 0, tr = tier(it); if (!q) return 0;
+    if (tr === 'sized') SIZES.forEach(function(z){ t += q[z[0]] || 0; }); else if (tr === 'counted') t = q.all || 0; else t = q.all || 0;
+    return t;
+  }
   function have(it){ return total(it) > 0; }
   function leftCount(){ return ITEMS.filter(function(it){ return it.verdict === 'necessary' && !have(it) && !S.nfu[it.slug]; }).length; }
 
@@ -565,7 +573,7 @@
     return '<div class="dtext">' + alias +
       '<p class="lead">' + esc(it.desc) + '</p>' +
       '<p><b>Why this verdict:</b> ' + esc(it.reason) + '</p>' + safety +
-      '<dl class="facts' + (it.verdict === 'skip-it' ? ' one' : '') + '">' + (it.verdict === 'skip-it' ? '' : '<div><dt>When you need it</dt><dd>' + esc(WHEN[it.when] || it.when) + '</dd></div>') + '<div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
+      '<dl class="facts' + (it.verdict === 'skip-it' ? ' one' : '') + '">' + (it.verdict === 'skip-it' ? '' : '<div><dt>Baby\'s age</dt><dd>' + esc(it.span) + '</dd></div>') + '<div><dt>Category</dt><dd>' + esc(CAT[it.category]) + '</dd></div></dl>' +
       moreHTML(it) + '</div>';
   }
 
@@ -590,17 +598,19 @@
       '<div class="detail" id="det-d-' + it.slug + '"' + (open ? '' : ' hidden') + '>' + (open ? detailHTML(it, 'dict') : '') + '</div></article>';
   }
 
+  // counts saved for sizes outside the chosen age, so they don't look lost
   function breakdown(it){
-    if (tier(it) !== 'sized' || S.age === 'all') return '';
-    var q = S.qty[it.slug] || {}; var parts = [];
-    AGES.forEach(function(a){ if (a[0] !== S.age && q[a[0]] > 0) parts.push(a[1] + ' ' + q[a[0]]); });
-    return parts.length ? '<p class="sm brk">Also: ' + esc(parts.join(' · ')) + '</p>' : '';
+    if (tier(it) !== 'sized') return '';
+    var q = S.qty[it.slug] || {}, here = STAGE_SIZES[S.age] || [], parts = [];
+    SIZES.forEach(function(z){ if (here.indexOf(z[0]) < 0 && q[z[0]] > 0) parts.push(z[1] + ' ' + q[z[0]]); });
+    return parts.length ? '<p class="sm brk">Other sizes: ' + esc(parts.join(' · ')) + '</p>' : '';
   }
-
-  function sizeReadout(it){
-    var q = S.qty[it.slug] || {}, parts = [];
-    AGES.forEach(function(a){ if (q[a[0]] > 0) parts.push(a[1] + ' ' + q[a[0]]); });
-    return '<span class="readout">' + (parts.length ? esc(parts.join(' · ')) : 'None yet') + '</span>';
+  function stepperHTML(it, size, cap){
+    var n = getQ(it, size), nm = esc(it.name);
+    return '<div class="qty" role="group" aria-label="' + nm + ', ' + esc(cap) + '" data-size="' + size + '"><span class="cap">' + esc(cap) + '</span>' +
+      '<div class="stepper"><button type="button" data-action="dec" aria-label="One fewer, ' + nm + ', ' + esc(cap) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button>' +
+      '<input class="qty-in" type="number" min="0" max="99" step="1" inputmode="numeric" value="' + n + '" aria-label="' + nm + ', ' + esc(cap) + '">' +
+      '<button type="button" data-action="inc" aria-label="One more, ' + nm + ', ' + esc(cap) + '">+</button></div></div>';
   }
 
   function controlsHTML(it){
@@ -610,14 +620,10 @@
       body = '<div class="mark" role="group" aria-label="' + nm + '">' +
         '<button type="button" data-action="markhave" aria-pressed="' + (h ? 'true' : 'false') + '">Have it</button>' +
         '<button type="button" data-action="nfu" aria-pressed="' + (nfu ? 'true' : 'false') + '">Not for us</button></div>';
-    } else if (t === 'sized' && S.age === 'all') {
-      body = '<div class="qrow"><div class="qty"><span class="cap">You have</span>' + sizeReadout(it) + '<span class="sm">Pick an age above to change a count.</span></div>' + nfuLink + '</div>';
+    } else if (t === 'sized') {
+      body = '<div class="qrow"><div class="sizes">' + (STAGE_SIZES[S.age] || ['0-3']).map(function(z){ return stepperHTML(it, z, 'Size ' + sizeLabel(z)); }).join('') + '</div>' + nfuLink + '</div>' + breakdown(it);
     } else {
-      var n = getQ(it, S.age), cap = t === 'sized' ? ageLabel(S.age) : 'You have';
-      body = '<div class="qrow"><div class="qty" role="group" aria-label="' + nm + ' quantity"><span class="cap">' + esc(cap) + '</span>' +
-        '<div class="stepper"><button type="button" data-action="dec" aria-label="One fewer, ' + nm + '"' + (n <= 0 ? ' disabled' : '') + '>−</button>' +
-        '<input class="qty-in" type="number" min="0" max="99" step="1" inputmode="numeric" value="' + n + '" aria-label="' + nm + ', ' + esc(cap) + '">' +
-        '<button type="button" data-action="inc" aria-label="One more, ' + nm + '">+</button></div></div>' + nfuLink + '</div>' + breakdown(it);
+      body = '<div class="qrow">' + stepperHTML(it, 'all', 'You have') + nfuLink + '</div>';
     }
     return body;
   }
@@ -625,7 +631,7 @@
     var h = have(it), nfu = !!S.nfu[it.slug], nm = esc(it.name), body = controlsHTML(it), open = U.panelSlug === it.slug;
     return '<article class="card' + (h ? ' is-have' : '') + (nfu ? ' is-nfu' : '') + (open ? ' is-panel' : '') + '" data-slug="' + it.slug + '">' +
       '<h3 class="ch"><button type="button" class="card-head" data-action="toggle" aria-haspopup="dialog" aria-expanded="' + (open ? 'true' : 'false') + '" aria-controls="ipanel">' +
-      itemPhoto(it, 'thumb') + '<span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span></span><span class="chev" aria-hidden="true">›</span></button></h3>' +
+      itemPhoto(it, 'thumb') + '<span class="txt"><span class="name">' + nm + '</span><span class="line1">' + chip(it) + '</span><span class="span-l">' + esc(it.span) + '</span></span><span class="chev" aria-hidden="true">›</span></button></h3>' +
       body + '</article>';
   }
 
@@ -718,13 +724,15 @@
   }
 
   function renderInventory(){
-    var ageChips = [['all','All']].concat(AGES).map(function(a){ return '<button type="button" class="chip age age-' + AGE_KEY[a[0]] + '" data-age="' + a[0] + '" aria-pressed="' + (S.age === a[0]) + '">' + ageIcon(a[0]) + esc(a[1]) + '</button>'; }).join('');
+    var ageChips = AGES.map(function(a){ return '<button type="button" class="chip age age-' + AGE_KEY[a[0]] + '" data-age="' + a[0] + '" aria-pressed="' + (S.age === a[0]) + '">' + ageIcon(a[0]) + esc(a[1]) + '</button>'; }).join('');
     var views = [['left',"What's left"],['have','I have'],['all','All items']].map(function(v){
       return '<button type="button" class="chip" data-iv="' + v[0] + '" aria-pressed="' + (U.iv === v[0]) + '">' + esc(v[1]) + '</button>'; }).join('');
-    $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to track sizes.</p></div>' +
-      '<div class="sum" id="isum" aria-live="polite"></div>' +
+    var catChips = [['all', 'All']].concat(CAT_ORDER.map(function(c){ return [c, CAT[c]]; })).map(function(c){
+      return '<button type="button" class="chip" data-ic="' + c[0] + '" aria-pressed="' + (U.ic === c[0]) + '">' + esc(c[1]) + '</button>'; }).join('');
+    $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to see what\'s in use then.</p></div>' +
       '<div class="inv-ctl"><div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
-      '<p class="sm" style="margin-top:8px">Age only changes the three items that come in sizes. Pick All to see every size.</p></div>' +
+      '<p class="sm" style="margin-top:8px">' + esc(STAGE_HELP[S.age]) + '</p></div>' +
+      '<div><span class="cap ctl-label" id="cat-label">Category</span><div class="chips" role="group" aria-labelledby="cat-label">' + catChips + '</div></div>' +
       '<div class="inv-row"><div><span class="cap ctl-label" id="show-label">Show</span><div class="chips" role="group" aria-labelledby="show-label">' + views + '</div></div>' +
       '<div><label class="sr" for="iq">Search items</label><input id="iq" class="field" type="search" placeholder="Search items" value="' + esc(U.iq) + '" autocomplete="off"></div></div></div>' +
       '<div id="ilist"></div></section>';
@@ -738,6 +746,8 @@
   }
 
   function invFilter(it){
+    if (!inUse(it, S.age)) return false;
+    if (U.ic !== 'all' && it.category !== U.ic) return false;
     if (U.iq) { var q = U.iq.toLowerCase(); if ((it.name + ' ' + (it.aliases || []).join(' ')).toLowerCase().indexOf(q) < 0) return false; }
     var pin = !!U.pinned[it.slug];
     if (U.iv === 'have') return have(it) || pin;
@@ -746,14 +756,15 @@
   }
 
   function renderInvList(){
-    var list = SORTED.filter(invFilter), left = U.iv === 'left';
-    var order = left ? WHEN_ORDER : CAT_ORDER, titles = left ? WHEN : CAT, groups = {};
-    order.forEach(function(g){ groups[g] = []; });
-    list.forEach(function(it){ groups[left ? it.when : it.category].push(it); });
+    var VORD = {'necessary':0, 'nice-to-have':1, 'skip-it':2};
+    var list = SORTED.filter(invFilter), groups = {};
+    CAT_ORDER.forEach(function(g){ groups[g] = []; });
+    list.forEach(function(it){ groups[it.category].push(it); });
     var html = '';
-    order.forEach(function(g){
+    CAT_ORDER.forEach(function(g){
       if (!groups[g].length) return;
-      html += '<div class="grp"><h2>' + esc(titles[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it); }).join('') + '</div></div>';
+      groups[g].sort(function(a, b){ return VORD[a.verdict] - VORD[b.verdict] || a.name.localeCompare(b.name); });   // Necessary first
+      html += '<div class="grp"><h2>' + esc(CAT[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it); }).join('') + '</div></div>';
     });
     if (!list.length) html = '<p class="sub" style="padding:16px 0">' + (U.iv === 'have' ? 'Nothing here yet. Tap Have it, or + on a card, to add something.' : (U.iv === 'left' ? 'Nothing left to decide.' : 'Nothing matches that search.')) + '</p>';
     $('#ilist').innerHTML = html;
@@ -785,9 +796,8 @@
   (function(){ var n; for (n = 6; n <= 40; n++) WEEKS.push({era:'preg', n:n}); for (n = 0; n <= 26; n++) WEEKS.push({era:'baby', n:n}); })();
   // Gear blocks come from the Dictionary's three stages (whenNeeded), not from invented weeks.
   var GEAR = [
-    {id:'g-before', when:'before-birth', era:'preg', from:6,  to:40, title:'Before birth'},
-    {id:'g-first',  when:'first-weeks',  era:'baby', from:0,  to:5,  title:'First weeks'},
-    {id:'g-later',  when:'3-6-months',   era:'baby', from:13, to:26, title:'Can wait (3–6 months)'}
+    {id:'g-birth', stage:0, era:'preg', from:28, to:40, title:'Ready by birth'},
+    {id:'g-six',   stage:6, era:'baby', from:20, to:26, title:'From about 6 months'}
   ];
   var ICONS = {
     visit: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h11v8H8l-3 3v-3H3z"/><path d="M17 9h4v8h-2v3l-3-3h-5v-2"/></svg>',
@@ -844,13 +854,13 @@
       src;
   }
   function gearDetail(g){
-    var nec = ITEMS.filter(function(it){ return it.when === g.when && it.verdict === 'necessary'; });
+    var nec = ITEMS.filter(function(it){ return it.from === g.stage && it.verdict === 'necessary'; });
     var open = nec.filter(function(it){ return !have(it) && !S.nfu[it.slug]; });
     return '<p>' + nec.length + ' Necessary items in the Dictionary for this stage. ' + open.length + ' still open in your Inventory.</p>' +
       (open.length ? '<p class="sm">' + esc(open.slice(0, 6).map(function(i){ return i.name; }).join(', ')) + (open.length > 6 ? ' and more' : '') + '</p>' : '') +
-      '<div class="actions"><button type="button" class="btn" data-action="tl-gear">Open What\'s left</button></div>';
+      '<div class="actions"><button type="button" class="btn" data-action="tl-gear" data-stage="' + (g.stage === 6 ? '6+' : '0-3') + '">Open What\'s left</button></div>';
   }
-  function gearTime(g){ return g.when === 'before-birth' ? 'Usually made before your baby arrives' : g.when === 'first-weeks' ? 'Usually made in the first weeks' : 'Can wait until about 3 to 6 months'; }
+  function gearTime(g){ return g.stage === 0 ? 'Have these by the time your baby comes home' : 'Usually needed from about 6 months'; }
 
   function card(ev){
     var c = catOf(ev), id = ev.id, open = U.tlOpen === id;
@@ -871,7 +881,7 @@
     });
     GEAR.forEach(function(g){
       if (g.era !== w.era) return;
-      if (mode === 'start' ? g.from === w.n : (w.n >= g.from && w.n <= g.to)) out.push({gear:true, id:g.id, when:g.when, title:g.title});
+      if (mode === 'start' ? g.from === w.n : (w.n >= g.from && w.n <= g.to)) out.push({gear:true, id:g.id, stage:g.stage, title:g.title});
     });
     out = out.filter(function(ev){ return U.tlCat === 'all' || U.tlCat === catOf(ev); });
     out.sort(function(a, b){ return CAT_SORT.indexOf(catOf(a)) - CAT_SORT.indexOf(catOf(b)); });
@@ -923,7 +933,7 @@
   }
   function findEv(id){
     for (var i = 0; i < TL.length; i++) if (TL[i].id === id) return TL[i];
-    for (var j = 0; j < GEAR.length; j++) if (GEAR[j].id === id) return {gear:true, id:GEAR[j].id, when:GEAR[j].when, title:GEAR[j].title};
+    for (var j = 0; j < GEAR.length; j++) if (GEAR[j].id === id) return {gear:true, id:GEAR[j].id, stage:GEAR[j].stage, title:GEAR[j].title};
     return null;
   }
   function barsHTML(){
@@ -1101,14 +1111,14 @@
     U.pending = {fn:fn, onCancel:onCancel}; rememberOpener(); $('#sheet').showModal();
   }
 
-  function changeQty(slug, delta, absolute, focusSel){
-    var it = BY[slug], cur = getQ(it, S.age);
+  function changeQty(slug, delta, absolute, focusSel, size){
+    var it = BY[slug], cur = getQ(it, size);
     var next = absolute != null ? absolute : cur + delta;
     if (isNaN(next)) next = 0;
     next = Math.max(0, Math.min(99, next));
     if (next === cur) { refreshCard(slug, focusSel); return; }
     requireAuth(function(){
-      setQ(it, S.age, next); U.pinned[slug] = true; refreshCard(slug, focusSel); renderSummary();
+      setQ(it, size, next); U.pinned[slug] = true; refreshCard(slug, focusSel); renderSummary();
     }, function(){ refreshCard(slug); });
   }
 
@@ -1289,10 +1299,11 @@
   // ---------- events ----------
   var proto = $('#proto');
   proto.addEventListener('click', function(e){
-    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-age],[data-letter],[data-tlv],[data-tlc]');
+    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-ic],[data-age],[data-letter],[data-tlv],[data-tlc]');
     if (!t || !proto.contains(t)) return;
     if (t.dataset.nav) { go(t.dataset.nav); return; }
     if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); focusSel('[data-dv="' + t.dataset.dv + '"]'); return; }
+    if (t.dataset.ic) { U.ic = t.dataset.ic; U.pinned = {}; renderInventory(); focusSel('[data-ic="' + t.dataset.ic + '"]'); return; }
     if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); focusSel('[data-iv="' + t.dataset.iv + '"]'); return; }
     if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); focusSel('[data-age="' + t.dataset.age + '"]'); return; }
     if (t.dataset.letter) { var h = document.getElementById('L-' + t.dataset.letter); if (h) h.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); return; }
@@ -1300,8 +1311,7 @@
     if (t.dataset.tlc) { U.tlCat = t.dataset.tlc; renderTimeline(); focusSel('[data-tlc="' + t.dataset.tlc + '"]'); return; }
     var a = t.dataset.action, art = t.closest('[data-slug]'), slug = art && art.dataset.slug;
     if (a === 'toggle') toggleDetail(t);
-    else if (a === 'inc') changeQty(slug, 1, null, '[data-action="inc"]');
-    else if (a === 'dec') changeQty(slug, -1, null, '[data-action="dec"]');
+    else if (a === 'inc' || a === 'dec') { var sz = t.closest('[data-size]').dataset.size; changeQty(slug, a === 'inc' ? 1 : -1, null, '[data-size="' + sz + '"] [data-action="' + a + '"]', sz); }
     else if (a === 'markhave') requireAuth(function(){
       var it = BY[slug]; setQ(it, 'all', have(it) ? 0 : 1); U.pinned[slug] = true;
       refreshCard(slug, '[data-action="markhave"]'); renderSummary();
@@ -1330,7 +1340,7 @@
     }
     else if (a === 'tl-bar-close') { var was = U.tlBar; U.tlBar = null; $('#tl-detail').hidden = true; $('#tl-detail').innerHTML = ''; var bb = document.querySelector('.bar[data-id="' + was + '"]'); if (bb) { bb.setAttribute('aria-expanded', 'false'); bb.focus(); } }
     else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
-    else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
+    else if (a === 'tl-gear') { U.iv = 'left'; U.ic = 'all'; S.age = t.dataset.stage || '0-3'; save(); U.open.inv = null; go('inventory'); }
     else if (a === 'ip-close') closePanel();
     else if (a === 'signin-open') { U.pending = {fn:function(){}, onCancel:null}; rememberOpener(); $('#sheet').showModal(); }
     else if (a === 'signout') { S.signedIn = false; U.acct = false; save(); render(false); focusSel('[data-action="signin-open"]'); }
@@ -1347,7 +1357,8 @@
     if (e.target.id === 'tl-week') { U.tlWeek = e.target.value; renderTimeline(); focusSel('#tl-week'); return; }
     if (e.target.classList.contains('qty-in')) {
       var art = e.target.closest('[data-slug]');
-      changeQty(art.dataset.slug, 0, parseInt(e.target.value, 10), '.qty-in');
+      var qz = e.target.closest('[data-size]').dataset.size;
+      changeQty(art.dataset.slug, 0, parseInt(e.target.value, 10), '[data-size="' + qz + '"] .qty-in', qz);
     }
   });
   proto.addEventListener('focusout', function(e){
