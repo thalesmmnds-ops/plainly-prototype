@@ -143,10 +143,12 @@
   .sum .sm{color:var(--on-forest-soft);}
   .ctl-label{display:block; margin-bottom:var(--s8);}
   #ilist{display:grid; gap:var(--s40);}
-  .grp{display:grid; gap:var(--s16); align-content:start;}
-  .grp > h2{margin:0; font-size:1rem; line-height:1.5rem; font-weight:700; padding:0;}
+  .inv-ctl{display:grid; gap:var(--s24);}
+  .inv-row{display:grid; gap:var(--s24); align-items:end;}
+  .grp{display:grid; gap:var(--s24); align-content:start;}
+  .grp > h2{margin:0; padding:0; font-family:var(--font-display); font-size:1.75rem; line-height:2rem; font-weight:400;}
   .cards{display:grid; gap:var(--s16); grid-template-columns:1fr;}
-  .card{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s8) var(--s20) var(--s20); display:grid; gap:var(--s8); align-content:start; min-width:0;}
+  .card{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s8) var(--s20) var(--s20); display:grid; gap:var(--s16); align-content:start; min-width:0;}
   .card.is-have{background:var(--fill);}
   .card.is-nfu .thumb, .card.is-nfu .name{opacity:.62;}
   .qrow{display:flex; align-items:flex-end; justify-content:space-between; gap:var(--s8); flex-wrap:wrap;}
@@ -373,11 +375,12 @@
     .sec-h, .how-h{font-size:1.75rem; line-height:2rem;}
     .page{padding:var(--s48) var(--gutter) var(--s96); gap:var(--s32);}
     .home{gap:var(--s96); padding-top:var(--s64);}
-    .card{padding:var(--s8) var(--s24) var(--s24);}
+    .card{padding:var(--s12) var(--s24) var(--s24);}   /* + the 12px head padding = 24 on every side, as on Wise cards */
+    .inv-row{grid-template-columns:auto minmax(240px, 1fr);}
     .mini, .how-steps li, .sum{padding:var(--s24);}
     .detail{grid-template-columns:minmax(0, 230px) 1fr; gap:var(--s32); align-items:start;}
     .cards{grid-template-columns:repeat(2, 1fr); gap:var(--s24);}
-    #ilist{gap:var(--s48);}
+    #ilist{gap:var(--s64);}
     .controls{grid-template-columns:1fr auto; align-items:start;}
     .controls .field{grid-column:1 / -1;}
     .hero-grid{grid-template-columns:1.1fr .9fr; gap:var(--s64);}
@@ -1217,10 +1220,10 @@
       return '<button type="button" class="chip" data-iv="' + v[0] + '" aria-pressed="' + (U.iv === v[0]) + '">' + esc(v[1]) + '</button>'; }).join('');
     $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to track sizes.</p></div>' +
       '<div class="sum" id="isum" aria-live="polite"></div>' +
-      '<div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
+      '<div class="inv-ctl"><div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
       '<p class="sm" style="margin-top:8px">Age only changes the three items that come in sizes. Pick All to see every size.</p></div>' +
-      '<div><span class="cap ctl-label" id="show-label">Show</span><div class="chips" role="group" aria-labelledby="show-label">' + views + '</div></div>' +
-      '<div><label class="sr" for="iq">Search items</label><input id="iq" class="field" type="search" placeholder="Search items" value="' + esc(U.iq) + '" autocomplete="off"></div>' +
+      '<div class="inv-row"><div><span class="cap ctl-label" id="show-label">Show</span><div class="chips" role="group" aria-labelledby="show-label">' + views + '</div></div>' +
+      '<div><label class="sr" for="iq">Search items</label><input id="iq" class="field" type="search" placeholder="Search items" value="' + esc(U.iq) + '" autocomplete="off"></div></div></div>' +
       '<div id="ilist"></div></section>';
     renderSummary(); renderInvList();
   }
