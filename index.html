@@ -43,7 +43,7 @@
   .proto button:focus-visible, .proto input:focus-visible, .proto select:focus-visible{outline:2px solid var(--w-ink); outline-offset:2px;}
   .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
   .sm{font-size:.875rem; line-height:1.25rem; color:var(--w-soft); margin:0;}
-  .cap{font-size:.75rem; line-height:1rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--w-ink);}
+  .cap{font-size:.875rem; line-height:1.25rem; font-weight:600; color:var(--w-ink);}
 
   /* header: two rows on narrow frames, one row from 640px */
   .hdr, .ftr{--edge:max(var(--gutter), calc((100% - 1120px) / 2 + var(--gutter)));}
@@ -117,12 +117,12 @@
   .detail{padding:var(--s4) 0 var(--s24); display:grid; gap:var(--s16);}
   .detail[hidden]{display:none;}
   .dtext{display:grid; gap:var(--s12); min-width:0;}
-  .dtext p{margin:0;}
+  .dtext p{margin:0; line-height:1.625rem;}
   .lead{font-weight:500;}
   .facts{display:grid; grid-template-columns:1fr 1fr; gap:var(--s8); margin:0;}
   .facts.one{grid-template-columns:1fr;}
   .facts div{background:var(--paper); border:0; border-radius:var(--r-inner); padding:var(--s8) var(--s12); display:grid; gap:var(--s2);}
-  .facts dt{font-size:.75rem; line-height:1rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--w-ink);}
+  .facts dt{font-size:.875rem; line-height:1.25rem; font-weight:600; color:var(--w-ink);}
   .facts dd{margin:0; font-weight:600;}
   .safety{background:var(--paper); display:flex; gap:var(--s8); align-items:flex-start; border:0; border-radius:var(--r-inner); padding:var(--s8) var(--s12);}
   .ico{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; flex:none; margin-top:var(--s2);}
@@ -273,7 +273,7 @@
   .tc-gear{border-left-color:var(--clay);}
   .tc-visit, .tc-test{border-left-color:var(--w-ink);}
   .tc-top{display:flex; justify-content:space-between; align-items:center; gap:var(--s8); flex-wrap:wrap;}
-  .tc-label{display:inline-flex; align-items:center; gap:var(--s4); font-size:.75rem; line-height:1rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--w-ink);}
+  .tc-label{display:inline-flex; align-items:center; gap:var(--s4); font-size:.875rem; line-height:1.25rem; font-weight:600; color:var(--w-ink);}
   .tc-label .ico{margin-top:0;}
   .tc-tag{font-size:.75rem; line-height:1rem; font-weight:600; border:1.5px dashed var(--stroke); border-radius:var(--r-tag); padding:0 var(--s8);}
   .tc-title{margin:0; font-size:.875rem; line-height:1.25rem; font-weight:700;}
@@ -286,21 +286,51 @@
   .srcs{margin:0; padding-left:18px; display:grid; gap:var(--s4); font-size:.875rem; line-height:1.25rem;}
   .srcs li{min-height:24px;}
   .srcs a{display:inline-block; padding:2px 0; color:inherit; overflow-wrap:anywhere;}
-  .weeks{display:grid; gap:var(--s24);}
-  .era-h{margin:var(--s24) 0 0; font-family:var(--font-display); font-weight:600; font-size:1.5rem; line-height:1.75rem; padding:var(--s24) var(--s24); border-radius:var(--r-surface);}
-  .era-preg{background:var(--apricot-100); color:var(--w-ink);}
-  .era-baby{background:var(--forest); color:var(--on-forest);}
-  .wcard{background:var(--raised); border-radius:var(--r-surface); padding:var(--s16) var(--s20) var(--s24); display:grid; gap:var(--s12); min-width:0; scroll-margin-top:96px;}
-  .wcard.is-now{box-shadow:inset 0 0 0 2px var(--w-ink);}
-  .wcard:focus{outline:2px solid var(--w-ink); outline-offset:2px;}
-  .wrule{display:flex; align-items:center; gap:var(--s16);}
-  .wrule::before, .wrule::after{content:""; flex:1; border-top:1.5px solid var(--stroke);}
-  .wrule h2{margin:0; font-family:var(--font-display); font-weight:600; font-size:1.25rem; line-height:1.5rem; white-space:nowrap;}
-  .wdate{margin:0; text-align:center; display:flex; justify-content:center; align-items:center; gap:var(--s8); flex-wrap:wrap;}
-  .now-tag{font-size:.75rem; line-height:1rem; font-weight:700; padding:2px var(--s8); border-radius:var(--r-tag); background:var(--sel); color:var(--on-sel);}
-  .wparts{display:grid; gap:var(--s20);}
-  .wpart{display:grid; gap:var(--s8); align-content:start; min-width:0;}
-  .wpart > p{margin:0;}
+  #tlbody{min-width:0;}
+  .tl{background:var(--raised); border-radius:var(--r-surface); padding:var(--s20) 0 var(--s16); display:grid; gap:var(--s12); min-width:0;}
+  .tl-nav{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--s8); padding-inline:var(--s20);}
+  .tl-nav .btns{display:flex; gap:var(--s8);}
+  .tl-nav .btn[data-dir]{min-width:44px; padding:0;}
+  .track{position:relative; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-inline:var(--s20); padding:var(--s4) var(--s20) var(--s12); overscroll-behavior-x:contain;}
+  .track:focus-visible{outline:2px solid var(--w-ink); outline-offset:-2px;}
+  .tgrid{--colw:clamp(260px, 80cqi, 320px); display:grid; grid-template-columns:repeat(var(--cols), var(--colw)); column-gap:var(--s16); width:max-content;}
+  .tgrid > .era-l{grid-row:1; margin:0 0 var(--s8); padding:0 0 var(--s8); font-family:var(--font-display); font-weight:400; font-size:1.25rem; line-height:1.5rem; border-bottom:1.5px solid var(--stroke);}
+  .tgrid > .era-l span{position:sticky; left:var(--s20);}
+  .lanes{grid-row:2; grid-column:1 / -1; display:grid; grid-template-columns:subgrid; grid-auto-rows:50px; padding-bottom:var(--s8); transition:grid-template-rows .2s ease;}
+  .lanes .bar{align-self:start;}
+  .bar.is-off{visibility:hidden;}
+  .bar{display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:0; min-width:0; min-height:44px; padding:var(--s4) var(--s12); border:0; border-radius:8px; font:inherit; font-size:.875rem; line-height:1.25rem; cursor:pointer;}
+  .bar-in{display:grid; justify-items:center; max-width:100%; min-width:0; will-change:transform;}
+  .bar b{font-weight:600; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .bar span{font-size:.8125rem; opacity:.9;}
+  .bar-visit{background:var(--forest); color:var(--on-forest);}
+  .bar-test{background:var(--fill-2); color:var(--w-ink);}
+  .bar-gear{background:var(--paper); color:var(--w-ink); box-shadow:inset 0 0 0 1.5px var(--stroke);}
+  .bar[aria-expanded="true"]{box-shadow:inset 0 0 0 3px var(--clay);}
+  .bar:hover b{text-decoration:underline; text-underline-offset:3px;}
+  .wk{grid-row:3; scroll-snap-align:start; border-radius:var(--r-surface); padding:var(--s20) var(--s20) var(--s24); display:grid; gap:var(--s16); align-content:start; min-width:0; --sec:var(--w-soft); scroll-margin-inline:var(--s20);}
+  .t-peach{background:var(--apricot-100);}
+  .t-oat{background:var(--fill);}
+  .t-apricot{background:var(--apricot); --sec:var(--w-ink);}   /* grey text is only 3.7:1 on apricot, so secondary text stays ink */
+  .t-paper{background:var(--paper);}
+  .t-forest{background:var(--forest); color:var(--on-forest); --sec:var(--on-forest-soft);}
+  .wk.is-now{box-shadow:inset 0 0 0 3px var(--w-ink);}
+  .t-forest.is-now{box-shadow:inset 0 0 0 3px var(--apricot);}
+  .wk:focus{outline:2px solid var(--w-ink); outline-offset:2px;}
+  .wk-top{display:grid; gap:var(--s2);}
+  .wk-n{margin:0; font-family:var(--font-display); font-weight:400; font-size:1.75rem; line-height:2rem; letter-spacing:-0.01em;}
+  .wk .sm, .wk .cap{color:var(--sec);}
+  .wk p{margin:0; line-height:1.625rem;}
+  .wk-sec{display:grid; gap:var(--s4);}
+  .wk-sec h4, .wk-top p{margin:0;}
+  .wk .tc-detail{border-top-color:currentColor;}
+  .wk .srcs a, .tl-detail .srcs a{color:inherit;}
+  .now-tag{font-size:.875rem; line-height:1.25rem; font-weight:700;}
+  .tl-any{margin:0 var(--s20); padding:var(--s12) var(--s16); border-radius:var(--r-inner); background:var(--paper);}
+  .tl-detail{margin:0 var(--s20); padding:var(--s16) var(--s20) var(--s20); border-radius:var(--r-inner); background:var(--paper); display:grid; gap:var(--s8);}
+  .tl-detail[hidden]{display:none;}
+  .tl-detail h2{margin:0; font-family:var(--font-display); font-weight:400; font-size:1.25rem; line-height:1.5rem;}
+  .tl-detail p{margin:0;}
   .wlist{list-style:none; margin:0; padding:0; display:grid; gap:var(--s12);}
   .wi{display:flex; gap:var(--s12); align-items:flex-start;}
   .wi .ico{margin-top:4px;}
@@ -355,12 +385,8 @@
     .how-steps{grid-template-columns:repeat(3, 1fr); gap:var(--s24);}
     .wk-cards{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--s24);}
     .tlctl{grid-template-columns:1fr auto; align-items:center; gap:var(--s16);}
-    .wparts{grid-template-columns:1fr 1fr; gap:var(--s32);}
-    .wcard{padding:var(--s20) var(--s32) var(--s32);}
   }
   @container (min-width: 900px){
-    .wcard{width:70%; margin-left:calc(var(--step, 0) * 15%);}
-    .wcard-any{width:70%;}
     .cards{grid-template-columns:repeat(3, 1fr);}
     .card.is-open{grid-column:1 / -1;}
   }
@@ -1381,25 +1407,109 @@
       '<button type="button" class="tc-more" data-action="tl-open" data-id="' + esc(id) + '" data-title="' + esc(title) + '" aria-label="' + (open ? 'Hide details: ' : 'See details: ') + esc(title) + '" aria-expanded="' + (open ? 'true' : 'false') + '">' + (open ? 'Hide details' : 'See details') + '</button>' +
       '<div class="tc-detail"' + (open ? '' : ' hidden') + '>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) + '</div></div></li>';
   }
-  function weekCard(w, now, due, step){
-    var key = wkKey(w), copy = (TLW.weeks || {})[key] || {}, evs = eventsFor(w, 'start'), isNow = sameWeek(w, now);
-    var you = (evs.length ? '<ul class="wlist">' + evs.map(weekItem).join('') + '</ul>' : '') +
-      (copy.you ? '<p>' + esc(copy.you) + '</p>' : '') +
-      (!evs.length && !copy.you ? '<p class="sm">Nothing new to book this week.</p>' : '');
-    var baby = copy.baby ? '<div class="wpart"><h3 class="cap">Your baby</h3><p>' + esc(copy.baby) + '</p>' + srcList(copy.sources) + '</div>' : '';
-    return '<section class="wcard' + (isNow ? ' is-now' : '') + '" id="wk-' + key + '" style="--step:' + step + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
-      '<header class="wrule"><h2>Week ' + w.n + '</h2></header>' +
-      ((due || isNow) ? '<p class="wdate sm">' + (due ? 'about ' + weekRange(w, due) : '') + (isNow ? '<span class="now-tag">This week</span>' : '') + '</p>' : '') +
-      '<div class="wparts"><div class="wpart"><h3 class="cap">For you</h3>' + you + '</div>' + baby + '</div></section>';
+  function isSpan(ev){ return ev.endW > ev.startW; }
+  function spanList(){
+    var out = [];
+    TL.forEach(function(ev){ if (ev.startW != null && isSpan(ev)) out.push(ev); });
+    return out.filter(function(ev){ return U.tlCat === 'all' || U.tlCat === catOf(ev); });
+  }
+  function findEv(id){
+    for (var i = 0; i < TL.length; i++) if (TL[i].id === id) return TL[i];
+    for (var j = 0; j < GEAR.length; j++) if (GEAR[j].id === id) return {gear:true, id:GEAR[j].id, when:GEAR[j].when, title:GEAR[j].title};
+    return null;
+  }
+  function barsHTML(){
+    // pack the multi-week items into rows so bars never overlap
+    var rows = [], html = '';
+    spanList().map(function(ev){ return {ev:ev, a:wkIndex({era:ev.era, n:ev.startW}), b:wkIndex({era:ev.era, n:ev.endW})}; })
+      .sort(function(x, y){ return x.a - y.a || y.b - x.b; })
+      .forEach(function(x){
+        var r = 0; while (rows[r] != null && rows[r] >= x.a) r++;
+        rows[r] = x.b;
+        var ev = x.ev, c = catOf(ev), title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title, open = U.tlBar === ev.id;
+        var when = ev.gear ? gearTime(ev) : timingText(ev);
+        html += '<button type="button" class="bar bar-' + c + '" style="grid-column:' + (x.a + 1) + ' / ' + (x.b + 2) + '; grid-row:' + (r + 1) + '" data-action="tl-bar" data-id="' + esc(ev.id) + '" aria-expanded="' + open + '" aria-controls="tl-detail">' +
+          '<span class="bar-in"><b>' + esc(title) + '</b><span>' + esc(when) + '</span></span></button>';
+      });
+    return html ? '<div class="lanes">' + html + '</div>' : '';
+  }
+  function barDetail(){
+    var ev = U.tlBar && findEv(U.tlBar); if (!ev) return '';
+    var title = ev.gear ? 'Gear decisions: ' + ev.title : ev.title;
+    return '<h2 tabindex="-1">' + esc(title) + '</h2><p class="sm">' + esc(ev.gear ? gearTime(ev) : timingText(ev)) + '</p>' + (ev.gear ? gearDetail(ev) : evDetail(ev)) +
+      '<div><button type="button" class="linkbtn" data-action="tl-bar-close">Close</button></div>';
+  }
+  var TONES = ['t-peach', 't-oat', 't-apricot', 't-paper', 't-forest'];
+  function weekCard(w, now, due, i){
+    var key = wkKey(w), copy = (TLW.weeks || {})[key] || {}, isNow = sameWeek(w, now);
+    var evs = eventsFor(w, 'start').filter(function(ev){ return ev.gear || !isSpan(ev); });   // multi-week items are bars above; gear stages stay in their first week
+    var era = w.era === 'preg' ? 'Pregnancy' : 'Baby';
+    return '<section class="wk ' + TONES[i % TONES.length] + (isNow ? ' is-now' : '') + '" id="wk-' + key + '" style="grid-column:' + (i + 1) + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
+      '<header class="wk-top"><p class="cap">' + era + (isNow ? ' · <span class="now-tag">This week</span>' : '') + '</p><h3 class="wk-n">Week ' + w.n + '</h3>' +
+      (due ? '<p class="sm">about ' + weekRange(w, due) + '</p>' : '') + '</header>' +
+      (evs.length ? '<ul class="wlist">' + evs.map(weekItem).join('') + '</ul>' : '') +
+      (copy.you ? '<div class="wk-sec"><h4 class="cap">For you</h4><p>' + esc(copy.you) + '</p></div>' : '') +
+      (copy.baby ? '<div class="wk-sec"><h4 class="cap">Your baby</h4><p>' + esc(copy.baby) + '</p>' + srcList(copy.sources) + '</div>' : '') +
+      '</section>';
   }
   function weeksBody(now, due){
-    var any = anyWeekEvents(), html = '', step = 0, era = null;
-    if (any.length) html += '<section class="wcard wcard-any"><header class="wrule"><h2>Any week</h2></header><div class="wparts"><div class="wpart"><h3 class="cap">For you</h3><ul class="wlist">' + any.map(weekItem).join('') + '</ul></div></div></section>';
-    WEEKS.forEach(function(w){
-      if (w.era !== era) { era = w.era; step = 0; html += '<div class="era ' + (era === 'preg' ? 'era-preg' : 'era-baby') + '"><h2 class="era-h">' + (era === 'preg' ? 'Pregnancy' : 'After birth') + '</h2>' + pagePhoto(era === 'preg' ? 'eraPreg' : 'eraBaby', 'ph-era') + '</div>'; }
-      html += weekCard(w, now, due, step % 3); step++;
+    var any = anyWeekEvents(), cards = '', pregN = 0;
+    WEEKS.forEach(function(w, i){ if (w.era === 'preg') pregN++; cards += weekCard(w, now, due, i); });
+    var detail = barDetail();
+    return '<div class="tl">' +
+      '<div class="tl-nav"><p class="sm">Scroll sideways. Bars show things that last several weeks.</p><div class="btns">' +
+      '<button type="button" class="btn" data-action="tl-scroll" data-dir="-1" aria-label="Earlier weeks">←</button>' +
+      (now ? '<button type="button" class="btn" data-action="tl-now">This week</button>' : '') +
+      '<button type="button" class="btn" data-action="tl-scroll" data-dir="1" aria-label="Later weeks">→</button></div></div>' +
+      (any.length ? '<div class="tl-any"><ul class="wlist">' + any.map(weekItem).join('') + '</ul></div>' : '') +
+      '<div class="track" id="tl-track" tabindex="0" role="region" aria-label="Weeks, scroll sideways">' +
+      '<div class="tgrid" style="--cols:' + WEEKS.length + '">' +
+      '<h2 class="era-l" style="grid-column:1 / ' + (pregN + 1) + '"><span>Pregnancy</span></h2><h2 class="era-l" style="grid-column:' + (pregN + 1) + ' / -1"><span>After birth</span></h2>' +
+      barsHTML() + cards + '</div></div>' +
+      '<div class="tl-detail" id="tl-detail" aria-live="polite"' + (detail ? '' : ' hidden') + '>' + detail + '</div></div>';
+  }
+  // long bars keep their label centred in the part you can see
+  function centreBars(){
+    var tr = $('#tl-track'); if (!tr) return;
+    var vl = tr.scrollLeft, vr = vl + tr.clientWidth;
+    [].forEach.call(tr.querySelectorAll('.bar'), function(b){
+      var l = b.offsetLeft, r = l + b.offsetWidth, a = Math.max(l, vl + 20), z = Math.min(r, vr - 20), inn = b.firstElementChild;
+      if (z <= a) return;
+      inn.style.maxWidth = (z - a - 24) + 'px';
+      inn.style.transform = 'translateX(' + Math.round((a + z) / 2 - (l + r) / 2) + 'px)';
     });
-    return '<div class="weeks">' + html + '</div>';
+  }
+  function foldLanes(){
+    var tr = $('#tl-track'), ln = tr && tr.querySelector('.lanes'); if (!ln) return;
+    var vl = tr.scrollLeft, vr = vl + tr.clientWidth, used = [], n = 0;
+    [].forEach.call(ln.children, function(b){
+      var r = parseInt(b.style.gridRow, 10) - 1, seen = b.offsetLeft < vr - 20 && b.offsetLeft + b.offsetWidth > vl + 20;
+      n = Math.max(n, r + 1); if (seen) used[r] = true;
+      b.classList.toggle('is-off', !seen);
+    });
+    var rows = []; for (var i = 0; i < n; i++) rows.push(used[i] ? '50px' : '0px');
+    ln.style.gridTemplateRows = rows.join(' ');
+    if (REDUCE) ln.style.transition = 'none';
+  }
+  function bindTrack(){
+    var tr = $('#tl-track'); if (!tr || tr.dataset.bound) return;
+    tr.dataset.bound = '1';
+    var raf = 0;
+    var idle = 0;
+    tr.addEventListener('scroll', function(){
+      if (!raf) raf = requestAnimationFrame(function(){ raf = 0; centreBars(); });
+      clearTimeout(idle); idle = setTimeout(foldLanes, 140);
+    }, {passive:true});
+  }
+  function scrollToWeek(w, smooth){
+    var tr = $('#tl-track'), el = w && document.getElementById('wk-' + wkKey(w)); bindTrack(); if (!tr) return; if (!el) { centreBars(); foldLanes(); return; }
+    tr.scrollTo({left: el.offsetLeft - 20, behavior: smooth && !REDUCE ? 'smooth' : 'auto'});
+    centreBars(); foldLanes();
+  }
+  function scrollTrack(dir){
+    var tr = $('#tl-track'), c = tr && tr.querySelector('.wk'); if (!c) return;
+    var step = c.getBoundingClientRect().width + 16;
+    tr.scrollBy({left: dir * step * Math.max(1, Math.floor((tr.clientWidth - 40) / step)), behavior: REDUCE ? 'auto' : 'smooth'});
   }
 
   function timelineBody(now, due){
@@ -1436,6 +1546,7 @@
   function refreshTimelineBody(){
     var due = dueDate(), now = currentWeek(), body = $('#tlbody'); if (!body) return;
     body.innerHTML = weeksBody(now, due);
+    scrollToWeek(now, false);   // a new due date moves the track to the new this week
     var row = $('.daterow'), clr = row && row.querySelector('[data-action="tl-clear"]');
     if (row && S.due && !clr) row.insertAdjacentHTML('beforeend', '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>');
     else if (clr && !S.due) clr.remove();
@@ -1453,8 +1564,9 @@
       '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
       (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
       '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p><p class="sm" id="due-note" aria-live="polite">' + dueNote(due, now) + '</p></div>' +
-      '<div class="controls tlctl"><div class="chips" role="group" aria-label="Show">' + cats + '</div>' + (now ? '<button type="button" class="btn secondary" data-action="tl-now">Jump to this week</button>' : '') + '</div>' +
+      '<div class="controls tlctl"><div class="chips" role="group" aria-label="Show">' + cats + '</div>' + '</div>' +
       '<div id="tlbody">' + weeksBody(now, due) + '</div></section>';
+    scrollToWeek(now, false);
   }
 
   function focusSel(sel, alt){ var el = $(sel); if (el && !el.disabled) { el.focus(); return; } var a = alt && $(alt); if (a && !a.disabled) a.focus(); }
@@ -1700,7 +1812,15 @@
       var cw = fromKey(U.tlWeek) || currentWeek() || {era:'preg', n:20}, ni = Math.max(0, Math.min(WEEKS.length - 1, wkIndex(cw) + parseInt(t.dataset.dir, 10)));
       U.tlWeek = wkKey(WEEKS[ni]); renderTimeline(); focusSel('[data-action="tl-step"][data-dir="' + t.dataset.dir + '"]', '[data-action="tl-step"][data-dir="' + (-parseInt(t.dataset.dir, 10)) + '"]');
     }
-    else if (a === 'tl-now') { var nw = currentWeek(), wc = nw && document.getElementById('wk-' + wkKey(nw)); if (wc) { wc.setAttribute('tabindex', '-1'); wc.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); wc.focus({preventScroll:true}); } }
+    else if (a === 'tl-now') { var nw = currentWeek(), wc = nw && document.getElementById('wk-' + wkKey(nw)); if (wc) { scrollToWeek(nw, true); wc.setAttribute('tabindex', '-1'); wc.focus({preventScroll:true}); } }
+    else if (a === 'tl-scroll') scrollTrack(parseInt(t.dataset.dir, 10));
+    else if (a === 'tl-bar') {
+      U.tlBar = U.tlBar === t.dataset.id ? null : t.dataset.id;
+      [].forEach.call(document.querySelectorAll('.bar'), function(b){ b.setAttribute('aria-expanded', b.dataset.id === U.tlBar ? 'true' : 'false'); });
+      var dt = $('#tl-detail'); dt.innerHTML = barDetail(); dt.hidden = !U.tlBar;
+      if (U.tlBar) { dt.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'nearest'}); }
+    }
+    else if (a === 'tl-bar-close') { var was = U.tlBar; U.tlBar = null; $('#tl-detail').hidden = true; $('#tl-detail').innerHTML = ''; var bb = document.querySelector('.bar[data-id="' + was + '"]'); if (bb) { bb.setAttribute('aria-expanded', 'false'); bb.focus(); } }
     else if (a === 'tl-clear') { S.due = ''; U.tlWeek = null; U.tlPage = null; save(); renderTimeline(); focusSel('#tl-due'); }
     else if (a === 'tl-gear') { U.iv = 'left'; U.open.inv = null; go('inventory'); }
     else if (a === 'ip-close') closePanel();
