@@ -208,6 +208,7 @@
   .vb .h1, .vb .sec-h, .vb .band-h, .vb .era-h{font-weight:360; font-variation-settings:'SOFT' 50; letter-spacing:-0.02em;}
   .vb .h1.display{font-size:3rem; line-height:3.25rem;}
   .vb .sec-h.story{font-size:2rem; line-height:2.375rem;}
+  .vb .story-sub.one-line{max-width:none;}
   .vb .story-sub{margin:0; max-width:56ch; color:var(--w-soft); font-size:1.125rem; line-height:1.75rem;}
   .vb .hero-art{width:100%; height:auto;}
   .vb .img.tint{background:var(--apricot-100); background-image:none; border-color:transparent;}
@@ -245,7 +246,7 @@
   .vdef-nec{border-top-color:var(--necessary);} .vdef-nice{border-top-color:var(--nice);} .vdef-dep{border-top-color:var(--skip);}
   .sec{display:grid; gap:var(--s24);}
   .cards3{display:grid; grid-template-columns:1fr; gap:var(--s16);}
-  .mini{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s20); display:grid; gap:var(--s12); align-content:start;}
+  .mini{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s12); display:grid; gap:var(--s12); align-content:start;}
   .mini .img{aspect-ratio:16/9;}
   .mini .name{font-weight:700;}
   .how-steps{list-style:none; padding:0; margin:0; display:grid; gap:var(--s16); counter-reset:step;}
@@ -379,7 +380,8 @@
     .home{gap:var(--s96); padding-top:var(--s64);}
     .card{padding:var(--s12) var(--s24) var(--s24);}   /* + the 12px head padding = 24 on every side, as on Wise cards */
     .inv-row{grid-template-columns:auto minmax(240px, 1fr);}
-    .mini, .how-steps li, .sum{padding:var(--s24);}
+    .how-steps li, .sum{padding:var(--s24);}
+    .mini{padding:var(--s16);}
     .detail{grid-template-columns:minmax(0, 230px) 1fr; gap:var(--s32); align-items:start;}
     .cards{grid-template-columns:repeat(2, 1fr); gap:var(--s24);}
     #ilist{gap:var(--s64);}
@@ -1172,13 +1174,13 @@
       '<div class="hero-photo">' + photo(MOCK.hero, 'ph-hero') + '</div></div>' +
       '<section class="band band-forest" aria-labelledby="nr-h"><h2 id="nr-h" class="band-h">Not a registry.</h2><p>Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</p></section>' +
       '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h story">It starts with a straight answer&hellip;</h2>' +
-      '<p class="story-sub">Every item gets one verdict and one sentence why. No hedging, no &ldquo;it depends.&rdquo;</p>' +
+      '<p class="story-sub one-line">Every item gets one verdict and one sentence why. No hedging, no &ldquo;it depends.&rdquo;</p>' +
       '<div class="cards3">' + picks.map(function(it){ return '<div class="mini">' + (MOCK[it.slug] ? photo(MOCK[it.slug], 'ph-card') : '<i class="img tint" aria-hidden="true"></i>') + '<span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
       '<section class="sec how split" aria-labelledby="how-h"><div class="split-copy"><h2 id="how-h" class="sec-h story">&hellip;then the weeks ahead, one at a time.</h2>' +
       '<p class="story-sub">Enter your due date and we lay out the usual appointments, tests and gear decisions week by week, with what is happening with your baby. You and your partner see the same weeks.</p>' +
       '<div class="actions"><button type="button" class="btn cta big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
       '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></div>' + photo(MOCK.weeks, 'ph-weeks') + '</section>' +
-      '<section class="sec closer">' + HERO_ART.replace('class="hero-art"', 'class="closer-art"') + '<p class="closer-line">You don\'t need everything on the list. <span class="hl">Most parents don\'t.</span></p></section></section>';
+      '<section class="sec closer">' + '<p class="closer-line">You don\'t need everything on the list. <span class="hl">Most parents don\'t.</span></p></section></section>';
   }
 
   function renderVerdicts(){
