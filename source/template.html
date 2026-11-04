@@ -1,22 +1,23 @@
 <title>Plainly Prototype</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2333473A'/%3E%3Ctext x='29' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='44' fill='%23F1EADC'%3Ep%3C/text%3E%3Ccircle cx='48' cy='41' r='5' fill='%23B85A38'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2323392C'/%3E%3Ctext x='28' y='44' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='800' font-size='46' fill='%23F5BC8F'%3Ep%3C/text%3E%3Crect x='44' y='36' width='9' height='9' rx='3' fill='%23FBF3E6'/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..600,0..100&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
   /* Sizing follows docs/ux-review-wireframe-sizing-01.md: 44px targets, 8 type sizes (12 14 16 20 28 36 40 56), 4px spacing scale. */
   :root{
     /* Brand palette from docs/brand/brand-core.md section 8: oat base, forest secondary, clay accent, mustard CTA, verdict colors. */
-    --paper:#F1EADC; --raised:#FBF8F2; --w-ink:#2A2420; --w-soft:#6B5F52; --stroke:#C9BCA3; --control:#8C7F6E; --off:#9A8E7E; --fill:#E9DFCB; --fill-2:#DCD0B8;
-    --forest:#33473A; --on-forest:#FBF8F2; --on-forest-soft:#E9DFCB;   /* dark anchor: bands, footer, summary. Never under a clay button (2.2:1) */
+    --paper:#F1EADC; --raised:#FBF3E6; --w-ink:#2A2420; --w-soft:#6B5F52; --stroke:#C9BCA3; --control:#8C7F6E; --off:#9A8E7E; --fill:#E9DFCB; --fill-2:#DCD0B8;
+    --forest:#23392C; --on-forest:#FBF3E6; --on-forest-soft:#E9DFCB;   /* dark anchor: bands, footer, summary. Never under a clay button (2.2:1) */
     --apricot:#F5BC8F; --apricot-100:#FBE3CF;   /* warm light: hero block, Pregnancy era */
+    --terra:#A04A2C; --blush:#F2C4B8;   /* brand refresh (Nov 4): deep terracotta panels (cream text 5.4:1) and an optional blush */
     --mustard:#D9A23A;   /* highlights only, never buttons (brand-core 8) */
     --clay:#B85A38; --clay-hover:#9E4B2E; --on-clay:#FFFFFF;   /* terracotta: priority-1 actions and the logo only */
     --sel:#2A2420; --on-sel:#FBF8F2;   /* selected/pressed states: ink, never brand or verdict colors */
     --r-tag:6px; --r-inner:8px; --r-field:10px; --r-surface:12px; --r-dialog:16px; --r-pill:999px;   /* buttons and chips are pills */
     /* verdict colors: tags only, never on buttons, chips or states. Mustard/gold is reserved for Nice-to-have. */
     --necessary:#3F6B4C; --nice:#7A5C18; --nice-bg:#EFE3C2; --skip:#6B5E50;
-    --font-display:'Fraunces', Georgia, serif;
+    --font-display:'Bricolage Grotesque', 'Public Sans', system-ui, sans-serif;
     --font-body:'Public Sans', system-ui, sans-serif;
     --s2:2px; --s4:4px; --s8:8px; --s12:12px; --s16:16px; --s24:24px; --s32:32px; --s20:20px; --s40:40px; --s48:48px; --s64:64px; --s96:96px;   /* spacing scale; sections breathe at 64 (phone) / 96 (desktop), as on wise.com */
     --gutter:16px;
@@ -398,6 +399,136 @@
   @media (min-width: 640px){
     html{scroll-padding-top:78px;}
   }
+
+  /* ===== Brand refresh (Nov 4, from the Hint benchmark): Bricolage Grotesque, colour pairs as panels, pill header ===== */
+  .vb{--w-ink:#2A2420; --w-soft:#6B5F52;}
+  .h1, .vb .h1, .sec-h, .vb .sec-h, .band-h, .vb .band-h, .letter, .grp > h2, .wk-n, .ip-title, .tgrid > .era-l, .tl-detail h2, .closer-line, .vb .closer-line, .vdef dt, .pcard h3, .steps3 h3{font-family:var(--font-display); font-weight:800; font-variation-settings:normal; letter-spacing:-0.035em;}
+  .h1, .vb .h1{font-size:2.75rem; line-height:2.75rem; letter-spacing:-0.045em;}
+  .vb .h1.display{font-size:3.25rem; line-height:3.25rem;}
+  .vb .sec-h.story{font-size:2.25rem; line-height:2.375rem;}
+  .grp > h2{font-size:2rem; line-height:2.25rem;}
+  .wk-n{font-size:2.25rem; line-height:2.25rem;}
+
+  /* header: one cream pill */
+  .hdr{display:block; padding:var(--s12) var(--gutter) var(--s8); padding-top:max(var(--s12), env(safe-area-inset-top, 0px)); border-bottom:0; background:var(--paper);}
+  .hdr-pill{position:relative; max-width:1120px; margin-inline:auto; display:flex; flex-wrap:wrap; align-items:center; gap:var(--s4) var(--s8); background:var(--raised); border-radius:28px; padding:var(--s4) var(--s4) var(--s4) var(--s20);}
+  .logo{font-family:var(--font-display); font-weight:800; font-size:1.75rem; line-height:2.25rem; letter-spacing:-0.05em; color:var(--forest);}
+  .logo .dot, .ftr .flogo .dot{color:var(--clay); margin-left:0.04em;}
+  .authbtn{background:var(--forest); color:var(--on-forest); border-color:var(--forest);}
+  .authbtn:hover{background:var(--forest) !important; opacity:.92;}
+  .acct-menu{right:0; top:calc(100% + 6px);}
+
+  /* full-width colour panels with big rounded corners */
+  .panel{margin-inline:calc(50% - 50cqw + var(--s8)); border-radius:28px; padding:var(--s40) max(var(--s24), calc(50cqw - 568px)); display:grid; gap:var(--s20); align-content:start;}
+  .panel .sub, .panel .sm{margin:0;}
+  .p-forest{background:var(--forest); color:var(--on-forest);} .p-forest .h1, .p-forest .hl2{color:var(--apricot);} .p-forest .sub, .p-forest .sm, .p-forest .lead2{color:var(--on-forest-soft);}
+  .p-terra{background:var(--terra); color:var(--on-forest);} .p-terra .sub, .p-terra .sm, .p-terra .story-sub, .p-terra .cap{color:var(--on-forest);}
+  .p-apricot{background:var(--apricot); color:var(--forest);} .p-apricot .sub, .p-apricot .sm, .p-apricot .story-sub{color:var(--forest);}
+  .p-blush{background:var(--blush); color:var(--forest);} .p-blush .sub{color:var(--forest);}
+  .panel .cap{color:inherit;}
+  .panel .linkbtn{color:inherit;}
+  .p-forest .chip:not(.age):not([aria-pressed="true"]), .p-terra .chip:not([aria-pressed="true"]){background:transparent; color:inherit; border-color:currentColor;}
+  .btn.onpanel{background:transparent; color:var(--on-forest); border-color:var(--on-forest);}
+  .btn.onpanel:hover{background:rgba(251,243,230,.12) !important;}
+  .btn.dark{background:var(--forest); color:var(--on-forest); border-color:var(--forest);}
+  .btn.dark:hover{background:var(--forest) !important; opacity:.92;}
+  .field{border:0; border-radius:var(--r-pill); background:var(--raised); padding:0 var(--s20);}
+  dialog .field{border:1.5px solid var(--control);}
+  .big-field{min-height:52px; font-size:1.0625rem;}
+  .notice{border-radius:24px;}
+
+  /* homepage */
+  .home{gap:var(--s48); padding-top:var(--s8);}
+  .hero-b{padding-block:var(--s48) var(--s64); gap:var(--s24);}
+  .hero-b .h1{color:var(--on-forest);}
+  .how-page .p-forest .sec-h{color:var(--apricot);}
+  .tl-any{background:var(--raised); border-radius:20px;}
+  .hero-b .hl2{display:block;}
+  .hero-b .lead2{max-width:36rem;}
+  .tilt{margin-inline:calc(50% - 50cqw); margin-top:calc(-1 * var(--s64)); overflow:hidden; padding-block:var(--s12); position:relative; z-index:1;}
+  .tilt p{margin:0 calc(-1 * var(--s24)); transform:rotate(-1.5deg); background:var(--apricot); color:var(--forest); padding:var(--s12) 0; white-space:nowrap; display:flex; gap:var(--s32); justify-content:center; font-family:var(--font-display); font-weight:700; font-size:1.125rem; line-height:1.5rem;}
+  .promise3{display:grid; gap:var(--s16);}
+  .pcard{background:var(--raised); border-radius:28px; padding:var(--s24) var(--s24) var(--s32); display:grid; gap:var(--s8); align-content:start;}
+  .pcard h3, .steps3 h3{margin:0; font-size:1.5rem; line-height:1.75rem; letter-spacing:-0.02em;}
+  .pcard p, .steps3 p{margin:0;}
+  .steps3{list-style:none; margin:0; padding:0; display:grid; gap:var(--s32);}
+  .steps3 li{display:grid; gap:var(--s8); align-content:start;}
+  .steps3 .n{font-family:var(--font-display); font-weight:800; font-size:4rem; line-height:3.75rem; letter-spacing:-0.04em; color:var(--apricot);}
+  .split2{grid-template-columns:1fr; align-items:center; gap:var(--s32);}
+  .wtiles{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--s12);}
+  .wt{border-radius:24px; padding:var(--s20); display:grid; gap:var(--s8); font-size:.9375rem; line-height:1.375rem;}
+  .wt b{font-family:var(--font-display); font-weight:800; font-size:3.25rem; line-height:3.25rem; letter-spacing:-0.04em;}
+  .wt-cream{background:var(--raised); color:var(--w-ink);} .wt-forest{background:var(--forest); color:var(--on-forest);} .wt-forest b{color:var(--apricot);} .wt-blush{background:var(--blush); color:var(--forest);}
+  .closer2{text-align:center; justify-items:center; padding-block:var(--s64);}
+  .closer2 .closer-line{max-width:52rem;}
+  .p-forest .closer-line{color:var(--on-forest);}
+
+  /* colour tiles instead of stock photos */
+  .tile{display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; letter-spacing:-0.04em; line-height:1;}
+  .tile.ph-thumb{font-size:1.25rem; border-radius:14px;}
+  .tile.ph-big{font-size:5rem; border-radius:24px;}
+  .tl-apricot{background:var(--apricot); color:var(--forest);} .tl-forest{background:var(--forest); color:var(--apricot);} .tl-blush{background:var(--blush); color:var(--forest);}
+  .tl-terra{background:var(--terra); color:var(--on-forest);} .tl-oat{background:var(--fill-2); color:var(--forest);}
+
+  /* inventory */
+  .card{border-radius:28px;}
+  .card.is-have{background:var(--fill);}
+  .stepper{border:0; background:var(--paper);}
+  .stepper button{background:transparent;}
+  .qty-in{border:0; background:transparent; font-family:var(--font-display); font-weight:800; font-size:1.125rem;}
+  .mark{border:0; background:var(--paper); padding:var(--s4); gap:var(--s4);}
+  .mark button{border-radius:var(--r-pill); background:transparent; font-family:var(--font-display); font-weight:700; font-size:.9375rem;}
+  .mark button + button{border-left:0;}
+  .mark button[aria-pressed="true"]{background:var(--forest); color:var(--on-forest);}
+  .card.is-panel{box-shadow:0 0 0 3px var(--forest);}
+
+  /* dictionary */
+  .letter{border-bottom:0; color:var(--terra); font-size:4rem; line-height:4rem; padding:var(--s40) 0 var(--s8);}
+  .item{background:var(--raised); border-bottom:0; border-radius:24px; padding:0 var(--s20); margin-top:var(--s8);}
+  .item .item-head{padding:var(--s16) 0;}
+  .az{gap:var(--s4);}
+  .az button{width:44px; height:44px; border-radius:var(--r-pill); background:var(--raised); text-decoration:none; font-family:var(--font-display); font-weight:800; font-size:1.0625rem;}
+  .az button:hover{background:var(--forest); color:var(--on-forest);}
+
+  /* timeline */
+  .tl{background:transparent; padding:0;}
+  .tl-nav, .tl-any, .tl-detail{margin-inline:0;} .tl-nav{padding-inline:0;}
+  .track{padding-inline:0; scroll-padding-inline:0;}
+  .wk{border-radius:28px;}
+  .t-peach{background:var(--blush); --sec:var(--forest);}
+  .t-paper{background:var(--raised);}
+
+  /* how verdicts work */
+  .how-page{max-width:1120px;}
+  .vdefs{grid-template-columns:1fr;}
+  .vdef{border:0; border-radius:28px; padding:var(--s32); display:grid; gap:var(--s12); align-content:start;}
+  .vdef dt{font-size:2.25rem; line-height:2.375rem;}
+  .vdef dd{margin:0; line-height:1.625rem;}
+  .vdef-nec{background:var(--necessary); color:var(--on-forest);}
+  .vdef-nice{background:var(--nice-bg); color:var(--w-ink);} .vdef-nice dt{color:var(--nice);}
+  .vdef-dep{background:#E5DDD2; color:var(--w-ink);} .vdef-dep dt{color:#4E443A;}
+
+  /* footer: light, with the wordmark */
+  .ftr{background:var(--paper); color:var(--w-soft);}
+  .ftr .flogo{font-family:var(--font-display); font-weight:800; font-size:1.5rem; letter-spacing:-0.05em; color:var(--forest);}
+  .ftr .flink:focus-visible{outline-color:var(--w-ink);}
+
+  @container (min-width: 640px){
+    .hdr-pill{flex-wrap:nowrap; border-radius:var(--r-pill);}
+    .panel{margin-inline:calc(50% - 50cqw + var(--s16)); border-radius:40px; padding-block:var(--s56, 56px);}
+    .h1, .vb .h1{font-size:4.5rem; line-height:4.25rem;}
+    .vb .h1.display{font-size:5.5rem; line-height:5.25rem;}
+    .vb .sec-h.story{font-size:3.5rem; line-height:3.5rem;}
+    .grp > h2{font-size:2.75rem; line-height:2.75rem;}
+    .hero-b{padding-block:var(--s64) 88px;}
+    .promise3{grid-template-columns:repeat(3, minmax(0, 1fr));}
+    .steps3{grid-template-columns:repeat(3, minmax(0, 1fr));}
+    .split2{grid-template-columns:1fr 1fr; gap:var(--s48);}
+    .letter{font-size:6rem; line-height:5.5rem;}
+    .vdefs{grid-template-columns:repeat(3, minmax(0, 1fr));}
+    .vb .closer-line{font-size:4rem; line-height:4rem;}
+    .home{gap:var(--s64);}
+  }
 </style>
 
 <div class="proto" id="proto" data-device="desktop">
@@ -433,12 +564,16 @@
   var TLW = __TLWEEKS__;
   var MOCKIMG = __MOCKIMG__;   // stand-in photos (source/mock-images.json), to be replaced by final images
   function itemPhotoId(it){ return (MOCKIMG.items || {})[it.slug] || (MOCKIMG.categories || {})[it.category] || ''; }
+  // Brand refresh (Nov 4): stock photos replaced by colour tiles with the item's initials until the final art is ready.
+  // Decorative: the item's name is always printed next to its tile.
+  var TILES = ['tl-apricot', 'tl-forest', 'tl-blush', 'tl-terra', 'tl-oat'];
+  function initials(name){
+    var w = String(name).split(/[\s-]+/).filter(function(x){ return x && !/^(or|and|of|for)$/i.test(x); });
+    return w.length > 1 ? w[0].charAt(0).toUpperCase() + w[1].charAt(0).toLowerCase() : w[0].charAt(0).toUpperCase() + w[0].charAt(1).toLowerCase();
+  }
   function itemPhoto(it, kind){
-    var id = itemPhotoId(it), w = kind === 'big' ? 800 : 160;
-    if (!id) return '<i class="img ' + kind + '" aria-hidden="true"></i>';
-    var src = 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=' + w + '&q=70';
-    // thumbnails sit next to the item name, so they are decorative; the large one gets a short description
-    return '<span class="ph ph-' + kind + '"><img src="' + esc(src) + '" alt="' + (kind === 'big' ? esc('Stand-in photo: ' + it.name) : '') + '" loading="' + (kind === 'big' ? 'eager' : 'lazy') + '"></span>';
+    var h = 0; for (var i = 0; i < it.slug.length; i++) h = (h * 31 + it.slug.charCodeAt(i)) >>> 0;
+    return '<span class="ph ph-' + kind + ' tile ' + TILES[h % TILES.length] + '" aria-hidden="true"><span>' + esc(initials(it.name)) + '</span></span>';
   }
   function pagePhoto(key, cls){
     var m = (MOCKIMG.pages || {})[key]; if (!m) return '';
@@ -562,7 +697,7 @@
       : '<button type="button" class="authbtn" data-action="signin-open">Sign in</button>';
     var menu = (S.signedIn && U.acct)
       ? '<div class="acct-menu"><span class="sm">name@example.com</span><button type="button" class="btn" data-action="signout">Sign out</button></div>' : '';
-    $('#hdr').innerHTML = '<button type="button" class="logo" data-nav="home" aria-label="Plainly, home">plainly<span class="dot">.</span></button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + cta + '</nav>' + auth + menu;
+    $('#hdr').innerHTML = '<div class="hdr-pill"><button type="button" class="logo" data-nav="home" aria-label="Plainly, home">plainly<span class="dot">.</span></button><nav aria-label="Main">' + nav('inventory', 'Inventory') + nav('dictionary', 'Dictionary') + cta + '</nav>' + auth + menu + '</div>';
   }
 
   function detailHTML(it, ctx){
@@ -669,40 +804,48 @@
   function photo(m, cls){ return '<span class="ph ' + (cls || '') + '"><img src="' + esc(m.src) + '" alt="' + esc(m.alt) + '" loading="' + (cls === 'ph-hero' ? 'eager' : 'lazy') + '"></span>'; }
 
   function renderHomeB(){
-    var picks = ['car-seat','baby-monitor','wipe-warmer'].map(function(s){ return BY[s]; }).filter(Boolean);
+    var ticker = ['car-seat','wipe-warmer','baby-monitor','crib','bottle-warmer','glider','pacifiers','crib-bumpers'].map(function(sl){ return BY[sl]; }).filter(Boolean)
+      .map(function(it){ return '<span>' + esc(it.name) + ' · ' + esc(VERD[it.verdict].label) + '</span>'; }).join('');
     $('#view').innerHTML = '<section class="page home">' +
-      '<div class="hero-grid"><div class="hero-copy"><h1 class="h1 display" tabindex="-1">Baby gear, explained <span class="hl">plainly.</span></h1>' +
+      '<div class="panel p-forest hero-b"><h1 class="h1 display" tabindex="-1"><span class="hl2">Baby gear,</span> explained plainly.</h1>' +
       '<p class="lead2">' + esc(HERO_LEAD) + '</p>' +
-      '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn secondary big" data-nav="inventory">Start your inventory</button></div></div>' +
-      '<div class="hero-photo">' + photo(MOCK.hero, 'ph-hero') + '</div></div>' +
-      '<section class="band band-forest" aria-labelledby="nr-h"><h2 id="nr-h" class="band-h">Not a registry.</h2><p>Nothing here is for sale, and there\'s nothing to send to grandma. This is for you, to figure out what you actually need.</p></section>' +
-      '<section class="sec" aria-labelledby="verd-h"><h2 id="verd-h" class="sec-h story">It starts with a straight answer&hellip;</h2>' +
-      '<p class="story-sub one-line">Every item gets one verdict and one sentence why. No hedging, no &ldquo;it depends.&rdquo;</p>' +
-      '<div class="cards3">' + picks.map(function(it){ return '<div class="mini">' + (MOCK[it.slug] ? photo(MOCK[it.slug], 'ph-card') : '<i class="img tint" aria-hidden="true"></i>') + '<span class="name">' + esc(it.name) + '</span>' + chip(it) + '<span class="sm">' + esc(it.desc) + '</span></div>'; }).join('') + '</div></section>' +
-      '<section class="sec how split" aria-labelledby="how-h"><div class="split-copy"><h2 id="how-h" class="sec-h story">&hellip;then the weeks ahead, one at a time.</h2>' +
-      '<p class="story-sub">Enter your due date and we lay out the usual appointments, tests and gear decisions week by week, with what is happening with your baby. You and your partner see the same weeks.</p>' +
-      '<div class="actions"><button type="button" class="btn cta big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
-      '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></div>' + photo(MOCK.weeks, 'ph-weeks') + '</section>' +
-      '<section class="sec closer">' + '<p class="closer-line">You don\'t need everything on the list. <span class="hl">Most parents don\'t.</span></p></section></section>';
+      '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button><button type="button" class="btn onpanel big" data-nav="inventory">Start your inventory</button></div></div>' +
+      '<div class="tilt" aria-label="Examples of verdicts"><p>' + ticker + '</p></div>' +
+      '<section class="sec" aria-labelledby="pr-h"><h2 id="pr-h" class="sec-h story">A list that tells you what to <span class="hl">skip.</span></h2>' +
+      '<div class="promise3"><div class="pcard"><h3>One answer per item.</h3><p>Necessary, Nice-to-have or Skip it, with one sentence on why.</p></div>' +
+      '<div class="pcard"><h3>Nobody pays to be listed.</h3><p>Nothing here is for sale, and nothing links to a store.</p></div>' +
+      '<div class="pcard"><h3>Safety claims have sources.</h3><p>Each one links to the AAP, CPSC or CDC page it came from.</p></div></div></section>' +
+      '<section class="panel p-terra" aria-labelledby="how-h"><h2 id="how-h" class="sec-h story">How it works</h2><ol class="steps3">' +
+      '<li><span class="n">1</span><h3>Look anything up</h3><p>The Dictionary says what each item is and whether you need it.</p></li>' +
+      '<li><span class="n">2</span><h3>Mark what you have</h3><p>The Inventory shows what\'s left for your baby\'s age.</p></li>' +
+      '<li><span class="n">3</span><h3>Add your due date</h3><p>The Timeline lays out the weeks ahead, for you and your baby.</p></li></ol></section>' +
+      '<section class="panel p-apricot split2" aria-labelledby="wk-h"><div class="split-copy"><h2 id="wk-h" class="sec-h story">Then the weeks ahead, one at a time.</h2>' +
+      '<p class="story-sub">Enter your due date and we lay out the usual appointments, tests and gear decisions week by week, with what is happening with your baby.</p>' +
+      '<div class="actions"><button type="button" class="btn dark big" data-nav="timeline">' + HOME_CTA + '</button></div>' +
+      '<p class="sm">Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.</p></div>' +
+      '<div class="wtiles" aria-hidden="true"><div class="wt wt-cream"><b>20</b><span>Pregnancy week 20 · anatomy scan window</span></div><div class="wt wt-forest"><b>28</b><span>Pregnancy week 28 · ready by birth</span></div>' +
+      '<div class="wt wt-blush"><b>36</b><span>Pregnancy week 36 · weekly visits</span></div><div class="wt wt-cream"><b>4</b><span>Baby week 4 · 1-month checkup</span></div></div></section>' +
+      '<section class="panel p-forest closer2"><p class="closer-line">You don\'t need everything on the list. <span class="hl2">Most parents don\'t.</span></p>' +
+      '<div class="actions"><button type="button" class="btn primary big" data-nav="dictionary">See what you actually need</button></div></section></section>';
   }
 
   function renderVerdicts(){
     var def = [['necessary', 'Most families use it, and there is no simple substitute. Legal and safety requirements always land here.'],
       ['nice-to-have', 'It makes life easier for many parents, but you will be fine without it. Worth borrowing, or waiting to see if you want it.'],
       ['skip-it', 'Something you already own does the job, or most parents stop using it quickly. If you already have one, that is fine. A few items are here because safety guidance advises against them. Those carry a clear safety note, and you should not use them.']];
-    $('#view').innerHTML = '<section class="page how-page"><div class="how-intro"><div><h1 class="h1" tabindex="-1">How verdicts work</h1><p class="sub">Every item gets one verdict and one sentence explaining it. Here is what each one means.</p></div>' + pagePhoto('verdicts', 'ph-how') + '</div>' +
-      '<dl class="vdefs">' + def.map(function(d){ return '<div class="box vdef vdef-' + VERD[d[0]].cls + '"><dt>' + chip({verdict:d[0]}) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; }).join('') + '</dl>' +
-      '<section class="band band-forest band-left" aria-labelledby="vp-h"><h2 id="vp-h" class="band-h">What we promise</h2><ul class="plain-list"><li>Nothing here is for sale, and nothing links to a store.</li><li>No one pays to be listed, and no one pays to change a verdict.</li><li>Safety and legal claims link to their source, such as the AAP, CPSC or CDC.</li></ul></section>' +
+    $('#view').innerHTML = '<section class="page how-page"><div class="panel p-blush"><h1 class="h1" tabindex="-1">How verdicts work</h1><p class="sub">Every item gets one verdict and one sentence explaining it. Here is what each one means.</p></div>' +
+      '<dl class="vdefs">' + def.map(function(d){ return '<div class="vdef vdef-' + VERD[d[0]].cls + '"><dt>' + esc(VERD[d[0]].label) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; }).join('') + '</dl>' +
+      '<section class="panel p-forest" aria-labelledby="vp-h"><h2 id="vp-h" class="sec-h story">What we promise</h2><ol class="steps3"><li><span class="n">1</span><h3>Nothing here is for sale, and nothing links to a store.</h3></li><li><span class="n">2</span><h3>No one pays to be listed, and no one pays to change a verdict.</h3></li><li><span class="n">3</span><h3>Safety and legal claims link to their source, such as the AAP, CPSC or CDC.</h3></li></ol></section>' +
       '<section class="sec" aria-labelledby="vr-h"><h2 id="vr-h" class="sec-h">Sources and review</h2><p class="box">' + esc(REVIEW_NOTE) + '</p></section></section>';
   }
 
   function renderDictionary(){
     var chips = [['all','All'],['necessary','Necessary'],['nice-to-have','Nice-to-have'],['skip-it', VERD['skip-it'].label]].map(function(c){
       return '<button type="button" class="chip" data-dv="' + c[0] + '" aria-pressed="' + (U.dv === c[0]) + '">' + esc(c[1]) + '</button>'; }).join('');
-    $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Dictionary</h1><p class="sub">What each item is and what it does, with a plain verdict. Tap an item to see more.</p></div>' +
-      '<div class="controls"><div class="field-wrap" style="grid-column:1/-1"><label class="sr" for="dq">Search the dictionary</label><input id="dq" class="field" type="search" placeholder="Search items" value="' + esc(U.dq) + '" autocomplete="off"></div>' +
+    $('#view').innerHTML = '<section class="page"><div class="panel p-apricot"><h1 class="h1" tabindex="-1">Dictionary</h1><p class="sub">What each item is and what it does, with a plain verdict. Tap an item to see more.</p>' +
+      '<div class="controls"><div class="field-wrap" style="grid-column:1/-1"><label class="sr" for="dq">Search the dictionary</label><input id="dq" class="field big-field" type="search" placeholder="Search items" value="' + esc(U.dq) + '" autocomplete="off"></div>' +
       '<div class="chips" role="group" aria-label="Filter by verdict">' + chips + '</div>' +
-      '<p class="sm" id="dcount" aria-live="polite"></p></div><div class="az" id="az" aria-label="Jump to a letter"></div><div id="dlist"></div></section>';
+      '<p class="sm" id="dcount" aria-live="polite"></p></div></div><div class="az" id="az" aria-label="Jump to a letter"></div><div id="dlist"></div></section>';
     renderDictList();
   }
 
@@ -731,9 +874,10 @@
       return '<button type="button" class="chip" data-iv="' + v[0] + '" aria-pressed="' + (U.iv === v[0]) + '">' + esc(v[1]) + '</button>'; }).join('');
     var catChips = [['all', 'All']].concat(CAT_ORDER.map(function(c){ return [c, CAT[c]]; })).map(function(c){
       return '<button type="button" class="chip" data-ic="' + c[0] + '" aria-pressed="' + (U.ic === c[0]) + '">' + esc(c[1]) + '</button>'; }).join('');
-    $('#view').innerHTML = '<section class="page"><div><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to see what\'s in use then.</p></div>' +
-      '<div class="inv-ctl"><div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
-      '<p class="sm" style="margin-top:8px">' + esc(STAGE_HELP[S.age]) + '</p></div>' +
+    $('#view').innerHTML = '<section class="page"><div class="panel p-forest"><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to see what\'s in use then.</p>' +
+      '<div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
+      '<p class="sm" style="margin-top:8px">' + esc(STAGE_HELP[S.age]) + '</p></div></div>' +
+      '<div class="inv-ctl">' +
       '<div><span class="cap ctl-label" id="cat-label">Category</span><div class="chips" role="group" aria-labelledby="cat-label">' + catChips + '</div></div>' +
       '<div class="inv-row"><div><span class="cap ctl-label" id="show-label">Show</span><div class="chips" role="group" aria-labelledby="show-label">' + views + '</div></div>' +
       '<div><label class="sr" for="iq">Search items</label><input id="iq" class="field" type="search" placeholder="Search items" value="' + esc(U.iq) + '" autocomplete="off"></div></div></div>' +
@@ -1078,12 +1222,12 @@
     var chip = function(attr, val, label, on){ return '<button type="button" class="chip" ' + attr + '="' + val + '" aria-pressed="' + on + '">' + label + '</button>'; };
     var views = chip('data-tlv', 'all', 'Timeline', U.tlView === 'all') + chip('data-tlv', 'week', 'This week', U.tlView === 'week');
     var cats = [['all', 'All'], ['visit', 'Visits'], ['test', 'Tests'], ['gear', 'Gear decisions']].map(function(c){ return chip('data-tlc', c[0], c[1], U.tlCat === c[0]); }).join('');
-    $('#view').innerHTML = '<section class="page tlpage"><div><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
-      '<p class="sub">Week by week: what is usually on for you, and what is happening with your baby.</p></div>' +
-      '<p class="notice">' + esc(TLW.intro || 'Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.') + '</p>' +
+    $('#view').innerHTML = '<section class="page tlpage"><div class="panel p-terra"><h1 class="h1" tabindex="-1">' + TL_NAME + '</h1>' +
+      '<p class="sub">Week by week: what is usually on for you, and what is happening with your baby.</p>' +
       '<div class="opt datebox"><label for="tl-due" class="cap">Due date</label><div class="daterow"><input id="tl-due" class="field" type="date" value="' + esc(S.due) + '">' +
       (S.due ? '<button type="button" class="linkbtn" data-action="tl-clear">Clear</button>' : '') + '</div>' +
-      '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p><p class="sm" id="due-note" aria-live="polite">' + dueNote(due, now) + '</p></div>' +
+      '<p class="sm">Optional. It adds dates to each week and marks this week. In this prototype it is saved on this device only.</p><p class="sm" id="due-note" aria-live="polite">' + dueNote(due, now) + '</p></div></div>' +
+      '<p class="notice">' + esc(TLW.intro || 'Typical timing only, not medical advice. Your doctor or midwife sets your actual dates.') + '</p>' +
       '<div class="controls tlctl"><div class="chips" role="group" aria-label="Show">' + cats + '</div>' + '</div>' +
       '<div id="tlbody">' + weeksBody(now, due) + '</div></section>';
     scrollToWeek(now, false);
