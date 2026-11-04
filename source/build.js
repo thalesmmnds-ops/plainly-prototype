@@ -21,6 +21,9 @@ t = t.replace('__TLWEEKS__', () => tlWeeks);
 const mockImg = read('mock-images.json').replace(/<\//g, '<\\/');
 if (!t.includes('__MOCKIMG__')) throw new Error('template is missing the __MOCKIMG__ placeholder');
 t = t.replace('__MOCKIMG__', () => mockImg);
+const icons = read('item-icons.json').replace(/<\//g, '<\\/');
+if (!t.includes('__ICONS__')) throw new Error('template is missing the __ICONS__ placeholder');
+t = t.replace('__ICONS__', () => icons);
 // A copy without the standalone extras, for previewing as a Claude artifact.
 fs.writeFileSync(path.join(root, 'artifact.html'), t);
 t = t.replace(/<meta name="claude:viewport-fit-sides"[^>]*>\s*/, '');

@@ -147,7 +147,7 @@
   .inv-ctl{display:grid; gap:var(--s24);}
   .inv-row{display:grid; gap:var(--s24); align-items:end;}
   .grp{display:grid; gap:var(--s24); align-content:start;}
-  .grp > h2{margin:0; padding:0; font-family:var(--font-display); font-size:1.75rem; line-height:2rem; font-weight:400;}
+  .grp h2{margin:0; padding:0; font-family:var(--font-display); font-size:1.75rem; line-height:2rem; font-weight:400;}
   .cards{display:grid; gap:var(--s16); grid-template-columns:1fr;}
   .card{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s8) var(--s20) var(--s20); display:grid; gap:var(--s16); align-content:start; min-width:0;}
   .card.is-have{background:var(--fill);}
@@ -409,11 +409,11 @@
 
   /* ===== Brand refresh (Nov 4, from the Hint benchmark): Bricolage Grotesque, colour pairs as panels, pill header ===== */
   .vb{--w-ink:#2A2420; --w-soft:#6B5F52;}
-  .h1, .vb .h1, .sec-h, .vb .sec-h, .band-h, .vb .band-h, .letter, .grp > h2, .wk-n, .ip-title, .tgrid > .era-l, .tl-detail h2, .closer-line, .vb .closer-line, .vdef dt, .pcard h3, .steps3 h3{font-family:var(--font-display); font-weight:800; font-variation-settings:normal; letter-spacing:-0.035em;}
+  .h1, .vb .h1, .sec-h, .vb .sec-h, .band-h, .vb .band-h, .letter, .grp h2, .wk-n, .ip-title, .tgrid > .era-l, .tl-detail h2, .closer-line, .vb .closer-line, .vdef dt, .pcard h3, .steps3 h3{font-family:var(--font-display); font-weight:800; font-variation-settings:normal; letter-spacing:-0.035em;}
   .h1, .vb .h1{font-size:2.75rem; line-height:2.75rem; letter-spacing:-0.045em;}
   .vb .h1.display{font-size:3.25rem; line-height:3.25rem;}
   .vb .sec-h.story{font-size:2.25rem; line-height:2.375rem;}
-  .grp > h2{font-size:2rem; line-height:2.25rem;}
+  .grp h2{font-size:2rem; line-height:2.25rem;}
   .wk-n{font-size:2.25rem; line-height:2.25rem;}
 
   /* header: one cream pill */
@@ -474,6 +474,8 @@
   .tile{display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; letter-spacing:-0.04em; line-height:1;}
   .tile.ph-thumb{font-size:1.25rem; border-radius:14px;}
   .tile.ph-big{font-size:5rem; border-radius:24px;}
+  .tile svg{width:56%; height:56%; display:block;}
+  .tile.ph-big svg{width:38%; height:38%; stroke-width:1.5;}
   .tl-apricot{background:var(--apricot); color:var(--forest);} .tl-forest{background:var(--forest); color:var(--apricot);} .tl-blush{background:var(--blush); color:var(--forest);}
   .tl-terra{background:var(--terra); color:var(--on-forest);} .tl-oat{background:var(--fill-2); color:var(--forest);}
 
@@ -553,7 +555,7 @@
     .h1, .vb .h1{font-size:4.5rem; line-height:4.25rem;}
     .vb .h1.display{font-size:5.5rem; line-height:5.25rem;}
     .vb .sec-h.story{font-size:3.5rem; line-height:3.5rem;}
-    .grp > h2{font-size:2.75rem; line-height:2.75rem;}
+    .grp h2{font-size:2.75rem; line-height:2.75rem;}
     .hero-b{padding-block:var(--s64) 88px;}
     .promise3{grid-template-columns:repeat(3, minmax(0, 1fr));}
     .steps3{grid-template-columns:repeat(3, minmax(0, 1fr));}
@@ -1046,6 +1048,115 @@
   }
 }
 ;
+  // Item icons (source/item-icons.json): Tabler Icons (MIT licence, (c) Pawel Kuna, see source/TABLER-ICONS-LICENSE.txt)
+  // plus icons drawn for Plainly in the same 24px line style, until Thales's illustrations replace them.
+  var ITEM_ICONS = {
+ "activity-center": "<circle cx=\"12\" cy=\"9\" r=\"5\"/><circle cx=\"12\" cy=\"9\" r=\"1.5\"/><path d=\"M8 13l-2 7M16 13l2 7M5 20h14\"/>",
+ "baby-bathtub": "<path d=\"M4 12h16a1 1 0 0 1 1 1v3a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-3a1 1 0 0 1 1 -1z\" /><path d=\"M6 12v-7a2 2 0 0 1 2 -2h3v2.25\" /><path d=\"M4 21l1 -1.5\" /><path d=\"M20 21l-1 -1.5\" />",
+ "baby-carrier": "<path d=\"M7 3l1 6M17 3l-1 6\"/><circle cx=\"12\" cy=\"7\" r=\"2\"/><path d=\"M6 10h12v3a6 6 0 0 1-12 0z\"/>",
+ "baby-food-maker": "<path d=\"M9 10h-3a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h10.802a1 1 0 0 1 .984 1.179l-1.786 9.821\" /><path d=\"M8 4l2 11\" /><path d=\"M11 15h4a3 3 0 0 1 3 3v2a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-2a3 3 0 0 1 3 -3z\" /><path d=\"M12 4v-1h2v1\" /><path d=\"M13 18v.01\" />",
+ "baby-gates": "<path d=\"M4 12v4h16v-4z\" /><path d=\"M6 16v4h4v-4m0 -4v-6l-2 -2l-2 2v6\" /><path d=\"M14 16v4h4v-4m0 -4v-6l-2 -2l-2 2v6\" />",
+ "baby-monitor": "<path d=\"M3 3m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z\" /><path d=\"M12 14m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\" /><path d=\"M19 7v7a7 7 0 0 1 -14 0v-7\" /><path d=\"M12 14l.01 0\" />",
+ "baby-neck-float": "<path d=\"M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\" /><path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" /><path d=\"M15 15l3.35 3.35\" /><path d=\"M9 15l-3.35 3.35\" /><path d=\"M5.65 5.65l3.35 3.35\" /><path d=\"M18.35 5.65l-3.35 3.35\" />",
+ "baby-powder": "<path d=\"M12 13v.01\" /><path d=\"M10 16v.01\" /><path d=\"M14 16v.01\" /><path d=\"M7.5 8h9l-.281 -2.248a2 2 0 0 0 -1.985 -1.752h-4.468a2 2 0 0 0 -1.986 1.752l-.28 2.248z\" /><path d=\"M7.5 8l-1.612 9.671a2 2 0 0 0 1.973 2.329h8.278a2 2 0 0 0 1.973 -2.329l-1.612 -9.671\" />",
+ "baby-shoes": "<path d=\"M4 6h5.426a1 1 0 0 1 .863 .496l1.064 1.823a3 3 0 0 0 1.896 1.407l4.677 1.114a4 4 0 0 1 3.074 3.89v2.27a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1z\" /><path d=\"M14 13l1 -2\" /><path d=\"M8 18v-1a4 4 0 0 0 -4 -4h-1\" /><path d=\"M10 12l1.5 -3\" />",
+ "baby-swing": "<path d=\"M4 3h16M7 3v11M17 3v11\"/><path d=\"M6 14h12l-2 4H8z\"/>",
+ "baby-towels-washcloths": "<rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"2\"/><path d=\"M4 9h16M8 13h8\"/>",
+ "baby-toys": "<path d=\"M3.5 17.5c5.667 4.667 11.333 4.667 17 0\" /><path d=\"M19 18.5l-2 -8.5l1 -2l2 1l1.5 -1.5l-2.5 -4.5c-5.052 .218 -5.99 3.133 -7 6h-6a3 3 0 0 0 -3 3\" /><path d=\"M5 18.5l2 -9.5\" /><path d=\"M8 20l2 -5h4l2 5\" />",
+ "baby-walker": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M6 12h12l-2 6H8z\"/><circle cx=\"8\" cy=\"20\" r=\"1\"/><circle cx=\"16\" cy=\"20\" r=\"1\"/>",
+ "baby-wash-lotion": "<path d=\"M10 5h4v-2a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v2z\" /><path d=\"M14 3.5c0 1.626 .507 3.212 1.45 4.537l.05 .07a8.093 8.093 0 0 1 1.5 4.694v6.199a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2v-6.2c0 -1.682 .524 -3.322 1.5 -4.693l.05 -.07a7.823 7.823 0 0 0 1.45 -4.537\" /><path d=\"M7 14.803a2.4 2.4 0 0 0 1 -.803a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 1 -.805\" />",
+ "bassinet": "<path d=\"M3 10h18v3a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z\"/><path d=\"M3 10a6 5 0 0 1 9-4\"/><path d=\"M7 16l-1 5M17 16l1 5\"/>",
+ "bath-thermometer": "<path d=\"M10 13.5a4 4 0 1 0 4 0v-8.5a2 2 0 0 0 -4 0v8.5\" /><path d=\"M10 9l4 0\" />",
+ "bath-toys": "<path d=\"M12.4 3a5.34 5.34 0 0 1 4.906 3.239a5.333 5.333 0 0 1 -1.195 10.6a4.26 4.26 0 0 1 -5.28 1.863l-3.831 2.298v-3.134a2.668 2.668 0 0 1 -1.795 -3.773a4.8 4.8 0 0 1 2.908 -8.933a5.33 5.33 0 0 1 4.287 -2.16\" />",
+ "bibs": "<path d=\"M7 4h2a3 3 0 0 0 6 0h2c2 0 3 2 3 4v5a8 8 0 0 1-16 0V8c0-2 1-4 3-4z\"/>",
+ "blackout-curtains": "<path d=\"M3 4h18\"/><path d=\"M5 4c0 6 2 10 4 16H5z\"/><path d=\"M19 4c0 6-2 10-4 16h4z\"/>",
+ "board-books": "<path d=\"M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0\" /><path d=\"M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0\" /><path d=\"M3 6l0 13\" /><path d=\"M12 6l0 13\" /><path d=\"M21 6l0 13\" />",
+ "bodysuits": "<path d=\"M9 3h6l4 2.5-1.5 3.5L16 8.2V17a2 2 0 0 1-2 2h-1v2h-2v-2h-1a2 2 0 0 1-2-2V8.2L6.5 9 5 5.5z\"/><path d=\"M9 3a3 3 0 0 0 6 0\"/>",
+ "bottle-brush": "<path d=\"M3 21v-4a4 4 0 1 1 4 4h-4\" /><path d=\"M21 3a16 16 0 0 0 -12.8 10.2\" /><path d=\"M21 3a16 16 0 0 1 -10.2 12.8\" /><path d=\"M10.6 9a9 9 0 0 1 4.4 4.4\" />",
+ "bottle-drying-rack": "<path d=\"M4 20h16\"/><path d=\"M6 20V10M10 20V7M14 20V7M18 20V10\"/>",
+ "bottle-sterilizer": "<path d=\"M12 7h.01\" /><path d=\"M15 7h.01\" /><path d=\"M9 7h.01\" /><path d=\"M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z\" /><path d=\"M9 15h6\" /><path d=\"M5 11h14\" />",
+ "bottle-warmer": "<path d=\"M10 4h4v3l1 2v11H9V9l1-2z\"/><path d=\"M5 10c1 1 1 2 0 3s-1 2 0 3M19 10c1 1 1 2 0 3s-1 2 0 3\"/>",
+ "bottles": "<path d=\"M5 10h14\" /><path d=\"M12 2v2\" /><path d=\"M12 4a5 5 0 0 1 5 5v11a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2v-11a5 5 0 0 1 5 -5z\" />",
+ "bouncer": "<path d=\"M4 9c1 5 5 8 10 8h5\"/><path d=\"M5 20c3-2 11-2 14 0\"/><path d=\"M9 16l-2 4M17 17l1 3\"/>",
+ "breast-pump": "<path d=\"M6 4h8l-2 5v3\"/><path d=\"M9 12h6v8a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1z\"/><path d=\"M14 6h4v4\"/>",
+ "burp-cloths": "<rect x=\"5\" y=\"4\" width=\"14\" height=\"16\" rx=\"2\"/><path d=\"M9 4v16\"/>",
+ "cabinet-locks": "<path d=\"M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z\" /><path d=\"M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0\" /><path d=\"M8 11v-4a4 4 0 1 1 8 0v4\" />",
+ "car-seat-add-ons": "<path d=\"M4 14a7 7 0 0 1 12-5\"/><path d=\"M5 14h12l-2 6H7z\"/><path d=\"M19 3v5M16.5 5.5h5\"/>",
+ "car-seat-mirror": "<ellipse cx=\"12\" cy=\"13\" rx=\"7\" ry=\"5\"/><path d=\"M8 3l2 5M16 3l-2 5\"/>",
+ "car-seat-stroller-frame": "<path d=\"M5 6h12l2 8\"/><path d=\"M5 6l3 8h11\"/><circle cx=\"8\" cy=\"19\" r=\"2\"/><circle cx=\"17\" cy=\"19\" r=\"2\"/>",
+ "car-seat": "<path d=\"M4 13a8 8 0 0 1 16 0\"/><path d=\"M5 13h14l-2 6H7z\"/><path d=\"M9 16h6\"/>",
+ "changing-pad": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"9\" rx=\"4\"/><path d=\"M7 12.5h10\"/>",
+ "changing-table": "<path d=\"M3 6h18\" /><path d=\"M4 6v13\" /><path d=\"M20 19v-13\" /><path d=\"M4 10h16\" /><path d=\"M15 6v8a2 2 0 0 0 2 2h3\" />",
+ "coat-or-snowsuit": "<path d=\"M16 3l-4 5l-4 -5\" /><path d=\"M12 19a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2v-8.172a2 2 0 0 1 .586 -1.414l.828 -.828a2 2 0 0 0 .586 -1.414v-2.172a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v2.172a2 2 0 0 0 .586 1.414l.828 .828a2 2 0 0 1 .586 1.414v8.172a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2z\" /><path d=\"M20 13h-3a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h3\" /><path d=\"M4 17h3a1 1 0 0 0 1 -1v-2a1 1 0 0 0 -1 -1h-3\" /><path d=\"M12 19v-11\" />",
+ "convertible-car-seat": "<path d=\"M8 3h6a2 2 0 0 1 2 2v9l3 2v3H6V5a2 2 0 0 1 2-2z\"/><path d=\"M9 8h4\"/>",
+ "crib-bedding-set": "<path d=\"M7 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /><path d=\"M22 17v-3h-20\" /><path d=\"M2 8v9\" /><path d=\"M12 14h10v-2a3 3 0 0 0 -3 -3h-7v5z\" />",
+ "crib-bumpers": "<path d=\"M4 4v16M20 4v16M4 8h16M4 16h16\"/><path d=\"M4 12c2-2 4 2 6 0s4 2 6 0 3 1 4 0\"/>",
+ "crib-mattress": "<path d=\"M5 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /><path d=\"M10 13h11v-2a3 3 0 0 0 -3 -3h-8v5z\" /><path d=\"M3 16h18\" />",
+ "crib-mobile": "<path d=\"M12 3v4M5 7h14\"/><path d=\"M6 7v4M18 7v4M12 7v6\"/><circle cx=\"6\" cy=\"13\" r=\"2\"/><circle cx=\"18\" cy=\"13\" r=\"2\"/><path d=\"M12 15l1.5 3h-3z\"/>",
+ "crib": "<path d=\"M4 4v16M20 4v16M4 8h16M4 16h16M8 8v8M12 8v8M16 8v8\"/>",
+ "diaper-bag": "<path d=\"M5 18v-6a6 6 0 0 1 6 -6h2a6 6 0 0 1 6 6v6a3 3 0 0 1 -3 3h-8a3 3 0 0 1 -3 -3z\" /><path d=\"M10 6v-1a2 2 0 1 1 4 0v1\" /><path d=\"M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4\" /><path d=\"M11 10h2\" />",
+ "diaper-caddy": "<path d=\"M10 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0\" /><path d=\"M5.001 8h13.999a2 2 0 0 1 1.977 2.304l-1.255 7.152a3 3 0 0 1 -2.966 2.544h-9.512a3 3 0 0 1 -2.965 -2.544l-1.255 -7.152a2 2 0 0 1 1.977 -2.304z\" /><path d=\"M17 10l-2 -6\" /><path d=\"M7 10l2 -6\" />",
+ "diaper-cream": "<path d=\"M9 3h6v3l1 1v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V7l1-1z\"/><path d=\"M8 11h8\"/>",
+ "diaper-pail": "<path d=\"M4 7l16 0\" /><path d=\"M10 11l0 6\" /><path d=\"M14 11l0 6\" /><path d=\"M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12\" /><path d=\"M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3\" />",
+ "diapers": "<path d=\"M3 8.323c0 -.579 0 -.868 .044 -1.11a2.7 2.7 0 0 1 2.17 -2.169c.239 -.044 .529 -.044 1.109 -.044h11.353c.579 0 .868 0 1.11 .044a2.7 2.7 0 0 1 2.169 2.17c.044 .24 .044 .53 .044 1.11v2.676a9 9 0 0 1 -18 0z\" /><path d=\"M17 9h4\" /><path d=\"M3 9h4\" /><path d=\"M14.25 19.7v-1.4a6.3 6.3 0 0 1 6.3 -6.3\" /><path d=\"M9.75 19.7v-1.4a6.3 6.3 0 0 0 -6.3 -6.3\" />",
+ "digital-thermometer": "<path d=\"M19 5a2.828 2.828 0 0 1 0 4l-8 8h-4v-4l8 -8a2.828 2.828 0 0 1 4 0z\" /><path d=\"M16 7l-1.5 -1.5\" /><path d=\"M13 10l-1.5 -1.5\" /><path d=\"M10 13l-1.5 -1.5\" /><path d=\"M7 17l-3 3\" />",
+ "dishwasher-basket": "<path d=\"M20 4v.01\" /><path d=\"M20 20v.01\" /><path d=\"M20 16v.01\" /><path d=\"M20 12v.01\" /><path d=\"M20 8v.01\" /><path d=\"M8 4m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z\" /><path d=\"M4 4v.01\" /><path d=\"M4 20v.01\" /><path d=\"M4 16v.01\" /><path d=\"M4 12v.01\" /><path d=\"M4 8v.01\" />",
+ "dresser": "<rect x=\"4\" y=\"4\" width=\"16\" height=\"15\" rx=\"2\"/><path d=\"M4 9h16M4 14h16M11 6.5h2M11 11.5h2M11 16.5h2M6 19v2M18 19v2\"/>",
+ "feeding-set": "<path d=\"M4 11h16a1 1 0 0 1 1 1v.5c0 1.5 -2.517 5.573 -4 6.5v1a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-1c-1.687 -1.054 -4 -5 -4 -6.5v-.5a1 1 0 0 1 1 -1z\" /><path d=\"M8 7c1.657 0 3 -.895 3 -2s-1.343 -2 -3 -2s-3 .895 -3 2s1.343 2 3 2\" /><path d=\"M11 5h9\" />",
+ "first-aid-kit": "<path d=\"M8 8v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2\" /><path d=\"M4 8m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z\" /><path d=\"M10 14h4\" /><path d=\"M12 12v4\" />",
+ "fitted-crib-sheets": "<path d=\"M3 9l9-4 9 4-9 4z\"/><path d=\"M3 9v5l9 4 9-4V9\"/>",
+ "formula-prep-machine": "<path d=\"M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1\" /><path d=\"M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2\" /><path d=\"M12 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2\" /><path d=\"M3 10h14v5a6 6 0 0 1 -6 6h-2a6 6 0 0 1 -6 -6v-5z\" /><path d=\"M16.746 16.726a3 3 0 1 0 .252 -5.555\" />",
+ "furniture-anchors": "<path d=\"M12 9v12m-8 -8a8 8 0 0 0 16 0m1 0h-2m-14 0h-2\" /><path d=\"M12 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\" />",
+ "glider": "<path d=\"M5 11a2 2 0 0 1 2 2v2h10v-2a2 2 0 1 1 4 0v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2z\" /><path d=\"M5 11v-5a3 3 0 0 1 3 -3h8a3 3 0 0 1 3 3v5\" /><path d=\"M6 19v2\" /><path d=\"M18 19v2\" />",
+ "going-home-outfit": "<path d=\"M14 6a2 2 0 1 0 -4 0c0 1.667 .67 3 2 4h-.008l7.971 4.428a2 2 0 0 1 1.029 1.749v.823a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-.823a2 2 0 0 1 1.029 -1.749l7.971 -4.428\" />",
+ "grooming-kit": "<path d=\"M4 9h16v3H4z\"/><path d=\"M6 12v6M9 12v6M12 12v6M15 12v6M18 12v6\"/>",
+ "hats": "<path d=\"M5 15a7 7 0 0 1 14 0\"/><path d=\"M4 15h16v3H4z\"/><circle cx=\"12\" cy=\"5\" r=\"1.5\"/>",
+ "high-chair": "<path d=\"M8 3v9h8V3\"/><path d=\"M6 12h12\"/><path d=\"M8 12l-2 9M16 12l2 9M7 17h10\"/>",
+ "humidifier": "<path d=\"M5 5h3m4 0h9\" /><path d=\"M3 10h11m4 0h1\" /><path d=\"M5 15h5m4 0h7\" /><path d=\"M3 20h9m4 0h3\" />",
+ "inclined-sleeper": "<path d=\"M3 18h18L6 9H3z\"/><path d=\"M5 21h14\"/>",
+ "infant-lounger": "<ellipse cx=\"12\" cy=\"13\" rx=\"9\" ry=\"6\"/><ellipse cx=\"12\" cy=\"13\" rx=\"5\" ry=\"2.5\"/>",
+ "laundry-detergent": "<path d=\"M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z\" /><path d=\"M12 14m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\" /><path d=\"M8 6h.01\" /><path d=\"M11 6h.01\" /><path d=\"M14 6h2\" /><path d=\"M8 14c1.333 -.667 2.667 -.667 4 0c1.333 .667 2.667 .667 4 0\" />",
+ "long-sleeve-bodysuits": "<path d=\"M9 3h6l4 2 2 9-2 .5L17 9v8a2 2 0 0 1-2 2h-1v2h-4v-2H9a2 2 0 0 1-2-2V9l-2 5.5L3 14l2-9z\"/><path d=\"M9 3a3 3 0 0 0 6 0\"/>",
+ "mattress-pad": "<rect x=\"3\" y=\"11\" width=\"18\" height=\"7\" rx=\"2\"/><path d=\"M12 3c2 2.5 3 4 3 5a3 3 0 0 1-6 0c0-1 1-2.5 3-5z\"/>",
+ "mesh-crib-liner": "<path d=\"M4 4v16M20 4v16M4 8h16M4 16h16M4 12h16M8 8v8M12 8v8M16 8v8\"/>",
+ "milk-storage-bags": "<path d=\"M7 3h10v4H7z\"/><path d=\"M7 7l-1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l-1-12\"/><path d=\"M9 13h6\"/>",
+ "nail-clippers": "<path d=\"M6 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\" /><path d=\"M6 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\" /><path d=\"M8.6 8.6l10.4 10.4\" /><path d=\"M8.6 15.4l10.4 -10.4\" />",
+ "nasal-aspirator": "<path d=\"M12 3v6M10 9h4\"/><path d=\"M12 9c4 2 5 5 5 7a5 5 0 0 1-10 0c0-2 1-5 5-7z\"/>",
+ "night-light": "<path d=\"M9 20h6\" /><path d=\"M12 20v-8\" /><path d=\"M5 12h14l-4 -8h-6z\" />",
+ "nursery-decor": "<path d=\"M15 8h.01\" /><path d=\"M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z\" /><path d=\"M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5\" /><path d=\"M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3\" />",
+ "nursery-storage": "<path d=\"M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5\" /><path d=\"M12 12l8 -4.5\" /><path d=\"M12 12l0 9\" /><path d=\"M12 12l-8 -4.5\" />",
+ "nursing-cover": "<path d=\"M8 4a4 4 0 0 0 8 0\"/><path d=\"M8 4L4 20h16L16 4\"/>",
+ "nursing-pillow": "<path d=\"M4 7c0 7 4 11 8 11s8-4 8-11\"/><path d=\"M9 7c0 4 1 6 3 6s3-2 3-6\"/><path d=\"M4 7h5M15 7h5\"/>",
+ "outfit-sets": "<path d=\"M15 4l6 2v5h-3v8a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-8h-3v-5l6 -2a3 3 0 0 0 6 0\" />",
+ "outlet-covers": "<path d=\"M9.785 6l8.215 8.215l-2.054 2.054a5.81 5.81 0 1 1 -8.215 -8.215l2.054 -2.054z\" /><path d=\"M4 20l3.5 -3.5\" /><path d=\"M15 4l-3.5 3.5\" /><path d=\"M20 9l-3.5 3.5\" />",
+ "pacifiers": "<path d=\"M12 3a2.5 2.5 0 0 1 2.5 2.5V8h-5V5.5A2.5 2.5 0 0 1 12 3z\"/><path d=\"M5 8h14c0 2.5-3 4-7 4s-7-1.5-7-4z\"/><circle cx=\"12\" cy=\"17.5\" r=\"3.5\"/>",
+ "pants": "<path d=\"M6 3h12l1 18h-5l-2-11-2 11H5z\"/><path d=\"M6 6h12\"/>",
+ "play-mat": "<path d=\"M3 19h18\"/><path d=\"M5 19a7 9 0 0 1 14 0\"/><path d=\"M9 11v3M15 11v3M12 10v4\"/>",
+ "play-yard": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"1\"/><path d=\"M7 6v13M11 6v13M15 6v13\"/>",
+ "receiving-blanket": "<rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"2\"/><path d=\"M4 12h16M12 5v14\"/>",
+ "scratch-mittens": "<path d=\"M8 20v-9a4 4 0 0 1 8 0v9z\"/><path d=\"M8 13l-2-2a1.5 1.5 0 0 0-2 2l4 4\"/><path d=\"M8 17h8\"/>",
+ "shopping-cart-cover": "<path d=\"M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /><path d=\"M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /><path d=\"M17 17h-11v-14h-2\" /><path d=\"M6 5l14 1l-1 7h-13\" />",
+ "shorts": "<path d=\"M5 5h14l1 11h-6l-2-5-2 5H4z\"/><path d=\"M5 8h14\"/>",
+ "sleep-positioner": "<path d=\"M3 17c2-6 4-6 6 0z\"/><path d=\"M15 17c2-6 4-6 6 0z\"/><path d=\"M3 17h18\"/>",
+ "sleep-sack": "<path d=\"M9 3a3 3 0 0 0 6 0h1l2 3v12a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V6l2-3z\"/><path d=\"M12 7v11\"/>",
+ "smart-sock": "<path d=\"M3 12h4.5l1.5 -6l4 12l2 -9l1.5 3h4.5\" />",
+ "smoke-co-alarm": "<path d=\"M4 4h16\"/><path d=\"M6 4a6 6 0 0 0 12 0\"/><path d=\"M10 14c0 1 1 1 1 2s-1 1-1 2M14 14c0 1 1 1 1 2s-1 1-1 2\"/>",
+ "socks": "<path d=\"M13 3v6l4.798 5.142a4 4 0 0 1 -5.441 5.86l-6.736 -6.41a2 2 0 0 1 -.621 -1.451v-9.141h8z\" /><path d=\"M7.895 15.768c.708 -.721 1.105 -1.677 1.105 -2.768a4 4 0 0 0 -4 -4\" />",
+ "stroller-accessories": "<path d=\"M4 12a8 8 0 0 1 16 0z\" /><path d=\"M12 12v6a2 2 0 0 0 4 0\" />",
+ "stroller": "<path d=\"M8 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /><path d=\"M18 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /><path d=\"M2 5h2.5l1.632 4.897a6 6 0 0 0 5.693 4.103h2.675a5.5 5.5 0 0 0 0 -11h-.5v6\" /><path d=\"M6 9h14\" /><path d=\"M9 17l1 -3\" /><path d=\"M16 14l1 3\" />",
+ "swaddle": "<ellipse cx=\"12\" cy=\"13\" rx=\"5\" ry=\"8\"/><circle cx=\"12\" cy=\"8\" r=\"2\"/><path d=\"M7 12l10 4\"/>",
+ "sweater-or-fleece": "<path d=\"M8 4h8l4 3-1 6-2-1v8H7v-8l-2 1-1-6z\"/><path d=\"M10 4a2 2 0 0 0 4 0\"/><path d=\"M7 18h10\"/>",
+ "swimwear": "<path d=\"M16 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /><path d=\"M6 11l4 -2l3.5 3l-1.5 2\" /><path d=\"M3 16.75a2.4 2.4 0 0 0 1 .25a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 1 -.25\" />",
+ "teether": "<circle cx=\"12\" cy=\"12\" r=\"7\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+ "teething-gel": "<path d=\"M7.502 19.423c2.602 2.105 6.395 2.105 8.996 0c2.602 -2.105 3.262 -5.708 1.566 -8.546l-4.89 -7.26c-.42 -.625 -1.287 -.803 -1.936 -.397a1.376 1.376 0 0 0 -.41 .397l-4.893 7.26c-1.695 2.838 -1.035 6.441 1.567 8.546z\" />",
+ "teething-necklace": "<path d=\"M5 5c0 7 3 11 7 11s7-4 7-11\"/><circle cx=\"12\" cy=\"16\" r=\"1.5\"/><circle cx=\"8\" cy=\"14\" r=\"1.5\"/><circle cx=\"16\" cy=\"14\" r=\"1.5\"/><circle cx=\"6\" cy=\"10\" r=\"1.5\"/><circle cx=\"18\" cy=\"10\" r=\"1.5\"/>",
+ "two-piece-pajamas": "<path d=\"M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z\" /><path d=\"M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2\" /><path d=\"M19 11h2m-1 -1v2\" />",
+ "weighted-sleep-product": "<path d=\"M12 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\" /><path d=\"M6.835 9h10.33a1 1 0 0 1 .984 .821l1.637 9a1 1 0 0 1 -.984 1.179h-13.604a1 1 0 0 1 -.984 -1.179l1.637 -9a1 1 0 0 1 .984 -.821z\" />",
+ "white-noise-machine": "<path d=\"M21 12h-2c-.894 0 -1.662 -.857 -1.761 -2c-.296 -3.45 -.749 -6 -2.749 -6s-2.5 3.582 -2.5 8s-.5 8 -2.5 8s-2.452 -2.547 -2.749 -6c-.1 -1.147 -.867 -2 -1.763 -2h-2\" />",
+ "wipe-warmer": "<rect x=\"4\" y=\"10\" width=\"16\" height=\"10\" rx=\"2\"/><path d=\"M9 10c0-2.5 6-2.5 6 0\"/><path d=\"M8 2c1 1 1 2 0 3M12 2c1 1 1 2 0 3M16 2c1 1 1 2 0 3\"/>",
+ "wipes": "<rect x=\"4\" y=\"8\" width=\"16\" height=\"12\" rx=\"2\"/><path d=\"M9 8c0-3 6-3 6 0\"/>",
+ "zip-up-sleepers": "<path d=\"M9 3h6l4 2 1 7-2 .5-1-4V19l1 2h-4l-1-3-1 3H7l1-2V8.5l-1 4L5 12l1-7z\"/><path d=\"M12 6v12\"/>"
+};
   var MOCKIMG = {
   "_note": "Stand-in photos from Unsplash (free licence), loaded from Unsplash's servers. To be replaced by final, unbranded images (checklist task t72). Advised-against items deliberately show a bare crib, the safe setup, not the product.",
   "items": {
@@ -1098,7 +1209,9 @@
   }
   function itemPhoto(it, kind){
     var h = 0; for (var i = 0; i < it.slug.length; i++) h = (h * 31 + it.slug.charCodeAt(i)) >>> 0;
-    return '<span class="ph ph-' + kind + ' tile ' + TILES[h % TILES.length] + '" aria-hidden="true"><span>' + esc(initials(it.name)) + '</span></span>';
+    var ico = ITEM_ICONS[it.slug];
+    var inner = ico ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">' + ico + '</svg>' : '<span>' + esc(initials(it.name)) + '</span>';
+    return '<span class="ph ph-' + kind + ' tile ' + TILES[h % TILES.length] + '" aria-hidden="true">' + inner + '</span>';
   }
   function pagePhoto(key, cls){
     var m = (MOCKIMG.pages || {})[key]; if (!m) return '';

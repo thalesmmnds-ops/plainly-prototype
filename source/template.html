@@ -140,7 +140,7 @@
   .inv-ctl{display:grid; gap:var(--s24);}
   .inv-row{display:grid; gap:var(--s24); align-items:end;}
   .grp{display:grid; gap:var(--s24); align-content:start;}
-  .grp > h2{margin:0; padding:0; font-family:var(--font-display); font-size:1.75rem; line-height:2rem; font-weight:400;}
+  .grp h2{margin:0; padding:0; font-family:var(--font-display); font-size:1.75rem; line-height:2rem; font-weight:400;}
   .cards{display:grid; gap:var(--s16); grid-template-columns:1fr;}
   .card{background:var(--raised); border:0; border-radius:var(--r-surface); padding:var(--s8) var(--s20) var(--s20); display:grid; gap:var(--s16); align-content:start; min-width:0;}
   .card.is-have{background:var(--fill);}
@@ -402,11 +402,11 @@
 
   /* ===== Brand refresh (Nov 4, from the Hint benchmark): Bricolage Grotesque, colour pairs as panels, pill header ===== */
   .vb{--w-ink:#2A2420; --w-soft:#6B5F52;}
-  .h1, .vb .h1, .sec-h, .vb .sec-h, .band-h, .vb .band-h, .letter, .grp > h2, .wk-n, .ip-title, .tgrid > .era-l, .tl-detail h2, .closer-line, .vb .closer-line, .vdef dt, .pcard h3, .steps3 h3{font-family:var(--font-display); font-weight:800; font-variation-settings:normal; letter-spacing:-0.035em;}
+  .h1, .vb .h1, .sec-h, .vb .sec-h, .band-h, .vb .band-h, .letter, .grp h2, .wk-n, .ip-title, .tgrid > .era-l, .tl-detail h2, .closer-line, .vb .closer-line, .vdef dt, .pcard h3, .steps3 h3{font-family:var(--font-display); font-weight:800; font-variation-settings:normal; letter-spacing:-0.035em;}
   .h1, .vb .h1{font-size:2.75rem; line-height:2.75rem; letter-spacing:-0.045em;}
   .vb .h1.display{font-size:3.25rem; line-height:3.25rem;}
   .vb .sec-h.story{font-size:2.25rem; line-height:2.375rem;}
-  .grp > h2{font-size:2rem; line-height:2.25rem;}
+  .grp h2{font-size:2rem; line-height:2.25rem;}
   .wk-n{font-size:2.25rem; line-height:2.25rem;}
 
   /* header: one cream pill */
@@ -467,6 +467,8 @@
   .tile{display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; letter-spacing:-0.04em; line-height:1;}
   .tile.ph-thumb{font-size:1.25rem; border-radius:14px;}
   .tile.ph-big{font-size:5rem; border-radius:24px;}
+  .tile svg{width:56%; height:56%; display:block;}
+  .tile.ph-big svg{width:38%; height:38%; stroke-width:1.5;}
   .tl-apricot{background:var(--apricot); color:var(--forest);} .tl-forest{background:var(--forest); color:var(--apricot);} .tl-blush{background:var(--blush); color:var(--forest);}
   .tl-terra{background:var(--terra); color:var(--on-forest);} .tl-oat{background:var(--fill-2); color:var(--forest);}
 
@@ -546,7 +548,7 @@
     .h1, .vb .h1{font-size:4.5rem; line-height:4.25rem;}
     .vb .h1.display{font-size:5.5rem; line-height:5.25rem;}
     .vb .sec-h.story{font-size:3.5rem; line-height:3.5rem;}
-    .grp > h2{font-size:2.75rem; line-height:2.75rem;}
+    .grp h2{font-size:2.75rem; line-height:2.75rem;}
     .hero-b{padding-block:var(--s64) 88px;}
     .promise3{grid-template-columns:repeat(3, minmax(0, 1fr));}
     .steps3{grid-template-columns:repeat(3, minmax(0, 1fr));}
@@ -590,6 +592,9 @@
   var ITEMS = __ITEMS__;
   var TL = __TIMELINE__;
   var TLW = __TLWEEKS__;
+  // Item icons (source/item-icons.json): Tabler Icons (MIT licence, (c) Pawel Kuna, see source/TABLER-ICONS-LICENSE.txt)
+  // plus icons drawn for Plainly in the same 24px line style, until Thales's illustrations replace them.
+  var ITEM_ICONS = __ICONS__;
   var MOCKIMG = __MOCKIMG__;   // stand-in photos (source/mock-images.json), to be replaced by final images
   function itemPhotoId(it){ return (MOCKIMG.items || {})[it.slug] || (MOCKIMG.categories || {})[it.category] || ''; }
   // Brand refresh (Nov 4): stock photos replaced by colour tiles with the item's initials until the final art is ready.
@@ -601,7 +606,9 @@
   }
   function itemPhoto(it, kind){
     var h = 0; for (var i = 0; i < it.slug.length; i++) h = (h * 31 + it.slug.charCodeAt(i)) >>> 0;
-    return '<span class="ph ph-' + kind + ' tile ' + TILES[h % TILES.length] + '" aria-hidden="true"><span>' + esc(initials(it.name)) + '</span></span>';
+    var ico = ITEM_ICONS[it.slug];
+    var inner = ico ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">' + ico + '</svg>' : '<span>' + esc(initials(it.name)) + '</span>';
+    return '<span class="ph ph-' + kind + ' tile ' + TILES[h % TILES.length] + '" aria-hidden="true">' + inner + '</span>';
   }
   function pagePhoto(key, cls){
     var m = (MOCKIMG.pages || {})[key]; if (!m) return '';
