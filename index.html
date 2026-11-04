@@ -1572,11 +1572,11 @@
     var pc = all ? Math.round(done / all * 100) : 0;
     return '<span class="pbar" role="progressbar" aria-label="' + esc(label) + '" aria-valuemin="0" aria-valuemax="' + all + '" aria-valuenow="' + done + '"><span style="width:' + pc + '%"></span></span>';
   }
-  // essentials = Necessary items in use at the chosen age; ready = you have it, or marked Not for us
+  // every item in use at the chosen age (Thales, 2026-11-04); decided = you have it, or marked Not for us
   function essentialsHTML(){
-    var all = ITEMS.filter(function(it){ return it.verdict === 'necessary' && inUse(it, S.age); });
-    var done = all.filter(function(it){ return have(it) || S.nfu[it.slug]; }).length, label = 'Essentials ready for ' + ageLabelOf(S.age);
-    return '<div class="ess" id="ess"><div class="ess-row"><span>' + esc(label) + '</span><span>' + done + ' of ' + all.length + '</span></div>' + progressBar(done, all.length, label) + '</div>';
+    var all = ITEMS.filter(function(it){ return inUse(it, S.age); });
+    var done = all.filter(function(it){ return have(it) || S.nfu[it.slug]; }).length, label = 'Items decided for ' + ageLabelOf(S.age);
+    return '<div class="ess" id="ess"><div class="ess-row"><span>' + esc(label) + '</span><span>' + done + ' of ' + all.length + ' decided</span></div>' + progressBar(done, all.length, label) + '</div>';
   }
   function ageLabelOf(id){ for (var i = 0; i < AGES.length; i++) if (AGES[i][0] === id) return AGES[i][1]; return id; }
   function catProgress(cat){
