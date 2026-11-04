@@ -508,6 +508,33 @@
   .vdef-nice{background:var(--nice-bg); color:var(--w-ink);} .vdef-nice dt{color:var(--nice);}
   .vdef-dep{background:#E5DDD2; color:var(--w-ink);} .vdef-dep dt{color:#4E443A;}
 
+  /* segmented switches, progress bars, suggestions, hospital bag */
+  .seg{display:inline-flex; background:var(--raised); border-radius:var(--r-pill); padding:var(--s4); gap:var(--s2); justify-self:start;}
+  .seg button{min-height:40px; padding:0 var(--s20); border:0; border-radius:var(--r-pill); background:none; color:var(--w-ink); font-family:var(--font-display); font-weight:600; font-size:.9375rem; cursor:pointer;}
+  .seg button[aria-pressed="true"]{background:var(--forest); color:var(--on-forest); font-weight:700;}
+  .p-forest .seg button[aria-pressed="true"]{background:var(--apricot); color:var(--forest);}
+  .ess{display:grid; gap:var(--s8); max-width:34rem;}
+  .ess-row{display:flex; justify-content:space-between; gap:var(--s12); font-weight:600;}
+  .pbar{display:block; height:10px; border-radius:var(--r-pill); background:rgba(42,36,32,.12); overflow:hidden; flex:1 1 auto;}
+  .pbar > span{display:block; height:100%; border-radius:var(--r-pill); background:var(--forest);}
+  .p-forest .pbar{background:rgba(251,243,230,.2);} .p-forest .pbar > span{background:var(--apricot);}
+  .grp-top{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:var(--s8) var(--s24);}
+  .grp-n{display:flex; align-items:center; gap:var(--s12); min-width:240px; font-size:.9375rem; font-weight:600;}
+  .grp-n .pbar{height:8px;}
+  .sug{display:block; font-size:.875rem; line-height:1.25rem; color:var(--w-soft); margin-top:var(--s4);}
+  .sug.ok{color:var(--necessary); font-weight:600;}
+  .wk-bag{justify-self:start;}
+  .bag-grid{display:grid; gap:var(--s16);}
+  .bag-col{background:var(--raised); border-radius:28px; padding:var(--s24); display:grid; gap:var(--s12); align-content:start;}
+  .bag-h{display:flex; justify-content:space-between; align-items:baseline; gap:var(--s8);}
+  .bag-h h2{margin:0; font-family:var(--font-display); font-weight:800; font-size:1.75rem; line-height:2rem; letter-spacing:-0.03em;}
+  .bag-list{list-style:none; margin:0; padding:0; display:grid;}
+  .bag-list li{display:flex; gap:var(--s12); align-items:flex-start; padding:var(--s12) 0; border-top:1px solid var(--fill-2);}
+  .bag-list input{width:22px; height:22px; margin:1px 0 0; accent-color:var(--forest); flex:none; cursor:pointer;}
+  .bag-list label{display:grid; gap:var(--s2); cursor:pointer;}
+  .bag-t{font-weight:600;}
+  .bag-inv{color:var(--necessary);}
+
   /* footer: light, with the wordmark */
   .ftr{background:var(--paper); color:var(--w-soft);}
   .ftr .flogo{font-family:var(--font-display); font-weight:800; font-size:1.5rem; letter-spacing:-0.05em; color:var(--forest);}
@@ -526,6 +553,7 @@
     .split2{grid-template-columns:1fr 1fr; gap:var(--s48);}
     .letter{font-size:6rem; line-height:5.5rem;}
     .vdefs{grid-template-columns:repeat(3, minmax(0, 1fr));}
+    .bag-grid{grid-template-columns:repeat(3, minmax(0, 1fr));}
     .vb .closer-line{font-size:4rem; line-height:4rem;}
     .home{gap:var(--s64);}
   }
@@ -590,6 +618,28 @@
   var CAT_ORDER = ['furniture-sleep','feeding','clothes','travel','gadgets','safety','diapering-bath'];
   // Baby's age stages (Thales, 2026-10-28). Newborn is a clothing size, not a stage.
   var AGES = [['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6 months and up']];
+  // Hospital bag checklist. inv = the Inventory item it maps to, so what you already have shows here. Draft list.
+  var BAG = [
+    {key:'baby', title:'For your baby', items:[
+      {id:'b-carseat', t:'Car seat, installed in the car', inv:'car-seat'}, {id:'b-sleepers', t:'Zip-up sleepers \u00b7 2', inv:'zip-up-sleepers'},
+      {id:'b-bodysuits', t:'Bodysuits \u00b7 2', inv:'bodysuits'}, {id:'b-hat', t:'Hat \u00b7 1', inv:'hats'}, {id:'b-socks', t:'Socks \u00b7 2 pairs', inv:'socks'},
+      {id:'b-blanket', t:'Receiving blanket \u00b7 1', inv:'receiving-blanket'}, {id:'b-diapers', t:'Diapers and wipes', note:'Check first: many hospitals provide them'}]},
+    {key:'you', title:'For you', items:[
+      {id:'m-id', t:'ID and insurance card'}, {id:'m-charger', t:'Phone charger with a long cable'}, {id:'m-clothes', t:'Comfortable clothes for going home'},
+      {id:'m-bras', t:'Nursing bras \u00b7 2'}, {id:'m-pads', t:'Maternity pads'}, {id:'m-slippers', t:'Slippers or socks with grips'},
+      {id:'m-toiletries', t:'Toiletries and lip balm'}, {id:'m-plan', t:'Your birth plan, if you have one'}]},
+    {key:'partner', title:'For your partner', items:[
+      {id:'p-clothes', t:'A change of clothes'}, {id:'p-snacks', t:'Snacks and a water bottle'}, {id:'p-charger', t:'Phone charger'},
+      {id:'p-toiletries', t:'Toiletries'}, {id:'p-pillow', t:'Pillow from home'}, {id:'p-parking', t:'Cash or card for parking'}]}
+  ];
+  var BAG_IDS = {}; BAG.forEach(function(g){ g.items.forEach(function(x){ BAG_IDS[x.id] = true; }); });
+  // Suggested quantities [summer, winter]: per size for sized items, in total for counted ones. Draft numbers based on
+  // NHS Wales newborn essentials and the CPO's estimates (docs/inventory-catalog-02-cpo.md); to be checked.
+  var SUGGEST = {
+    'bodysuits':[5, 2], 'long-sleeve-bodysuits':[2, 5], 'zip-up-sleepers':[4, 6], 'sleep-sack':[2, 2], 'pants':[2, 4], 'two-piece-pajamas':[3, 3],
+    'socks':[4, 6], 'hats':[1, 1], 'sweater-or-fleece':[1, 2], 'coat-or-snowsuit':[0, 1], 'fitted-crib-sheets':[3, 3], 'burp-cloths':[6, 6],
+    'pacifiers':[2, 2], 'swaddle':[3, 3], 'bibs':[6, 6], 'baby-towels-washcloths':[3, 3]
+  };
   var SIZES = [['nb','Newborn'],['0-3','0\u20133 months'],['3-6','3\u20136 months'],['6+','6\u201312 months']];
   var STAGE_SIZES = {'0-3':['nb','0-3'], '3-6':['3-6'], '6+':['6+']};
   var STAGE_MONTH = {'0-3':0, '3-6':3, '6+':6};
@@ -611,7 +661,7 @@
 
   // ---------- state ----------
   var KEY = 'plainly-proto-v2';
-  function defaults(){ return {signedIn:false, age:'0-3', qty:{}, nfu:{}, device:'phone', due:''}; }
+  function defaults(){ return {signedIn:false, age:'0-3', qty:{}, nfu:{}, device:'phone', due:'', season:'', bag:{}}; }
   // Saved data is untrusted: keep only values of the right shape, so one odd value can never stop the page from drawing.
   var DAY_MS = 86400000;
   function validDue(s){
@@ -647,6 +697,8 @@
           if (AGES.some(function(a){ return a[0] === o.age; })) d.age = o.age;   // old 'all' and 'nb' fall back to 0–3
           d.qty = cleanQty(o.qty); d.nfu = cleanNfu(o.nfu);
           if (validDue(o.due)) d.due = o.due;
+          if (o.season === 'summer' || o.season === 'winter') d.season = o.season;
+          if (o.bag && typeof o.bag === 'object') Object.keys(o.bag).forEach(function(k){ if (BAG_IDS[k] && o.bag[k] === true) d.bag[k] = true; });
         }
       }
     } catch(e) {}
@@ -659,6 +711,19 @@
   // Tiers come from each item's track in content/guide: sized = one count per clothing size, counted = one count,
   // mark = Have it / Not for us only. A third-verdict entry never carries a number.
   function tier(it){ return it.verdict === 'skip-it' ? 'mark' : (it.track || 'mark'); }
+  // Birth season: the parent's pick, else from the due date (or today), November to March counting as winter.
+  function season(){
+    if (S.season) return S.season;
+    var d = (typeof dueDate === 'function' && dueDate()) || new Date(), m = d.getMonth();
+    return (m >= 10 || m <= 2) ? 'winter' : 'summer';
+  }
+  function suggestLine(it, n){
+    var x = SUGGEST[it.slug]; if (!x) return '';
+    x = x[season() === 'winter' ? 1 : 0];
+    var who = 'for a ' + season() + ' birth';
+    if (x === 0) return '<span class="sug">Usually not needed ' + who + '</span>';
+    return n >= x ? '<span class="sug ok">\u2713 Enough \u00b7 suggested ' + x + ' ' + who + '</span>' : '<span class="sug">Suggested ' + x + ' ' + who + ' \u00b7 ' + (x - n) + ' to go</span>';
+  }
   // Baby's-age filter: one color and one line icon per age. Placeholder icons until an icon set is chosen.
   var AGE_KEY = {'all':'all', 'nb':'nb', '0-3':'m03', '3-6':'m36', '6+':'m6'};
   var AGE_ICON = {
@@ -690,7 +755,7 @@
 
   function renderHeader(){
     var cur = U.route;
-    var nav = function(r, label){ return '<button type="button" class="navbtn" data-nav="' + r + '"' + (cur === r ? ' aria-current="page"' : '') + '>' + label + '</button>'; };
+    var nav = function(r, label){ return '<button type="button" class="navbtn" data-nav="' + r + '"' + (cur === r || (r === 'inventory' && cur === 'bag') ? ' aria-current="page"' : '') + '>' + label + '</button>'; };
     var cta = '<button type="button" class="navcta" data-nav="timeline"' + (cur === 'timeline' ? ' aria-current="page"' : '') + '><span class="long">' + TL_CTA_LONG + '</span><span class="short">' + TL_NAME + '</span></button>';
     var auth = S.signedIn
       ? '<button type="button" class="authbtn" data-action="acct" aria-expanded="' + (U.acct ? 'true' : 'false') + '">Account</button>'
@@ -747,7 +812,7 @@
     return '<div class="qty" role="group" aria-label="' + nm + ', ' + esc(cap) + '" data-size="' + size + '"><span class="cap">' + esc(cap) + '</span>' +
       '<div class="stepper"><button type="button" data-action="dec" aria-label="One fewer, ' + nm + ', ' + esc(cap) + '"' + (n <= 0 ? ' disabled' : '') + '>−</button>' +
       '<input class="qty-in" type="number" min="0" max="99" step="1" inputmode="numeric" value="' + n + '" aria-label="' + nm + ', ' + esc(cap) + '">' +
-      '<button type="button" data-action="inc" aria-label="One more, ' + nm + ', ' + esc(cap) + '">+</button></div></div>';
+      '<button type="button" data-action="inc" aria-label="One more, ' + nm + ', ' + esc(cap) + '">+</button></div>' + suggestLine(it, n) + '</div>';
   }
 
   function controlsHTML(it){
@@ -874,9 +939,9 @@
       return '<button type="button" class="chip" data-iv="' + v[0] + '" aria-pressed="' + (U.iv === v[0]) + '">' + esc(v[1]) + '</button>'; }).join('');
     var catChips = [['all', 'All']].concat(CAT_ORDER.map(function(c){ return [c, CAT[c]]; })).map(function(c){
       return '<button type="button" class="chip" data-ic="' + c[0] + '" aria-pressed="' + (U.ic === c[0]) + '">' + esc(c[1]) + '</button>'; }).join('');
-    $('#view').innerHTML = '<section class="page"><div class="panel p-forest"><h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to see what\'s in use then.</p>' +
+    $('#view').innerHTML = '<section class="page"><div class="panel p-forest">' + invTabs('gear') + '<h1 class="h1" tabindex="-1">Inventory</h1><p class="sub">Add what you already have. Pick your baby\'s age to see what\'s in use then.</p>' +
       '<div><span class="cap ctl-label" id="age-label">Baby\'s age</span><div class="chips" role="group" aria-labelledby="age-label">' + ageChips + '</div>' +
-      '<p class="sm" style="margin-top:8px">' + esc(STAGE_HELP[S.age]) + '</p></div></div>' +
+      '<p class="sm" style="margin-top:8px">' + esc(STAGE_HELP[S.age]) + '</p></div>' + seasonHTML() + essentialsHTML() + '</div>' +
       '<div class="inv-ctl">' +
       '<div><span class="cap ctl-label" id="cat-label">Category</span><div class="chips" role="group" aria-labelledby="cat-label">' + catChips + '</div></div>' +
       '<div class="inv-row"><div><span class="cap ctl-label" id="show-label">Show</span><div class="chips" role="group" aria-labelledby="show-label">' + views + '</div></div>' +
@@ -885,10 +950,57 @@
     renderSummary(); renderInvList();
   }
 
+  function invTabs(cur){
+    return '<div class="seg" role="group" aria-label="Inventory views"><button type="button" data-nav="inventory" aria-pressed="' + (cur === 'gear') + '">Baby gear</button><button type="button" data-nav="bag" aria-pressed="' + (cur === 'bag') + '">Hospital bag</button></div>';
+  }
+  function seasonHTML(){
+    var b = function(v, l){ return '<button type="button" data-season="' + v + '" aria-pressed="' + (season() === v) + '">' + l + '</button>'; };
+    return '<div><span class="cap ctl-label" id="season-label">Birth season</span><div class="seg" role="group" aria-labelledby="season-label">' + b('summer', 'Summer') + b('winter', 'Winter') + '</div>' +
+      '<p class="sm" style="margin-top:8px">Changes the suggested clothing numbers.</p></div>';
+  }
+  function progressBar(done, all, label){
+    var pc = all ? Math.round(done / all * 100) : 0;
+    return '<span class="pbar" role="progressbar" aria-label="' + esc(label) + '" aria-valuemin="0" aria-valuemax="' + all + '" aria-valuenow="' + done + '"><span style="width:' + pc + '%"></span></span>';
+  }
+  // essentials = Necessary items in use at the chosen age; ready = you have it, or marked Not for us
+  function essentialsHTML(){
+    var all = ITEMS.filter(function(it){ return it.verdict === 'necessary' && inUse(it, S.age); });
+    var done = all.filter(function(it){ return have(it) || S.nfu[it.slug]; }).length, label = 'Essentials ready for ' + ageLabelOf(S.age);
+    return '<div class="ess" id="ess"><div class="ess-row"><span>' + esc(label) + '</span><span>' + done + ' of ' + all.length + '</span></div>' + progressBar(done, all.length, label) + '</div>';
+  }
+  function ageLabelOf(id){ for (var i = 0; i < AGES.length; i++) if (AGES[i][0] === id) return AGES[i][1]; return id; }
+  function catProgress(cat){
+    var all = ITEMS.filter(function(it){ return it.category === cat && inUse(it, S.age); });
+    var done = all.filter(function(it){ return have(it) || S.nfu[it.slug]; }).length;
+    return '<div class="grp-n">' + progressBar(done, all.length, CAT[cat] + ' decided') + '<span>' + done + ' of ' + all.length + ' decided</span></div>';
+  }
+  // keeps the essentials bar and each category's progress current after a count or mark changes
   function renderSummary(){
-    var el = $('#isum'); if (!el) return;
-    var left = leftCount();
-    el.innerHTML = left > 0 ? '<strong>' + left + ' essentials left to decide</strong><span class="sm">An item counts once you have at least one, or mark it Not for us.</span>' : '<strong>' + esc(COVERED) + '</strong>';
+    var e = $('#ess'); if (e) e.outerHTML = essentialsHTML();
+    [].forEach.call(document.querySelectorAll('.grp[data-cat]'), function(g){ var n = g.querySelector('.grp-n'); if (n) n.outerHTML = catProgress(g.dataset.cat); });
+  }
+
+  // ---------- hospital bag ----------
+  function bagNote(x){
+    if (x.note) return '<span class="sm">' + esc(x.note) + '</span>';
+    var it = x.inv && BY[x.inv]; if (!it || !have(it)) return '';
+    var n = total(it);
+    return '<span class="sm bag-inv">' + (tier(it) === 'mark' ? 'In your Inventory' : 'You have ' + n + ' in your Inventory') + '</span>';
+  }
+  function renderBag(){
+    var all = 0, done = 0;
+    BAG.forEach(function(g){ g.items.forEach(function(x){ all++; if (S.bag[x.id]) done++; }); });
+    var cols = BAG.map(function(g){
+      var d = g.items.filter(function(x){ return S.bag[x.id]; }).length;
+      return '<section class="bag-col" aria-labelledby="bag-' + g.key + '"><div class="bag-h"><h2 id="bag-' + g.key + '">' + esc(g.title) + '</h2><span class="sm">' + d + ' of ' + g.items.length + '</span></div><ul class="bag-list">' +
+        g.items.map(function(x){ return '<li><input type="checkbox" id="' + x.id + '" data-bag="' + x.id + '"' + (S.bag[x.id] ? ' checked' : '') + '><label for="' + x.id + '"><span class="bag-t">' + esc(x.t) + '</span>' + bagNote(x) + '</label></li>'; }).join('') +
+        '</ul></section>';
+    }).join('');
+    $('#view').innerHTML = '<section class="page"><div class="panel p-blush">' + invTabs('bag') + '<h1 class="h1" tabindex="-1">Hospital bag</h1>' +
+      '<p class="sub">Pack it a few weeks before your due date. Your hospital may have its own list, and some give you diapers and toiletries, so check theirs too.</p>' +
+      '<div class="ess"><div class="ess-row"><span>Packed</span><span>' + done + ' of ' + all + '</span></div>' + progressBar(done, all, 'Packed') + '</div></div>' +
+      '<div class="bag-grid">' + cols + '</div>' +
+      '<p class="sm">A starting list, not a rule. Items you already have in your Inventory show here.</p></section>';
   }
 
   function invFilter(it){
@@ -910,7 +1022,7 @@
     CAT_ORDER.forEach(function(g){
       if (!groups[g].length) return;
       groups[g].sort(function(a, b){ return VORD[a.verdict] - VORD[b.verdict] || a.name.localeCompare(b.name); });   // Necessary first
-      html += '<div class="grp"><h2>' + esc(CAT[g]) + '</h2><div class="cards">' + groups[g].map(function(it){ return cardHTML(it); }).join('') + '</div></div>';
+      html += '<div class="grp" data-cat="' + g + '"><div class="grp-top"><h2>' + esc(CAT[g]) + '</h2>' + catProgress(g) + '</div><div class="cards">' + groups[g].map(function(it){ return cardHTML(it); }).join('') + '</div></div>';
     });
     if (!list.length) html = '<p class="sub" style="padding:16px 0">' + (U.iv === 'have' ? 'Nothing here yet. Tap Have it, or + on a card, to add something.' : (U.iv === 'left' ? 'Nothing left to decide.' : 'Nothing matches that search.')) + '</p>';
     $('#ilist').innerHTML = html;
@@ -1111,6 +1223,7 @@
     return '<section class="wk ' + TONES[i % TONES.length] + (isNow ? ' is-now' : '') + '" id="wk-' + key + '" style="grid-column:' + (i + 1) + '" aria-label="' + wkLabel(w) + '"' + (isNow ? ' aria-current="date"' : '') + '>' +
       '<header class="wk-top"><p class="cap">' + era + (isNow ? ' · <span class="now-tag">This week</span>' : '') + '</p><h3 class="wk-n">Week ' + w.n + '</h3>' +
       (due ? '<p class="sm">about ' + weekRange(w, due) + '</p>' : '') + '</header>' +
+      (key === 'preg34' ? '<button type="button" class="btn dark wk-bag" data-nav="bag">Pack your hospital bag</button>' : '') +
       (evs.length ? '<ul class="wlist">' + evs.map(weekItem).join('') + '</ul>' : '') +
       (copy.you ? '<div class="wk-sec"><h4 class="cap">For you</h4><p>' + esc(copy.you) + '</p></div>' : '') +
       (copy.baby ? '<div class="wk-sec"><h4 class="cap">Your baby</h4><p>' + esc(copy.baby) + '</p>' + srcList(copy.sources) + '</div>' : '') +
@@ -1237,7 +1350,7 @@
 
   function render(focusHeading){
     renderHeader();
-    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else if (U.route === 'timeline') renderTimeline(); else if (U.route === 'verdicts') renderVerdicts(); else renderDictionary();
+    if (U.route === 'home') renderHome(); else if (U.route === 'inventory') renderInventory(); else if (U.route === 'timeline') renderTimeline(); else if (U.route === 'verdicts') renderVerdicts(); else if (U.route === 'bag') renderBag(); else renderDictionary();
     if (focusHeading) { var h = $('#view .h1'); if (h) h.focus({preventScroll:true}); }
   }
 
@@ -1427,8 +1540,8 @@
   })();
 
   // ---------- routes (hash based, so Back, deep links and shared links work) ----------
-  var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly', verdicts:'How verdicts work · Plainly'};
-  function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline', 'verdicts'].indexOf(h) >= 0 ? h : 'home'; }
+  var TITLES = {home:'Plainly: Baby gear, explained plainly', dictionary:'Dictionary · Plainly', inventory:'Inventory · Plainly', timeline:'Timeline · Plainly', verdicts:'How verdicts work · Plainly', bag:'Hospital bag · Plainly'};
+  function routeFromHash(){ var h = (location.hash || '').replace(/^#\/?/, ''); return ['dictionary', 'inventory', 'timeline', 'verdicts', 'bag'].indexOf(h) >= 0 ? h : 'home'; }
   function show(route, focus){
     U.route = route; U.acct = false; U.pinned = {};
     try { document.title = TITLES[route]; } catch (e) {}
@@ -1445,12 +1558,13 @@
   // ---------- events ----------
   var proto = $('#proto');
   proto.addEventListener('click', function(e){
-    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-ic],[data-age],[data-letter],[data-tlv],[data-tlc]');
+    var t = e.target.closest('[data-nav],[data-action],[data-dv],[data-iv],[data-ic],[data-age],[data-season],[data-letter],[data-tlv],[data-tlc]');
     if (!t || !proto.contains(t)) return;
     if (t.dataset.nav) { go(t.dataset.nav); return; }
     if (t.dataset.dv) { U.dv = t.dataset.dv; U.open.dict = null; renderDictionary(); focusSel('[data-dv="' + t.dataset.dv + '"]'); return; }
     if (t.dataset.ic) { U.ic = t.dataset.ic; U.pinned = {}; renderInventory(); focusSel('[data-ic="' + t.dataset.ic + '"]'); return; }
     if (t.dataset.iv) { U.iv = t.dataset.iv; U.pinned = {}; U.open.inv = null; renderInventory(); focusSel('[data-iv="' + t.dataset.iv + '"]'); return; }
+    if (t.dataset.season) { S.season = t.dataset.season; save(); renderInventory(); focusSel('[data-season="' + t.dataset.season + '"]'); return; }
     if (t.dataset.age) { S.age = t.dataset.age; U.pinned = {}; save(); renderInventory(); focusSel('[data-age="' + t.dataset.age + '"]'); return; }
     if (t.dataset.letter) { var h = document.getElementById('L-' + t.dataset.letter); if (h) h.scrollIntoView({behavior: REDUCE ? 'auto' : 'smooth', block:'start'}); return; }
     if (t.dataset.tlv) { U.tlView = t.dataset.tlv; renderTimeline(); focusSel('[data-tlv="' + t.dataset.tlv + '"]'); return; }
@@ -1495,6 +1609,10 @@
   });
 
   proto.addEventListener('change', function(e){
+    if (e.target.dataset && e.target.dataset.bag) {
+      if (e.target.checked) S.bag[e.target.dataset.bag] = true; else delete S.bag[e.target.dataset.bag];
+      save(); var id = e.target.id; renderBag(); focusSel('#' + id); return;
+    }
     if (e.target.id === 'tl-due') {
       var dv = e.target.value || '';
       if (dv && !validDue(dv)) return;   // half-typed or out-of-range date: wait, and say so on blur
