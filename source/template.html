@@ -1016,7 +1016,8 @@
     if (U.iq) { var q = U.iq.toLowerCase(); if ((it.name + ' ' + (it.aliases || []).join(' ')).toLowerCase().indexOf(q) < 0) return false; }
     var pin = !!U.pinned[it.slug];
     if (U.iv === 'have') return have(it) || pin;
-    if (U.iv === 'left') return (it.verdict === 'necessary' && !have(it) && !S.nfu[it.slug]) || pin;
+    // What's left = everything not decided yet, of every verdict; the tag on each card helps decide (Thales, 2026-11-04)
+    if (U.iv === 'left') return (!have(it) && !S.nfu[it.slug]) || pin;
     return true;
   }
 
